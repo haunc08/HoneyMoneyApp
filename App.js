@@ -1,6 +1,5 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, YellowBox } from 'react-native';
 import * as firebase from "firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 
@@ -32,6 +31,10 @@ function DisplayedScreens() {
   }
 
 export default function App() {
+  YellowBox.ignoreWarnings(["Animated: `useNativeDriver`"]);
+  //ignore all warning
+  console.disableYellowBox = true;
+
   return (
     <DisplayedScreens/>
   );

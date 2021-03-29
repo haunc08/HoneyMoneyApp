@@ -1,10 +1,15 @@
+// react
 import React, { Component } from "react";
-import { NavigationContainer } from "@react-navigation/native";
+import { View, } from "react-native";
+
+// other packages
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { TouchableOpacity } from "react-native-gesture-handler";
-
 import ActionButton from "react-native-circular-action-menu";
-import { StyleSheet, Text, View, LogBox, YellowBox } from "react-native";
+import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
+import { Icon, } from "react-native-elements";
+
+// screens
 import {
     TransactionScreen,
     ReportScreen,
@@ -12,8 +17,6 @@ import {
     SettingScreen,
 }
 from "../screens"
-import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
-import { Icon, SearchBar, Avatar, Input } from "react-native-elements";
 
 //Navigator
 const Tab = createBottomTabNavigator();

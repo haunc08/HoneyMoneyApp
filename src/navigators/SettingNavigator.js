@@ -1,5 +1,10 @@
-import { createStackNavigator } from "@react-navigation/stack";
+// react
 import React, { Component } from "react";
+
+// other packages
+import { createStackNavigator } from "@react-navigation/stack";
+
+// screens
 import {
     SettingScreen,
     SettingAlertScreen,
@@ -7,6 +12,8 @@ import {
     SettingPasswordScreen,
 }
 from "../screens"
+
+// navigators
 import CategoryNavigator from './CategoryNavigator';
 
 const SettingStack = createStackNavigator();

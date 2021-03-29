@@ -1,6 +1,12 @@
-import { createStackNavigator } from "@react-navigation/stack";
+// react
 import React, { Component } from "react";
-import { StyleSheet, Text, View, LogBox, YellowBox } from "react-native";
+import { View,} from "react-native";
+
+// other packages
+import { createStackNavigator } from "@react-navigation/stack";
+import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
+
+// navigators
 import {
     CategoryNavigator,
     TransactionNavigator,
@@ -10,7 +16,6 @@ import {
     BudgetScreen,
     AddBudgetScreen,
 } from "./"
-import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 
 const Stack = createStackNavigator();
 
