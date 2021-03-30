@@ -1,11 +1,17 @@
 // react
 import React from 'react';
-import { StyleSheet, Text, View, YellowBox, LogBox } from 'react-native';
+import { LogBox } from 'react-native';
 
 // firebase
-//import * as firebase from "firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { firebase, firebaseConfig } from "./src/database";
+import { 
+  firebase, 
+  firebaseConfig 
+} from "./src/database";
+
+// redux
+import {Provider} from "react-redux";
+import store from "./src/redux/store";
 
 // other packages
 import { NavigationContainer } from "@react-navigation/native";
@@ -48,6 +54,8 @@ export default function App() {
   LogBox.ignoreAllLogs(true)
 
   return (
-    <DisplayedScreens/>
+    <Provider store={store}>
+      <DisplayedScreens/>
+    </Provider>
   );
 }
