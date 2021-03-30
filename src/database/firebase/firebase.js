@@ -7,7 +7,7 @@ import "firebase/database";
 //import "firebase/functions";
 //import "firebase/storage";
 
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: "AIzaSyCHGOg6zhT96i4YiFMqk_kRacXr_VryqqM",
   authDomain: "homodemo-a72ec.firebaseapp.com",
   databaseURL: "https://homodemo-a72ec.firebaseio.com",
@@ -15,10 +15,10 @@ const firebaseConfig = {
   storageBucket: "homodemo-a72ec.appspot.com",
   messagingSenderId: "156508141120",
   appId: "1:156508141120:web:772171bdb7b56feb8e51a5"
-};
+}
 
 //FirebaseApp.initializeApp();
-if (!firebase.apps.length) {
+if (!firebase.apps.length) { 
   firebase.initializeApp(firebaseConfig);
 } else {
   firebase.app(); // if already initialized, use that one
