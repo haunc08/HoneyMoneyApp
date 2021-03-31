@@ -189,15 +189,17 @@ export class SimpleCarousel extends Component {
   }
 }
 
-export class Row extends Component {
+export class DialogModal extends Component {
   render() {
-    return <View style={[styles.row, this.props.style]}>{this.props.children}</View>;
-  }
-}
-
-export class RowLeft extends Component {
-  render() {
-    return <View style={[styles.rowLeft, this.props.style]}>{this.props.children}</View>;
+    return (
+      <Modal animationType="slide" transparent={true} visible={this.props.visible}>
+        <View style={styles.dialogModalContainer}>
+          <View style={styles.dialogModal(this.props.width, this.props.height)}>
+            {this.props.children}
+          </View>
+        </View>
+      </Modal>
+    );
   }
 }
 
@@ -348,6 +350,160 @@ export class ColorSelectButton extends Component {
   }
 }
 
+export class TouchableText extends Component {
+  render() {
+    return (
+      <Row style={{ marginHorizontal: sizeFactor * 1.5 }}>
+        <String></String>
+        <TouchableOpacity onPress={this.props.onPress}>
+          <String style={{ fontSize: sizeFactor, color: colors.blue }}>
+            {this.props.children}
+          </String>
+        </TouchableOpacity>
+      </Row>
+    );
+  }
+}
+
+export class TouchableDeleteText extends Component {
+  render() {
+    return (
+      <Row style={{ marginHorizontal: sizeFactor * 0.5 }}>
+        <String></String>
+        <TouchableOpacity onPress={this.props.onPress}>
+          <String style={{ fontSize: sizeFactor, color: colors.redDark }}>
+            {this.props.children}
+          </String>
+        </TouchableOpacity>
+      </Row>
+    );
+  }
+}
+export class Category extends Component {
+  render() {
+    var choosed = this.props.choosed;
+    return (
+      <TouchableOpacity onPress={this.props.onPress}>
+        <View style={{ marginRight: sizeFactor }}>
+          <View style={styles.categoryContainer}>
+            <Image
+              source={require("../assets/categories/choosed.png")}
+              style={categoryChoosed(this.props.choosed)}
+            ></Image>
+            <Image source={this.props.source} style={styles.categoryImage}></Image>
+          </View>
+          <View style={[categoryStringContainer, this.props.stringContainerStyle]}>
+            <String style={styles.categoryString(this.props.choosed)}>
+              {this.props.children}
+            </String>
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
+  }
+}
+
+export class IconCategory extends Component {
+  render() {
+    return (
+      <TouchableOpacity onPress={this.props.onPress}>
+        <View style={styles.iconCategory}>
+          <Image
+            source={require("../assets/categories/choosed.png")}
+            style={styles.iconCategoryChoosed(this.props.choosed)}
+          ></Image>
+          <Image source={this.props.source} style={styles.iconCategoryImage}></Image>
+        </View>
+      </TouchableOpacity>
+    );
+  }
+}
+
+export class SmallCategory extends Component {
+  render() {
+    var choosed = this.props.choosed;
+    return (
+      <TouchableOpacity onPress={this.props.onPress}>
+        <View style={{ marginRight: sizeFactor }}>
+          <View style={styles.smallCategoryContainer}>
+            <Image
+              source={require("../assets/categories/choosed.png")}
+              style={styles.smallCategoryChoosed(this.props.choosed)}
+            ></Image>
+            <Image source={this.props.source} style={styles.smallCategoryImage}></Image>
+          </View>
+          <View style={styles.smallCategoryTextContainer}>
+            <String style={styles.smallCategoryText(this.props.choosed)}>
+              {this.props.children}
+            </String>
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
+  }
+}
+
+export class Row extends Component {
+  render() {
+    return <View style={[styles.row, this.props.style]}>{this.props.children}</View>;
+  }
+}
+
+export class RowLeft extends Component {
+  render() {
+    return <View style={[styles.rowLeft, this.props.style]}>{this.props.children}</View>;
+  }
+}
+
+export class WalletRow extends Component {
+  render() {
+    return (
+      <View>
+        <Row style={{ marginBottom: sizeFactor / 2 }}>
+          <View style={styles.walletRow}>
+            <Icon
+              style={{ marginRight: sizeFactor }}
+              name="wallet"
+              size={sizeFactor * 1.5}
+              type="material-community"
+              color={this.props.color}
+            />
+            <String style={{ marginBottom: 0 }}>{this.props.name}</String>
+          </View>
+        </Row>
+        <LooseDivider />
+      </View>
+    );
+  }
+}
+
+export class SettingRow extends Component {
+  render() {
+    return (
+      <View>
+        <TouchableOpacity onPress={this.props.onPress}>
+          <Row style={{ marginBottom: sizeFactor / 4, paddingHorizontal: sizeFactor }}>
+            <View style={styles.settingRow}>
+              <Icon
+                style={{ marginRight: sizeFactor }}
+                name={this.props.iconName}
+                size={sizeFactor * 1.5}
+                type="material-community"
+                color={this.props.color}
+              />
+              <String style={{ marginBottom: 0 }}>{this.props.text}</String>
+            </View>
+            <Icon name="chevron-right" type="material-community" color={colors.gray} />
+          </Row>
+          <View style={{ paddingLeft: sizeFactor * 3.5 }}>
+            <LooseDivider />
+          </View>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+}
+
 export class CategoryInManagerScreen extends Component {
   render() {
     var choosed = this.props.choosed;
@@ -390,47 +546,47 @@ export class ChooseWalletList extends Component {
   }
 }
 
+export class TransactionsList extends Component {
+  render() {
+    const Item = ({ subcategory, onPress, source, amount, color }) => (
+      <TouchableOpacity onPress={onPress}>
+        <Row style={{ alignItems: "center", marginBottom: sizeFactor }}>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <View style={{ marginRight: sizeFactor }}>
+              <Image
+                source={source}
+                style={{ width: sizeFactor * 2.25, height: sizeFactor * 2.25 }}
+              ></Image>
+            </View>
+            <String style={{ marginBottom: 0 }}>{subcategory}</String>
+          </View>
+          <String style={{ marginBottom: 0, color: color }}>{amount}</String>
+        </Row>
+      </TouchableOpacity>
+    );
+    const renderItem = ({ item }) => (
+      <Item
+        subcategory={item.subcategory}
+        onPress={item.onPress}
+        source={item.source}
+        amount={toMoneyString(item.amount)}
+        color={item.color}
+      />
+    );
+    return <FlatList data={this.props.data} renderItem={renderItem} />;
+  }
+}
+
 export class TransactionsFullList extends Component {
   render() {
     const Item = ({ date, dayOfWeek, month, change, list }) => (
       <NormalCard>
         <Row style={{ alignItems: "center", marginBottom: sizeFactor }}>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-            }}
-          >
-            <String
-              style={{
-                marginBottom: 0,
-                fontSize: sizeFactor * 2,
-                marginRight: sizeFactor,
-                marginTop: 0,
-              }}
-            >
-              {date}
-            </String>
+          <View style={styles.transactionFullListView}>
+            <String style={styles.transactionFullListDate}>{date}</String>
             <View>
-              <String
-                style={{
-                  fontSize: sizeFactor * 0.75,
-                  marginBottom: 0,
-                  fontWeight: "bold",
-                  color: colors.gray,
-                }}
-              >
-                {dayOfWeek}
-              </String>
-              <String
-                style={{
-                  fontSize: sizeFactor * 0.75,
-                  marginBottom: 0,
-                  color: colors.gray,
-                }}
-              >
-                {month}
-              </String>
+              <String style={styles.transactionFullListDateOfWeek}>{dayOfWeek}</String>
+              <String style={styles.transactionFullListMonth}>{month}</String>
             </View>
           </View>
           <String style={{ marginBottom: 0, fontWeight: "bold" }}>{change}</String>
@@ -457,5 +613,121 @@ export class TransactionsFullList extends Component {
         ListEmptyComponent={this.props.ListEmptyComponent}
       />
     );
+  }
+}
+
+export class AddWalletKindSelect extends Component {
+  constructor() {
+    super();
+    this.state = { selectedIndex: 1 };
+    this.updateIndex = this.updateIndex.bind(this);
+  }
+  updateIndex(selectedIndex) {
+    this.setState({ selectedIndex });
+  }
+  render() {
+    const buttons = this.props.buttons;
+    const { selectedIndex } = this.state;
+    return (
+      <ButtonGroup
+        disabled={this.props.disabled}
+        onPress={this.props.onPress}
+        selectedIndex={this.props.selectedIndex}
+        buttons={buttons}
+        containerStyle={styles.walletSelectContainer}
+        textStyle={styles.walletSelectText}
+        buttonStyle={styles.walletSelectButton}
+        buttonContainerStyle={styles.walletSelectButtonContainer}
+        innerBorderStyle={{ color: colors.gray3 }}
+        selectedButtonStyle={{ backgroundColor: colors.blue }}
+        selectedTextStyle={{ color: "white" }}
+      />
+    );
+  }
+}
+
+export class KindSelect extends Component {
+  constructor() {
+    super();
+    this.state = {
+      selectedIndex: 0,
+    };
+  }
+  render() {
+    const buttons = this.props.buttons;
+    //const { selectedIndex } = this.state;
+    return (
+      <ButtonGroup
+        onPress={this.props.onPress}
+        selectedIndex={this.props.selectedIndex}
+        buttons={buttons}
+        containerStyle={styles.kindSelectContainer}
+        textStyle={styles.kindSelectText}
+        innerBorderStyle={{ color: colors.gray3 }}
+        selectedButtonStyle={{ backgroundColor: "white" }}
+        selectedTextStyle={{ color: colors.dark }}
+      />
+    );
+  }
+}
+
+export class SmallKindSelect extends Component {
+  constructor() {
+    super();
+    this.state = {
+      selectedIndex: 1,
+    };
+    this.updateIndex = this.updateIndex.bind(this);
+  }
+
+  updateIndex(selectedIndex) {
+    this.setState({ selectedIndex });
+  }
+  render() {
+    const buttons = this.props.buttons;
+    const { selectedIndex } = this.state;
+    return (
+      <ButtonGroup
+        onPress={this.updateIndex}
+        selectedIndex={selectedIndex}
+        buttons={buttons}
+        containerStyle={styles.smallKindSelectContainer}
+        textStyle={styles.smallKindSelectText}
+        buttonStyle={{
+          borderWidth: 0,
+          backgroundColor: colors.gray5,
+        }}
+        buttonContainerStyle={styles.smallKindSelectButtonContainer}
+        innerBorderStyle={{ color: colors.gray3 }}
+        selectedButtonStyle={{ backgroundColor: colors.blue }}
+        selectedTextStyle={{ color: "white" }}
+      />
+    );
+  }
+}
+
+export class EmptyTransactionsIndicator extends Component {
+  render() {
+    return (
+      <View style={{ alignItems: "center", marginVertical: sizeFactor * 4 }}>
+        <Image
+          style={styles.emptyTransactionIndicator}
+          source={require("../assets/empty.png")}
+        />
+        <String style={styles.emptyIndicatorText}>Bạn chưa có giao dịch nào!</String>
+      </View>
+    );
+  }
+}
+
+export class LooseDivider extends Component {
+  render() {
+    return <Divider style={{ marginBottom: sizeFactor }} />;
+  }
+}
+
+export class Space extends Component {
+  render() {
+    return <View style={{ height: 0, marginBottom: sizeFactor / 2 }} />;
   }
 }
