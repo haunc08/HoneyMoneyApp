@@ -11,7 +11,7 @@ import {
 
 // redux
 import {Provider} from "react-redux";
-import store from "./src/redux/store";
+import configureStore from "./src/redux/store";
 
 // other packages
 import { NavigationContainer } from "@react-navigation/native";
@@ -21,10 +21,6 @@ import {
   AuthenticationNavigator,
   MainNavigator
 } from "./src/navigators"
-
-// screens
-import { WalletScreen } from './src/screens';
-
 
 if (!firebase.apps.length) { 
   firebase.initializeApp(firebaseConfig);
@@ -54,7 +50,7 @@ export default function App() {
   LogBox.ignoreAllLogs(true)
 
   return (
-    <Provider store={store}>
+    <Provider store={configureStore}>
       <DisplayedScreens/>
     </Provider>
   );

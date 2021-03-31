@@ -1,3 +1,7 @@
+// react
+import { StyleSheet } from "react-native";
+
+// constants
 import { colors } from "./colors";
 import {
   sizeFactor,

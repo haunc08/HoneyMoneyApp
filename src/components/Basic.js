@@ -23,7 +23,7 @@ import {
 } from "react-native-elements";
 import { FlatList, TextInput } from "react-native-gesture-handler";
 import TextTicker from "react-native-text-ticker";
-import toMoneyString from "./toMoneyString";
+//import toMoneyString from "./toMoneyString";
 import { styles } from "../constants/styles";
 import { colors } from "../constants/colors";
 import {
@@ -32,7 +32,7 @@ import {
   windowHeight,
   managerCategoryWidth,
   managerCategoryHeight,
-} from "./ruler";
+} from "../constants/ruler";
 
 export class String extends Component {
   render() {
@@ -446,7 +446,7 @@ export class TransactionsFullList extends Component {
         date={item.date}
         dayOfWeek={item.dayOfWeek}
         month={item.month}
-        change={toMoneyString(item.change)}
+        
         list={item.list}
       />
     );
