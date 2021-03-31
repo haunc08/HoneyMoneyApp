@@ -7,6 +7,7 @@ import {
   categorySize,
   iconCategorySize,
   iconCategoryImageSize,
+  smallCategorySize,
 } from "./ruler";
 
 export const styles = StyleSheet.create({
@@ -99,19 +100,24 @@ export const styles = StyleSheet.create({
     margin: sizeFactor,
     marginTop: 0,
   },
-  //Row
-  row: {
+  //DialogModal
+  dialogModalContainer: {
     flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    flexWrap: "wrap",
+    backgroundColor: "gray",
+    justifyContent: "center",
+    alignItems: "center",
+    opacity: 0.8,
   },
-  //RowLeft
-  rowLeft: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    flexWrap: "wrap",
+  dialogModal: (width, height) => {
+    return {
+      margin: 20,
+      backgroundColor: "white",
+      borderRadius: 20,
+      padding: 35,
+      alignItems: "center",
+      width: width,
+      height: height,
+    };
   },
   //Button
   button: {
@@ -231,6 +237,7 @@ export const styles = StyleSheet.create({
       color: choosed ? colors.blue : "black",
     };
   },
+
   //TransactionFullList
   transactionFullListView: {
     flexDirection: "row",
@@ -317,6 +324,68 @@ export const styles = StyleSheet.create({
     width: iconCategoryImageSize,
     height: iconCategoryImageSize,
   },
+  //SmallCategory
+  smallCategoryContainer: {
+    height: smallCategorySize + sizeFactor / 2,
+    alignContent: "center",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  smallCategoryChoosed: (choosed) => {
+    return {
+      alignSelf: "center",
+      marginBottom: sizeFactor / 2,
+      width: smallCategorySize,
+      height: smallCategorySize,
+      opacity: choosed ? 1 : 0,
+      position: "absolute",
+    };
+  },
+  smallCategoryImage: {
+    alignSelf: "center",
+    marginBottom: sizeFactor / 2,
+    width: smallCategorySize - sizeFactor * 1.25,
+    height: smallCategorySize - sizeFactor * 1.25,
+    opacity: 1,
+  },
+  smallCategoryTextContainer: {
+    width: smallCategorySize,
+    alignItems: "center",
+  },
+  smallCategoryText: (choosed) => {
+    return {
+      fontSize: sizeFactor * 0.75,
+      fontWeight: this.choosed ? "bold" : "normal",
+      color: this.choosed ? colors.blue : "black",
+    };
+  },
+  //Row
+  row: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    flexWrap: "wrap",
+  },
+  //RowLeft
+  rowLeft: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    flexWrap: "wrap",
+  },
+  //WalletRow
+  walletRow: {
+    flexDirection: "row",
+    alignContent: "center",
+    alignItems: "center",
+  },
+  //SettingRow
+  settingRow: {
+    alignContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    marginBottom: sizeFactor * 0.75,
+  },
   //AddWalletKindSelect
   walletSelectContainer: {
     borderRadius: sizeFactor,
@@ -342,4 +411,48 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.gray5,
     borderColor: colors.gray5,
   },
+  //KindSelect
+  kindSelectContainer: {
+    borderRadius: sizeFactor * 0.75,
+    borderWidth: 1.25,
+    borderColor: colors.gray3,
+    marginBottom: sizeFactor,
+    marginHorizontal: sizeFactor,
+    backgroundColor: colors.gray5,
+    height: sizeFactor * 2,
+  },
+  kindSelectText: {
+    fontSize: sizeFactor * 0.75,
+    textTransform: "uppercase",
+    fontWeight: "bold",
+    color: colors.gray,
+  },
+  //SmallKindSelect
+  smallKindSelectContainer: {
+    borderRadius: sizeFactor,
+    borderWidth: 0,
+    borderColor: colors.gray3,
+    marginBottom: sizeFactor,
+    marginHorizontal: sizeFactor,
+    backgroundColor: colors.gray5,
+    height: sizeFactor * 2,
+  },
+  smallKindSelectText: {
+    fontSize: sizeFactor * 0.75,
+    textTransform: "uppercase",
+    fontWeight: "bold",
+    color: colors.gray,
+  },
+  smallKindSelectButtonContainer: {
+    borderWidth: 0,
+    backgroundColor: colors.gray5,
+    borderColor: colors.gray5,
+  },
+  //EmptyTransactionIndicator
+  emptyTransactionIndicator: {
+    width: sizeFactor * 6,
+    height: sizeFactor * 6 * 0.56666666666,
+    marginBottom: sizeFactor * 1.25,
+  },
+  emptyIndicatorText: { fontSize: sizeFactor, fontWeight: "bold", color: colors.gray3 },
 });
