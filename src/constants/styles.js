@@ -3,8 +3,10 @@ import {
   sizeFactor,
   windowWidth,
   windowHeight,
-  managerCategoryWidth,
-  managerCategoryHeight,
+  managerCategorySize,
+  categorySize,
+  iconCategorySize,
+  iconCategoryImageSize,
 } from "./ruler";
 
 export const styles = StyleSheet.create({
@@ -194,7 +196,7 @@ export const styles = StyleSheet.create({
   },
   //ManagerCategory
   managerCategoryContainer: {
-    height: managerCategoryHeight + sizeFactor / 2,
+    height: managerCategorySize + sizeFactor / 2,
     alignContent: "center",
     alignItems: "center",
     justifyContent: "center",
@@ -203,8 +205,8 @@ export const styles = StyleSheet.create({
     return {
       alignSelf: "center",
       marginBottom: sizeFactor / 2,
-      width: managerCategoryWidth,
-      height: managerCategoryHeight,
+      width: managerCategorySize,
+      height: managerCategorySize,
       opacity: choosed ? 1 : 0,
       position: "absolute",
     };
@@ -215,11 +217,11 @@ export const styles = StyleSheet.create({
     marginTop: sizeFactor * 0.24,
     marginLeft: sizeFactor * 0.03,
     opacity: 1,
-    width: managerCategoryWidth - sizeFactor * 1.25,
-    height: managerCategoryHeight - sizeFactor * 1.25,
+    width: managerCategorySize - sizeFactor * 1.25,
+    height: managerCategorySize - sizeFactor * 1.25,
   },
   managerCategoryStringContainer: {
-    width: managerCategoryWidth,
+    width: managerCategorySize,
     alignItems: "center",
   },
   managerCategoryString: (choosed) => {
@@ -228,5 +230,116 @@ export const styles = StyleSheet.create({
       fontWeight: choosed ? "bold" : "normal",
       color: choosed ? colors.blue : "black",
     };
+  },
+  //TransactionFullList
+  transactionFullListView: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  transactionFullListDate: {
+    marginBottom: 0,
+    fontSize: sizeFactor * 2,
+    marginRight: sizeFactor,
+    marginTop: 0,
+  },
+  transactionFullListDateOfWeek: {
+    fontSize: sizeFactor * 0.75,
+    marginBottom: 0,
+    fontWeight: "bold",
+    color: colors.gray,
+  },
+  transactionFullListMonth: {
+    fontSize: sizeFactor * 0.75,
+    marginBottom: 0,
+    color: colors.gray,
+  },
+  //Category
+  categoryContainer: {
+    height: categorySize + sizeFactor / 2,
+    alignContent: "center",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  categoryChoosed: (choosed) => {
+    return {
+      alignSelf: "center",
+      marginBottom: sizeFactor / 2,
+      width: categorySize,
+      height: categorySize,
+      opacity: choosed ? 1 : 0,
+      position: "absolute",
+    };
+  },
+  categoryImage: {
+    alignSelf: "center",
+    marginBottom: sizeFactor / 2,
+    marginTop: sizeFactor * 0.24,
+    marginLeft: sizeFactor * 0.03,
+    opacity: 1,
+    width: categorySize - sizeFactor * 1.25,
+    height: categorySize - sizeFactor * 1.25,
+  },
+  categoryStringContainer: {
+    width: categorySize,
+    alignItems: "center",
+  },
+  categoryString: (choosed) => {
+    return {
+      fontSize: sizeFactor * 0.75,
+      fontWeight: choosed ? "bold" : "normal",
+      color: choosed ? colors.blue : "black",
+    };
+  },
+  //IconCategory
+  iconCategory: {
+    height: iconCategorySize,
+    width: iconCategorySize,
+    alignContent: "center",
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: sizeFactor / 2,
+  },
+  iconCategoryChoosed: (choosed) => {
+    return {
+      alignSelf: "center",
+      marginBottom: sizeFactor / 2,
+      opacity: choosed ? 1 : 0,
+      position: "absolute",
+      height: iconCategorySize,
+      width: iconCategorySize,
+    };
+  },
+  iconCategoryImage: {
+    alignSelf: "center",
+    marginBottom: sizeFactor / 2,
+    marginTop: sizeFactor / 2,
+    opacity: 1,
+    width: iconCategoryImageSize,
+    height: iconCategoryImageSize,
+  },
+  //AddWalletKindSelect
+  walletSelectContainer: {
+    borderRadius: sizeFactor,
+    borderWidth: 0,
+    borderColor: colors.gray3,
+    marginBottom: sizeFactor,
+    marginHorizontal: 0,
+    backgroundColor: colors.gray5,
+    height: sizeFactor * 2.5,
+  },
+  walletSelectText: {
+    fontSize: sizeFactor * 0.75,
+    textTransform: "uppercase",
+    fontWeight: "bold",
+    color: colors.gray,
+  },
+  walletSelectButton: {
+    borderWidth: 0,
+    backgroundColor: colors.gray5,
+  },
+  walletSelectButtonContainer: {
+    borderWidth: 0,
+    backgroundColor: colors.gray5,
+    borderColor: colors.gray5,
   },
 });
