@@ -1,15 +1,12 @@
-import React from "react"
-import { 
-    View,
-    Text
-} from "react-native"
+import React, { Component } from "react";
+import { View, Text } from "react-native";
 
 export default class TransactionScreen extends React.Component {
-    render() {
-        return (
-            <View>
-                <Text>TransactionScreen</Text>
-            </View>
-        )
-    }
+  render() {
+    return (
+      <View>
+        <Test style={{ fontSize: 20 }} />
+      </View>
+    );
+  }
 }
