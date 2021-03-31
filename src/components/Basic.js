@@ -712,7 +712,7 @@ export class EmptyTransactionsIndicator extends Component {
       <View style={{ alignItems: "center", marginVertical: sizeFactor * 4 }}>
         <Image
           style={styles.emptyTransactionIndicator}
-          source={require("../assets/empty.png")}
+          source={require("../assets/others/empty.png")}
         />
         <String style={styles.emptyIndicatorText}>Bạn chưa có giao dịch nào!</String>
       </View>
