@@ -1,38 +1,37 @@
+// react
 import React, { Component } from "react";
-import { Modal } from "react-native";
 import {
+  Modal,
   Text,
-  StyleSheet,
-  Platform,
-  StatusBar,
   View,
   SafeAreaView,
   ScrollView,
   TouchableOpacity,
   Image,
-  Dimensions,
   KeyboardAvoidingView,
 } from "react-native";
+
+// other packages
 import {
   Icon,
-  SearchBar,
   ButtonGroup,
-  Overlay,
   Input,
   Divider,
 } from "react-native-elements";
-import { FlatList, TextInput } from "react-native-gesture-handler";
+import { FlatList,} from "react-native-gesture-handler";
 import TextTicker from "react-native-text-ticker";
 //import toMoneyString from "./toMoneyString";
-import { styles } from "../constants/styles";
-import { colors } from "../constants/colors";
+
+// constants
 import {
   sizeFactor,
   windowWidth,
   windowHeight,
   managerCategoryWidth,
   managerCategoryHeight,
-} from "../constants/ruler";
+  styles,
+  colors
+} from "../constants";
 
 export class String extends Component {
   render() {
@@ -517,8 +516,8 @@ export class CategoryInManagerScreen extends Component {
             ></Image>
             <Image source={this.props.source} style={styles.managerCategoryImage}></Image>
           </View>
-          <View style={[managerCategoryStringContainer, this.props.stringContainerStyle]}>
-            <String style={managerCategoryString(this.props.choosed)}>
+          <View style={[styles.managerCategoryStringContainer, this.props.stringContainerStyle]}>
+            <String style={styles.managerCategoryString(this.props.choosed)}>
               {this.props.children}
             </String>
           </View>

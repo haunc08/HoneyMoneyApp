@@ -1,15 +1,19 @@
 // redux
 import { combineReducers } from "redux"
 
-const selectedTypeReducer = (state = 1, action) => {
-  if(action.type === 'CHANGE_TYPE') {
-      return action.selectedType
-  }
-  return state;
-}
+// category reducers
+import selectedTypeReducer from "./category/selectedTypeReducer";
+import allCategoriesReducer from "./category/allCategoriesReducer";
+import renderedCategoriesReducer from "./category/renderedCategoriesReducer";
+import searchTextReducer from "./category/searchTextReducer";
+import chosenCategoryReducer from "./category/chosenCategoryReducer"
 
 const allReducers = combineReducers({
-  selectedTypeReducer
+  selectedType: selectedTypeReducer,
+  allCategories: allCategoriesReducer,
+  renderedCategories: renderedCategoriesReducer,
+  searchText: searchTextReducer,
+  chosenCategory: chosenCategoryReducer,
 })
 
 export default allReducers

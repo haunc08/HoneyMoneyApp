@@ -1,6 +1,14 @@
-import firebase, {firebaseConfig} from "./firebase/firebase";
+import firebase, {
+  firebaseConfig,
+  userRef,
+  walletRef,
+  categoryRef
+} from "./firebase/firebase";
 
 export {
   firebase,
-  firebaseConfig
+  firebaseConfig,
+  userRef,
+  walletRef,
+  categoryRef
 }
