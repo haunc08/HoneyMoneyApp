@@ -10,6 +10,7 @@ import {
     SettingAlertScreen,
     SettingNameScreen,
     SettingPasswordScreen,
+    BudgetScreen
 }
 from "../screens"
 
@@ -44,6 +45,11 @@ export default class SettingScreensNavigator extends Component {
                 <SettingStack.Screen
                     name="CategoryNavigator"
                     component={CategoryNavigator}
+                    options={{ headerShown: false, title: "" }}
+                />
+                <SettingStack.Screen
+                    name="BudgetScreen"
+                    component={BudgetScreen}
                     options={{ headerShown: false, title: "" }}
                 />
             </SettingStack.Navigator>

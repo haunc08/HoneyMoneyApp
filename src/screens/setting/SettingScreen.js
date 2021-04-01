@@ -91,20 +91,20 @@ class SettingScreen extends Component {
                         color={colors.yellow}
                         iconName="account-circle"
                         text="Thông tin người dùng"
-                        onPress={() => this.props.navigation.navigate("SettingNameScreen")}
+                        onPress={() => this.props.navigation.navigate('SettingNavigator', {screen: "SettingNameScreen"})}
                     />
                     <SettingRow
                         color={colors.yellow}
                         iconName="key"
                         text="Thay đổi mật khẩu"
-                        onPress={() => this.props.navigation.navigate("SettingPasswordScreen")}
+                        onPress={() => this.props.navigation.navigate('SettingNavigator', {screen: "SettingPasswordScreen"})}
                     />
                     <SettingRow
                         color={colors.green}
                         iconName="package-variant"
                         text="Quản lý danh mục"
                         onPress={() => {
-                            this.props.navigation.navigate("CategoriesScreen");
+                            this.props.navigation.navigate('SettingNavigator', {screen: "CategoryNavigator"});
                             console.log(firebase.auth().currentUser.uid);
                         }}
                     />
@@ -112,13 +112,13 @@ class SettingScreen extends Component {
                         color={colors.green}
                         iconName="bank"
                         text="Quản lí hạn mức"
-                        onPress={() => this.props.navigation.navigate("BudgetScreen")}
+                        onPress={() => this.props.navigation.navigate('SettingNavigator', {screen: "BudgetScreen"})}
                     />
                     <SettingRow
                         color={colors.blue}
                         iconName="bell-ring"
                         text="Thông báo"
-                        onPress={() => this.props.navigation.navigate("SettingAlertScreen")}
+                        onPress={() => this.props.navigation.navigate('SettingNavigator', {screen: "SettingAlertScreen"})}
                     />
                     <View style={{ marginBottom: sizeFactor / 4, paddingHorizontal: sizeFactor }}>
                         <View
