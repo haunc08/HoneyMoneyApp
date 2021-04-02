@@ -233,4 +233,11 @@ export const styles = StyleSheet.create({
       color: choosed ? colors.blue : "black",
     };
   },
+  // huge category
+  hugeCategory: {
+    alignSelf: "center",
+    marginBottom: sizeFactor / 2,
+    width: ((windowWidth - 5 * sizeFactor) / 4) * 0.75,
+    height: ((windowWidth - 5 * sizeFactor) / 4) * 0.75,
+  },
 });
