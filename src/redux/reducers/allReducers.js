@@ -11,6 +11,9 @@ import addedSubCategoriesReducer from "./category/addedSubCategoriesReducer";
 import categoryNameReducer from "./category/categoryNameReducer";
 import selectedIconReducer from "./category/selectedIconReducer";
 import subCategoriesReducer from "./category/subCategoriesReducer";
+import editableButtonGroupReducer from "./category/editableButtonGroupReducer";
+import editedSubCategoriesReducer from "./category/editedSubCategoriesReducer";
+import isVisibleReducer from "./category/isVisibleReducer";
 
 const allReducers = combineReducers({
   selectedType: selectedTypeReducer,
@@ -22,6 +25,9 @@ const allReducers = combineReducers({
   categoryName: categoryNameReducer,
   selectedIcon: selectedIconReducer,
   subCategories: subCategoriesReducer,
+  editableButtonGroup: editableButtonGroupReducer,
+  editedSubCategories: editedSubCategoriesReducer,
+  isVisible: isVisibleReducer,
 })
 
 export default allReducers
