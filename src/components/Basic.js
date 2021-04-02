@@ -730,3 +730,22 @@ export class Space extends Component {
     return <View style={{ height: 0, marginBottom: sizeFactor / 2 }} />;
   }
 }
+
+export class RoundedView extends Component {
+  render() {
+      return (
+          <View
+              style={{
+                  backgroundColor: "white",
+                  marginHorizontal: sizeFactor,
+                  borderRadius: sizeFactor,
+                  paddingHorizontal: sizeFactor,
+                  paddingVertical: sizeFactor,
+                  marginBottom: sizeFactor,
+              }}
+          >
+              {this.props.children}
+          </View>
+      );
+  }
+}
