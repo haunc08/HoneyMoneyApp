@@ -1,14 +1,13 @@
-// react
-import { StyleSheet } from "react-native";
-
-// constants
 import { colors } from "./colors";
 import {
   sizeFactor,
   windowWidth,
   windowHeight,
-  managerCategoryWidth,
-  managerCategoryHeight,
+  managerCategorySize,
+  categorySize,
+  iconCategorySize,
+  iconCategoryImageSize,
+  smallCategorySize,
 } from "./ruler";
 
 export const styles = StyleSheet.create({
@@ -101,19 +100,24 @@ export const styles = StyleSheet.create({
     margin: sizeFactor,
     marginTop: 0,
   },
-  //Row
-  row: {
+  //DialogModal
+  dialogModalContainer: {
     flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    flexWrap: "wrap",
+    backgroundColor: "gray",
+    justifyContent: "center",
+    alignItems: "center",
+    opacity: 0.8,
   },
-  //RowLeft
-  rowLeft: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    flexWrap: "wrap",
+  dialogModal: (width, height) => {
+    return {
+      margin: 20,
+      backgroundColor: "white",
+      borderRadius: 20,
+      padding: 35,
+      alignItems: "center",
+      width: width,
+      height: height,
+    };
   },
   //Button
   button: {
@@ -198,7 +202,7 @@ export const styles = StyleSheet.create({
   },
   //ManagerCategory
   managerCategoryContainer: {
-    height: managerCategoryHeight + sizeFactor / 2,
+    height: managerCategorySize + sizeFactor / 2,
     alignContent: "center",
     alignItems: "center",
     justifyContent: "center",
@@ -207,8 +211,8 @@ export const styles = StyleSheet.create({
     return {
       alignSelf: "center",
       marginBottom: sizeFactor / 2,
-      width: managerCategoryWidth,
-      height: managerCategoryHeight,
+      width: managerCategorySize,
+      height: managerCategorySize,
       opacity: choosed ? 1 : 0,
       position: "absolute",
     };
@@ -219,11 +223,11 @@ export const styles = StyleSheet.create({
     marginTop: sizeFactor * 0.24,
     marginLeft: sizeFactor * 0.03,
     opacity: 1,
-    width: managerCategoryWidth - sizeFactor * 1.25,
-    height: managerCategoryHeight - sizeFactor * 1.25,
+    width: managerCategorySize - sizeFactor * 1.25,
+    height: managerCategorySize - sizeFactor * 1.25,
   },
   managerCategoryStringContainer: {
-    width: managerCategoryWidth,
+    width: managerCategorySize,
     alignItems: "center",
   },
   managerCategoryString: (choosed) => {
@@ -233,12 +237,147 @@ export const styles = StyleSheet.create({
       color: choosed ? colors.blue : "black",
     };
   },
-  //HugeCategory
-  hugeCategory: {
+
+  //TransactionFullList
+  transactionFullListView: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  transactionFullListDate: {
+    marginBottom: 0,
+    fontSize: sizeFactor * 2,
+    marginRight: sizeFactor,
+    marginTop: 0,
+  },
+  transactionFullListDateOfWeek: {
+    fontSize: sizeFactor * 0.75,
+    marginBottom: 0,
+    fontWeight: "bold",
+    color: colors.gray,
+  },
+  transactionFullListMonth: {
+    fontSize: sizeFactor * 0.75,
+    marginBottom: 0,
+    color: colors.gray,
+  },
+  //Category
+  categoryContainer: {
+    height: categorySize + sizeFactor / 2,
+    alignContent: "center",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  categoryChoosed: (choosed) => {
+    return {
+      alignSelf: "center",
+      marginBottom: sizeFactor / 2,
+      width: categorySize,
+      height: categorySize,
+      opacity: choosed ? 1 : 0,
+      position: "absolute",
+    };
+  },
+  categoryImage: {
     alignSelf: "center",
     marginBottom: sizeFactor / 2,
-    width: ((windowWidth - 5 * sizeFactor) / 4) * 0.75,
-    height: ((windowWidth - 5 * sizeFactor) / 4) * 0.75,
+    marginTop: sizeFactor * 0.24,
+    marginLeft: sizeFactor * 0.03,
+    opacity: 1,
+    width: categorySize - sizeFactor * 1.25,
+    height: categorySize - sizeFactor * 1.25,
+  },
+  categoryStringContainer: {
+    width: categorySize,
+    alignItems: "center",
+  },
+  categoryString: (choosed) => {
+    return {
+      fontSize: sizeFactor * 0.75,
+      fontWeight: choosed ? "bold" : "normal",
+      color: choosed ? colors.blue : "black",
+    };
+  },
+  //IconCategory
+  iconCategory: {
+    height: iconCategorySize,
+    width: iconCategorySize,
+    alignContent: "center",
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: sizeFactor / 2,
+  },
+  iconCategoryChoosed: (choosed) => {
+    return {
+      alignSelf: "center",
+      marginBottom: sizeFactor / 2,
+      opacity: choosed ? 1 : 0,
+      position: "absolute",
+      height: iconCategorySize,
+      width: iconCategorySize,
+    };
+  },
+  iconCategoryImage: {
+    alignSelf: "center",
+    marginBottom: sizeFactor / 2,
+    marginTop: sizeFactor / 2,
+    opacity: 1,
+    width: iconCategoryImageSize,
+    height: iconCategoryImageSize,
+  },
+  //SmallCategory
+  smallCategoryContainer: {
+    height: smallCategorySize + sizeFactor / 2,
+    alignContent: "center",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  smallCategoryChoosed: (choosed) => {
+    return {
+      alignSelf: "center",
+      marginBottom: sizeFactor / 2,
+      width: smallCategorySize,
+      height: smallCategorySize,
+      opacity: choosed ? 1 : 0,
+      position: "absolute",
+    };
+  },
+  smallCategoryImage: {
+    alignSelf: "center",
+    marginBottom: sizeFactor / 2,
+    width: smallCategorySize - sizeFactor * 1.25,
+    height: smallCategorySize - sizeFactor * 1.25,
+    opacity: 1,
+  },
+  smallCategoryTextContainer: {
+    width: smallCategorySize,
+    alignItems: "center",
+  },
+  smallCategoryText: (choosed) => {
+    return {
+      fontSize: sizeFactor * 0.75,
+      fontWeight: this.choosed ? "bold" : "normal",
+      color: this.choosed ? colors.blue : "black",
+    };
+  },
+  //Row
+  row: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    flexWrap: "wrap",
+  },
+  //RowLeft
+  rowLeft: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    flexWrap: "wrap",
+  },
+  //WalletRow
+  walletRow: {
+    flexDirection: "row",
+    alignContent: "center",
+    alignItems: "center",
   },
   //SettingRow
   settingRow: {
@@ -247,13 +386,73 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     marginBottom: sizeFactor * 0.75,
   },
-  //NormalCard
-  normalCard: {
-    backgroundColor: "white",
+  //AddWalletKindSelect
+  walletSelectContainer: {
     borderRadius: sizeFactor,
-    margin: sizeFactor,
-    marginBottom: 0,
-    paddingHorizontal: sizeFactor,
-    paddingTop: sizeFactor,
+    borderWidth: 0,
+    borderColor: colors.gray3,
+    marginBottom: sizeFactor,
+    marginHorizontal: 0,
+    backgroundColor: colors.gray5,
+    height: sizeFactor * 2.5,
   },
+  walletSelectText: {
+    fontSize: sizeFactor * 0.75,
+    textTransform: "uppercase",
+    fontWeight: "bold",
+    color: colors.gray,
+  },
+  walletSelectButton: {
+    borderWidth: 0,
+    backgroundColor: colors.gray5,
+  },
+  walletSelectButtonContainer: {
+    borderWidth: 0,
+    backgroundColor: colors.gray5,
+    borderColor: colors.gray5,
+  },
+  //KindSelect
+  kindSelectContainer: {
+    borderRadius: sizeFactor * 0.75,
+    borderWidth: 1.25,
+    borderColor: colors.gray3,
+    marginBottom: sizeFactor,
+    marginHorizontal: sizeFactor,
+    backgroundColor: colors.gray5,
+    height: sizeFactor * 2,
+  },
+  kindSelectText: {
+    fontSize: sizeFactor * 0.75,
+    textTransform: "uppercase",
+    fontWeight: "bold",
+    color: colors.gray,
+  },
+  //SmallKindSelect
+  smallKindSelectContainer: {
+    borderRadius: sizeFactor,
+    borderWidth: 0,
+    borderColor: colors.gray3,
+    marginBottom: sizeFactor,
+    marginHorizontal: sizeFactor,
+    backgroundColor: colors.gray5,
+    height: sizeFactor * 2,
+  },
+  smallKindSelectText: {
+    fontSize: sizeFactor * 0.75,
+    textTransform: "uppercase",
+    fontWeight: "bold",
+    color: colors.gray,
+  },
+  smallKindSelectButtonContainer: {
+    borderWidth: 0,
+    backgroundColor: colors.gray5,
+    borderColor: colors.gray5,
+  },
+  //EmptyTransactionIndicator
+  emptyTransactionIndicator: {
+    width: sizeFactor * 6,
+    height: sizeFactor * 6 * 0.56666666666,
+    marginBottom: sizeFactor * 1.25,
+  },
+  emptyIndicatorText: { fontSize: sizeFactor, fontWeight: "bold", color: colors.gray3 },
 });

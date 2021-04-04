@@ -353,7 +353,7 @@ export class Category extends Component {
           <View style={styles.categoryContainer}>
             <Image
               source={require("../assets/categories/choosed.png")}
-              style={categoryChoosed(this.props.choosed)}
+              style={styles.categoryChoosed(this.props.choosed)}
             ></Image>
             <Image source={this.props.source} style={styles.categoryImage}></Image>
           </View>
