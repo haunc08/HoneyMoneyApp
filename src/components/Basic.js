@@ -12,13 +12,8 @@ import {
 } from "react-native";
 
 // other packages
-import {
-  Icon,
-  ButtonGroup,
-  Input,
-  Divider,
-} from "react-native-elements";
-import { FlatList,} from "react-native-gesture-handler";
+import { Icon, ButtonGroup, Input, Divider } from "react-native-elements";
+import { FlatList } from "react-native-gesture-handler";
 import TextTicker from "react-native-text-ticker";
 //import toMoneyString from "./toMoneyString";
 
@@ -30,7 +25,7 @@ import {
   managerCategoryWidth,
   managerCategoryHeight,
   styles,
-  colors
+  colors,
 } from "../constants";
 
 export class String extends Component {
@@ -51,9 +46,7 @@ export class String extends Component {
 
 export class Heading extends Component {
   render() {
-    return (
-      <String style={[styles.heading, this.props.style]}>{this.props.children}</String>
-    );
+    return <String style={[styles.heading, this.props.style]}>{this.props.children}</String>;
   }
 }
 
@@ -65,21 +58,13 @@ export class Title extends Component {
 
 export class PositiveNumber extends Component {
   render() {
-    return (
-      <String style={[styles.positiveNumber, this.props.style]}>
-        {this.props.children}
-      </String>
-    );
+    return <String style={[styles.positiveNumber, this.props.style]}>{this.props.children}</String>;
   }
 }
 
 export class NegativeNumber extends Component {
   render() {
-    return (
-      <String style={[styles.negativeNumber, this.props.style]}>
-        {this.props.children}
-      </String>
-    );
+    return <String style={[styles.negativeNumber, this.props.style]}>{this.props.children}</String>;
   }
 }
 
@@ -161,9 +146,7 @@ export class ScreenView extends Component {
 
 export class NormalCard extends Component {
   render() {
-    return (
-      <View style={[styles.normalCard, this.props.style]}>{this.props.children}</View>
-    );
+    return <View style={[styles.normalCard, this.props.style]}>{this.props.children}</View>;
   }
 }
 
@@ -231,10 +214,7 @@ export class Button extends Component {
 export class Button1 extends Component {
   render() {
     return (
-      <TouchableOpacity
-        onPress={this.props.onPress}
-        style={[styles.button1, this.props.style]}
-      >
+      <TouchableOpacity onPress={this.props.onPress} style={[styles.button1, this.props.style]}>
         <String style={styles.button1String}>{this.props.children}</String>
       </TouchableOpacity>
     );
@@ -244,13 +224,8 @@ export class Button1 extends Component {
 export class Button2 extends Component {
   render() {
     return (
-      <TouchableOpacity
-        onPress={this.props.onPress}
-        style={[styles.button2, this.props.style]}
-      >
-        <String style={[styles.button2String, this.props.textStyle]}>
-          {this.props.children}
-        </String>
+      <TouchableOpacity onPress={this.props.onPress} style={[styles.button2, this.props.style]}>
+        <String style={[styles.button2String, this.props.textStyle]}>{this.props.children}</String>
       </TouchableOpacity>
     );
   }
@@ -259,13 +234,8 @@ export class Button2 extends Component {
 export class Button3 extends Component {
   render() {
     return (
-      <TouchableOpacity
-        onPress={this.props.onPress}
-        style={[styles.button3, this.props.style]}
-      >
-        <String style={[styles.button3String, this.props.textStyle]}>
-          {this.props.children}
-        </String>
+      <TouchableOpacity onPress={this.props.onPress} style={[styles.button3, this.props.style]}>
+        <String style={[styles.button3String, this.props.textStyle]}>{this.props.children}</String>
       </TouchableOpacity>
     );
   }
@@ -275,11 +245,7 @@ export class OutlineButton extends Component {
   render() {
     return (
       <TouchableOpacity
-        style={[
-          styles.outlineButton,
-          { borderColor: this.props.color },
-          this.props.style,
-        ]}
+        style={[styles.outlineButton, { borderColor: this.props.color }, this.props.style]}
         onPress={this.props.onPress}
       >
         <String
@@ -392,9 +358,7 @@ export class Category extends Component {
             <Image source={this.props.source} style={styles.categoryImage}></Image>
           </View>
           <View style={[categoryStringContainer, this.props.stringContainerStyle]}>
-            <String style={styles.categoryString(this.props.choosed)}>
-              {this.props.children}
-            </String>
+            <String style={styles.categoryString(this.props.choosed)}>{this.props.children}</String>
           </View>
         </View>
       </TouchableOpacity>
@@ -597,13 +561,7 @@ export class TransactionsFullList extends Component {
       </NormalCard>
     );
     const renderItem = ({ item }) => (
-      <Item
-        date={item.date}
-        dayOfWeek={item.dayOfWeek}
-        month={item.month}
-        
-        list={item.list}
-      />
+      <Item date={item.date} dayOfWeek={item.dayOfWeek} month={item.month} list={item.list} />
     );
     return (
       <FlatList
@@ -733,19 +691,19 @@ export class Space extends Component {
 
 export class RoundedView extends Component {
   render() {
-      return (
-          <View
-              style={{
-                  backgroundColor: "white",
-                  marginHorizontal: sizeFactor,
-                  borderRadius: sizeFactor,
-                  paddingHorizontal: sizeFactor,
-                  paddingVertical: sizeFactor,
-                  marginBottom: sizeFactor,
-              }}
-          >
-              {this.props.children}
-          </View>
-      );
+    return (
+      <View
+        style={{
+          backgroundColor: "white",
+          marginHorizontal: sizeFactor,
+          borderRadius: sizeFactor,
+          paddingHorizontal: sizeFactor,
+          paddingVertical: sizeFactor,
+          marginBottom: sizeFactor,
+        }}
+      >
+        {this.props.children}
+      </View>
+    );
   }
 }

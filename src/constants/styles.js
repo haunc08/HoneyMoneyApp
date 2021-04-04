@@ -233,11 +233,27 @@ export const styles = StyleSheet.create({
       color: choosed ? colors.blue : "black",
     };
   },
-  // huge category
+  //HugeCategory
   hugeCategory: {
     alignSelf: "center",
     marginBottom: sizeFactor / 2,
     width: ((windowWidth - 5 * sizeFactor) / 4) * 0.75,
     height: ((windowWidth - 5 * sizeFactor) / 4) * 0.75,
+  },
+  //SettingRow
+  settingRow: {
+    alignContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    marginBottom: sizeFactor * 0.75,
+  },
+  //NormalCard
+  normalCard: {
+    backgroundColor: "white",
+    borderRadius: sizeFactor,
+    margin: sizeFactor,
+    marginBottom: 0,
+    paddingHorizontal: sizeFactor,
+    paddingTop: sizeFactor,
   },
 });
