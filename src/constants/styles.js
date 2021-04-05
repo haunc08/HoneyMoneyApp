@@ -277,23 +277,23 @@ export const styles = StyleSheet.create({
       height: height,
     };
   },
-  transactionFullListView: {
+  transactionsFullListView: {
     flexDirection: "row",
     alignItems: "center",
   },
-  transactionFullListDate: {
+  transactionsFullListDate: {
     marginBottom: 0,
     fontSize: sizeFactor * 2,
     marginRight: sizeFactor,
     marginTop: 0,
   },
-  transactionFullListDateOfWeek: {
+  transactionsFullListDateOfWeek: {
     fontSize: sizeFactor * 0.75,
     marginBottom: 0,
     fontWeight: "bold",
     color: colors.gray,
   },
-  transactionFullListMonth: {
+  transactionsFullListMonth: {
     fontSize: sizeFactor * 0.75,
     marginBottom: 0,
     color: colors.gray,
