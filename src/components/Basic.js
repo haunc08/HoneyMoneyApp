@@ -15,7 +15,7 @@ import {
 import { Icon, ButtonGroup, Input, Divider } from "react-native-elements";
 import { FlatList } from "react-native-gesture-handler";
 import TextTicker from "react-native-text-ticker";
-//import toMoneyString from "./toMoneyString";
+import toMoneyString from "./toMoneyString";
 
 // constants
 import {
