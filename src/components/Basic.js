@@ -46,25 +46,41 @@ export class String extends Component {
 
 export class Heading extends Component {
   render() {
-    return <String style={[styles.heading, this.props.style]}>{this.props.children}</String>;
+    return (
+      <String style={[styles.heading, this.props.style]}>
+        {this.props.children}
+      </String>
+    );
   }
 }
 
 export class Title extends Component {
   render() {
-    return <Text style={[styles.title, this.props.style]}>{this.props.children}</Text>;
+    return (
+      <Text style={[styles.title, this.props.style]}>
+        {this.props.children}
+      </Text>
+    );
   }
 }
 
 export class PositiveNumber extends Component {
   render() {
-    return <String style={[styles.positiveNumber, this.props.style]}>{this.props.children}</String>;
+    return (
+      <String style={[styles.positiveNumber, this.props.style]}>
+        {this.props.children}
+      </String>
+    );
   }
 }
 
 export class NegativeNumber extends Component {
   render() {
-    return <String style={[styles.negativeNumber, this.props.style]}>{this.props.children}</String>;
+    return (
+      <String style={[styles.negativeNumber, this.props.style]}>
+        {this.props.children}
+      </String>
+    );
   }
 }
 
@@ -99,7 +115,10 @@ export class TransactionMonthSummary extends Component {
             type="material-community"
             color={colors.gray3}
             size={sizeFactor * 2}
-            style={{ marginTop: 2, opacity: this.props.leftChevronOpacity }}
+            style={{
+              marginTop: 2,
+              opacity: this.props.leftChevronOpacity,
+            }}
           />
           <Text style={styles.cardHeader1}>{this.props.month}</Text>
           <Icon
@@ -107,7 +126,10 @@ export class TransactionMonthSummary extends Component {
             type="material-community"
             color={colors.gray3}
             size={sizeFactor * 2}
-            style={{ marginTop: 2, opacity: this.props.rightChevronOpacity }}
+            style={{
+              marginTop: 2,
+              opacity: this.props.rightChevronOpacity,
+            }}
           />
         </View>
         <Row>
@@ -121,7 +143,12 @@ export class TransactionMonthSummary extends Component {
         <Divider style={{ marginBottom: sizeFactor }} />
         <Row style={{ marginBottom: sizeFactor * 0.5 }}>
           <String style={{ fontWeight: "bold" }}>Thay đổi</String>
-          <String style={{ fontWeight: "bold", color: this.props.changeColor }}>
+          <String
+            style={{
+              fontWeight: "bold",
+              color: this.props.changeColor,
+            }}
+          >
             {this.props.change}
           </String>
         </Row>
@@ -146,7 +173,11 @@ export class ScreenView extends Component {
 
 export class NormalCard extends Component {
   render() {
-    return <View style={[styles.normalCard, this.props.style]}>{this.props.children}</View>;
+    return (
+      <View style={[styles.normalCard, this.props.style]}>
+        {this.props.children}
+      </View>
+    );
   }
 }
 
@@ -174,7 +205,11 @@ export class SimpleCarousel extends Component {
 export class DialogModal extends Component {
   render() {
     return (
-      <Modal animationType="slide" transparent={true} visible={this.props.visible}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={this.props.visible}
+      >
         <View style={styles.dialogModalContainer}>
           <View style={styles.dialogModal(this.props.width, this.props.height)}>
             {this.props.children}
@@ -214,7 +249,10 @@ export class Button extends Component {
 export class Button1 extends Component {
   render() {
     return (
-      <TouchableOpacity onPress={this.props.onPress} style={[styles.button1, this.props.style]}>
+      <TouchableOpacity
+        onPress={this.props.onPress}
+        style={[styles.button1, this.props.style]}
+      >
         <String style={styles.button1String}>{this.props.children}</String>
       </TouchableOpacity>
     );
@@ -224,8 +262,13 @@ export class Button1 extends Component {
 export class Button2 extends Component {
   render() {
     return (
-      <TouchableOpacity onPress={this.props.onPress} style={[styles.button2, this.props.style]}>
-        <String style={[styles.button2String, this.props.textStyle]}>{this.props.children}</String>
+      <TouchableOpacity
+        onPress={this.props.onPress}
+        style={[styles.button2, this.props.style]}
+      >
+        <String style={[styles.button2String, this.props.textStyle]}>
+          {this.props.children}
+        </String>
       </TouchableOpacity>
     );
   }
@@ -234,8 +277,13 @@ export class Button2 extends Component {
 export class Button3 extends Component {
   render() {
     return (
-      <TouchableOpacity onPress={this.props.onPress} style={[styles.button3, this.props.style]}>
-        <String style={[styles.button3String, this.props.textStyle]}>{this.props.children}</String>
+      <TouchableOpacity
+        onPress={this.props.onPress}
+        style={[styles.button3, this.props.style]}
+      >
+        <String style={[styles.button3String, this.props.textStyle]}>
+          {this.props.children}
+        </String>
       </TouchableOpacity>
     );
   }
@@ -245,7 +293,11 @@ export class OutlineButton extends Component {
   render() {
     return (
       <TouchableOpacity
-        style={[styles.outlineButton, { borderColor: this.props.color }, this.props.style]}
+        style={[
+          styles.outlineButton,
+          { borderColor: this.props.color },
+          this.props.style,
+        ]}
         onPress={this.props.onPress}
       >
         <String
@@ -270,7 +322,8 @@ export class ToggleButton extends Component {
         style={[
           styles.toggleButton,
           {
-            backgroundColor: choosed == "true" ? this.props.color : this.props.background,
+            backgroundColor:
+              choosed == "true" ? this.props.color : this.props.background,
             borderColor: this.props.color,
           },
           this.props.style,
@@ -309,7 +362,12 @@ export class ColorSelectButton extends Component {
   render() {
     return (
       <TouchableOpacity onPress={this.props.onPress}>
-        <View style={styles.colorSelectButton(this.props.color, this.props.selected)} />
+        <View
+          style={styles.colorSelectButton(
+            this.props.color,
+            this.props.selected
+          )}
+        />
       </TouchableOpacity>
     );
   }
@@ -353,12 +411,19 @@ export class Category extends Component {
           <View style={styles.categoryContainer}>
             <Image
               source={require("../assets/categories/choosed.png")}
-              style={categoryChoosed(this.props.choosed)}
+              style={styles.categoryChoosed(this.props.choosed)}
             ></Image>
-            <Image source={this.props.source} style={styles.categoryImage}></Image>
+            <Image
+              source={this.props.source}
+              style={styles.categoryImage}
+            ></Image>
           </View>
-          <View style={[categoryStringContainer, this.props.stringContainerStyle]}>
-            <String style={styles.categoryString(this.props.choosed)}>{this.props.children}</String>
+          <View
+            style={[categoryStringContainer, this.props.stringContainerStyle]}
+          >
+            <String style={styles.categoryString(this.props.choosed)}>
+              {this.props.children}
+            </String>
           </View>
         </View>
       </TouchableOpacity>
@@ -375,7 +440,10 @@ export class IconCategory extends Component {
             source={require("../assets/categories/choosed.png")}
             style={styles.iconCategoryChoosed(this.props.choosed)}
           ></Image>
-          <Image source={this.props.source} style={styles.iconCategoryImage}></Image>
+          <Image
+            source={this.props.source}
+            style={styles.iconCategoryImage}
+          ></Image>
         </View>
       </TouchableOpacity>
     );
@@ -393,7 +461,10 @@ export class SmallCategory extends Component {
               source={require("../assets/categories/choosed.png")}
               style={styles.smallCategoryChoosed(this.props.choosed)}
             ></Image>
-            <Image source={this.props.source} style={styles.smallCategoryImage}></Image>
+            <Image
+              source={this.props.source}
+              style={styles.smallCategoryImage}
+            ></Image>
           </View>
           <View style={styles.smallCategoryTextContainer}>
             <String style={styles.smallCategoryText(this.props.choosed)}>
@@ -408,13 +479,19 @@ export class SmallCategory extends Component {
 
 export class Row extends Component {
   render() {
-    return <View style={[styles.row, this.props.style]}>{this.props.children}</View>;
+    return (
+      <View style={[styles.row, this.props.style]}>{this.props.children}</View>
+    );
   }
 }
 
 export class RowLeft extends Component {
   render() {
-    return <View style={[styles.rowLeft, this.props.style]}>{this.props.children}</View>;
+    return (
+      <View style={[styles.rowLeft, this.props.style]}>
+        {this.props.children}
+      </View>
+    );
   }
 }
 
@@ -445,7 +522,12 @@ export class SettingRow extends Component {
     return (
       <View>
         <TouchableOpacity onPress={this.props.onPress}>
-          <Row style={{ marginBottom: sizeFactor / 4, paddingHorizontal: sizeFactor }}>
+          <Row
+            style={{
+              marginBottom: sizeFactor / 4,
+              paddingHorizontal: sizeFactor,
+            }}
+          >
             <View style={styles.settingRow}>
               <Icon
                 style={{ marginRight: sizeFactor }}
@@ -456,7 +538,11 @@ export class SettingRow extends Component {
               />
               <String style={{ marginBottom: 0 }}>{this.props.text}</String>
             </View>
-            <Icon name="chevron-right" type="material-community" color={colors.gray} />
+            <Icon
+              name="chevron-right"
+              type="material-community"
+              color={colors.gray}
+            />
           </Row>
           <View style={{ paddingLeft: sizeFactor * 3.5 }}>
             <LooseDivider />
@@ -478,9 +564,17 @@ export class CategoryInManagerScreen extends Component {
               source={require("../assets/categories/choosed.png")}
               style={styles.managerCategoryChoosed(this.props.choosed)}
             ></Image>
-            <Image source={this.props.source} style={styles.managerCategoryImage}></Image>
+            <Image
+              source={this.props.source}
+              style={styles.managerCategoryImage}
+            ></Image>
           </View>
-          <View style={[styles.managerCategoryStringContainer, this.props.stringContainerStyle]}>
+          <View
+            style={[
+              styles.managerCategoryStringContainer,
+              this.props.stringContainerStyle,
+            ]}
+          >
             <String style={styles.managerCategoryString(this.props.choosed)}>
               {this.props.children}
             </String>
@@ -518,7 +612,10 @@ export class TransactionsList extends Component {
             <View style={{ marginRight: sizeFactor }}>
               <Image
                 source={source}
-                style={{ width: sizeFactor * 2.25, height: sizeFactor * 2.25 }}
+                style={{
+                  width: sizeFactor * 2.25,
+                  height: sizeFactor * 2.25,
+                }}
               ></Image>
             </View>
             <String style={{ marginBottom: 0 }}>{subcategory}</String>
@@ -545,14 +642,18 @@ export class TransactionsFullList extends Component {
     const Item = ({ date, dayOfWeek, month, change, list }) => (
       <NormalCard>
         <Row style={{ alignItems: "center", marginBottom: sizeFactor }}>
-          <View style={styles.transactionFullListView}>
-            <String style={styles.transactionFullListDate}>{date}</String>
+          <View style={styles.transactionsFullListView}>
+            <String style={styles.transactionsFullListDate}>{date}</String>
             <View>
-              <String style={styles.transactionFullListDateOfWeek}>{dayOfWeek}</String>
-              <String style={styles.transactionFullListMonth}>{month}</String>
+              <String style={styles.transactionsFullListDateOfWeek}>
+                {dayOfWeek}
+              </String>
+              <String style={styles.transactionsFullListMonth}>{month}</String>
             </View>
           </View>
-          <String style={{ marginBottom: 0, fontWeight: "bold" }}>{change}</String>
+          <String style={{ marginBottom: 0, fontWeight: "bold" }}>
+            {change}
+          </String>
         </Row>
         <LooseDivider />
         <View style={{ marginBottom: sizeFactor / 2 }}>
@@ -561,7 +662,12 @@ export class TransactionsFullList extends Component {
       </NormalCard>
     );
     const renderItem = ({ item }) => (
-      <Item date={item.date} dayOfWeek={item.dayOfWeek} month={item.month} list={item.list} />
+      <Item
+        date={item.date}
+        dayOfWeek={item.dayOfWeek}
+        month={item.month}
+        list={item.list}
+      />
     );
     return (
       <FlatList
@@ -666,12 +772,19 @@ export class SmallKindSelect extends Component {
 export class EmptyTransactionsIndicator extends Component {
   render() {
     return (
-      <View style={{ alignItems: "center", marginVertical: sizeFactor * 4 }}>
+      <View
+        style={{
+          alignItems: "center",
+          marginVertical: sizeFactor * 4,
+        }}
+      >
         <Image
           style={styles.emptyTransactionIndicator}
           source={require("../assets/others/empty.png")}
         />
-        <String style={styles.emptyIndicatorText}>Bạn chưa có giao dịch nào!</String>
+        <String style={styles.emptyIndicatorText}>
+          Bạn chưa có giao dịch nào!
+        </String>
       </View>
     );
   }
