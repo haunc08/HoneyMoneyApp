@@ -419,7 +419,7 @@ export class Category extends Component {
             ></Image>
           </View>
           <View
-            style={[categoryStringContainer, this.props.stringContainerStyle]}
+            style={[styles.categoryStringContainer, this.props.stringContainerStyle]}
           >
             <String style={styles.categoryString(this.props.choosed)}>
               {this.props.children}
