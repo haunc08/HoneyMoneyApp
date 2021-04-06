@@ -686,7 +686,7 @@ export class TransactionsFullList extends Component {
               <String style={styles.transactionsFullListMonth}>{month}</String>
             </View>
           </View>
-          <String style={{ marginBottom: 0, fontWeight: "bold" }}>
+          <String style={{ marginBottom: 0, fontWeight: "bold", color: "black" }}>
             {change}
           </String>
         </Row>
@@ -702,6 +702,7 @@ export class TransactionsFullList extends Component {
         dayOfWeek={item.dayOfWeek}
         month={item.month}
         list={item.list}
+        change={toMoneyString(item.change)}
       />
     );
     return (

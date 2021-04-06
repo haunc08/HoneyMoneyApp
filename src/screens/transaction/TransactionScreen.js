@@ -149,7 +149,6 @@ class TransactionsScreen extends Component {
             endBalance: cal.lose,
         };
         monthlist.push(item);
-        console.log(monthlist);
 
         return monthlist;
     }
@@ -467,6 +466,7 @@ class TransactionsScreen extends Component {
                 clone.find((i) => i.date == d).list.push(itemdata);
             }
         });
+        console.log(clone);
         return clone.sort((a, b) => {
             return - parseInt(a.date) + parseInt(b.date);
         });;
