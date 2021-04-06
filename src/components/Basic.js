@@ -342,7 +342,7 @@ export class ToggleButton extends Component {
   }
 }
 
-export class AddWalletButton extends Component {
+export class AddButton extends Component {
   render() {
     return (
       <TouchableOpacity onPress={this.props.onPress}>
@@ -419,7 +419,10 @@ export class Category extends Component {
             ></Image>
           </View>
           <View
-            style={[styles.categoryStringContainer, this.props.stringContainerStyle]}
+            style={[
+              styles.categoryStringContainer,
+              this.props.stringContainerStyle,
+            ]}
           >
             <String style={styles.categoryString(this.props.choosed)}>
               {this.props.children}
@@ -651,7 +654,7 @@ export class TransactionsFullList extends Component {
               <String style={styles.transactionsFullListMonth}>{month}</String>
             </View>
           </View>
-          <String style={{ marginBottom: 0, fontWeight: "bold", }}>
+          <String style={{ marginBottom: 0, fontWeight: "bold" }}>
             {change}
           </String>
         </Row>
@@ -815,6 +818,72 @@ export class RoundedView extends Component {
           marginBottom: sizeFactor,
         }}
       >
+        {this.props.children}
+      </View>
+    );
+  }
+}
+
+export class Wallet extends Component {
+  render() {
+    const isDefault = this.props.isDefault;
+    return (
+      <Card
+        heading={this.props.heading}
+        headingColor="white"
+        color={this.props.color}
+        icon="tune"
+        iconColor="white"
+        onPress={this.props.onPressEdit}
+      >
+        <Row>
+          <String style={{ color: "white", fontSize: sizeFactor * 2 }}>
+            VNĐ
+          </String>
+          <PositiveNumber style={{ color: "white", fontSize: sizeFactor * 2 }}>
+            {this.props.children}
+          </PositiveNumber>
+        </Row>
+        <Row>
+          <String style={{ color: "white" }}>Ngày tạo</String>
+          <String style={{ color: "white", fontWeight: "bold" }}>
+            {this.props.date}
+          </String>
+        </Row>
+        <Space />
+
+        <OutlineToggleButton
+          checked={this.props.isDefault}
+          checkIcon="check-circle-outline"
+          color="white"
+          uncheckColor={this.props.color}
+          onPress={this.props.onPressDefault}
+          checkedText="Đang sử dụng"
+        >
+          Sử dụng
+        </OutlineToggleButton>
+      </Card>
+    );
+  }
+}
+
+export class Card extends Component {
+  render() {
+    return (
+      <View style={[styles.container, { backgroundColor: this.props.color }]}>
+        <Row>
+          <Heading style={[styles.heading, { color: this.props.headingColor }]}>
+            {this.props.heading}
+          </Heading>
+          <TouchableOpacity onPress={this.props.onPress}>
+            <Icon
+              name={this.props.icon}
+              type="material-community"
+              color={this.props.iconColor}
+              size={sizeFactor * 1.5}
+            />
+          </TouchableOpacity>
+        </Row>
         {this.props.children}
       </View>
     );

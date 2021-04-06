@@ -97,6 +97,14 @@ export const styles = StyleSheet.create({
     paddingHorizontal: sizeFactor,
     paddingTop: sizeFactor,
   },
+  container: {
+    marginHorizontal: sizeFactor,
+    marginBottom: sizeFactor * 0.75,
+    paddingTop: sizeFactor,
+    paddingBottom: sizeFactor * 0.25,
+    paddingHorizontal: sizeFactor,
+    borderRadius: sizeFactor,
+}
   //SimpleCarousel
   simpleCarousel: {
     backgroundColor: "white",
