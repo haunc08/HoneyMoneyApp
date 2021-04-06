@@ -651,7 +651,7 @@ export class TransactionsFullList extends Component {
               <String style={styles.transactionsFullListMonth}>{month}</String>
             </View>
           </View>
-          <String style={{ marginBottom: 0, fontWeight: "bold" }}>
+          <String style={{ marginBottom: 0, fontWeight: "bold", }}>
             {change}
           </String>
         </Row>

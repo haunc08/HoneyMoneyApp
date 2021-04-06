@@ -149,6 +149,7 @@ class TransactionsScreen extends Component {
             endBalance: cal.lose,
         };
         monthlist.push(item);
+        console.log(monthlist);
 
         return monthlist;
     }
