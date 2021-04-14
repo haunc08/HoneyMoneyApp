@@ -13,7 +13,12 @@ import { signOut, editUserName } from "../../redux/actions";
 import { Icon } from "react-native-elements";
 
 // components
-import { String, ScreenView, NormalCard, SettingRow } from "../../components/Basic";
+import {
+  String,
+  ScreenView,
+  NormalCard,
+  SettingRow,
+} from "../../components/Basic";
 
 // constants
 import { colors, sizeFactor } from "../../constants";
@@ -66,8 +71,13 @@ class SettingScreen extends Component {
           >
             {this.props.userName}
           </Text>
-          <Text style={{ alignSelf: "center", fontSize: sizeFactor, color: colors.gray }}>
-            {" "}
+          <Text
+            style={{
+              alignSelf: "center",
+              fontSize: sizeFactor,
+              color: colors.gray,
+            }}
+          >
             {firebase.auth().currentUser.email}
           </Text>
         </View>
@@ -78,7 +88,9 @@ class SettingScreen extends Component {
             iconName="account-circle"
             text="Thông tin người dùng"
             onPress={() =>
-              this.props.navigation.navigate("SettingNavigator", { screen: "SettingNameScreen" })
+              this.props.navigation.navigate("SettingNavigator", {
+                screen: "SettingNameScreen",
+              })
             }
           />
           <SettingRow
@@ -96,7 +108,9 @@ class SettingScreen extends Component {
             iconName="package-variant"
             text="Quản lý danh mục"
             onPress={() => {
-              this.props.navigation.navigate("SettingNavigator", { screen: "CategoryNavigator" });
+              this.props.navigation.navigate("SettingNavigator", {
+                screen: "CategoryNavigator",
+              });
               console.log(firebase.auth().currentUser.uid);
             }}
           />
@@ -105,7 +119,9 @@ class SettingScreen extends Component {
             iconName="bank"
             text="Quản lí hạn mức"
             onPress={() =>
-              this.props.navigation.navigate("SettingNavigator", { screen: "BudgetScreen" })
+              this.props.navigation.navigate("SettingNavigator", {
+                screen: "BudgetScreen",
+              })
             }
           />
           <SettingRow
@@ -113,10 +129,17 @@ class SettingScreen extends Component {
             iconName="bell-ring"
             text="Thông báo"
             onPress={() =>
-              this.props.navigation.navigate("SettingNavigator", { screen: "SettingAlertScreen" })
+              this.props.navigation.navigate("SettingNavigator", {
+                screen: "SettingAlertScreen",
+              })
             }
           />
-          <View style={{ marginBottom: sizeFactor / 4, paddingHorizontal: sizeFactor }}>
+          <View
+            style={{
+              marginBottom: sizeFactor / 4,
+              paddingHorizontal: sizeFactor,
+            }}
+          >
             <View
               style={{
                 flexDirection: "row",
@@ -212,7 +235,9 @@ class SettingScreen extends Component {
           <String style={{ marginBottom: sizeFactor / 2, fontWeight: "bold" }}>
             Phan Huy Tien
           </String>
-          <String style={{ marginBottom: sizeFactor / 2, fontWeight: "bold" }}>Ngo Cong Hau</String>
+          <String style={{ marginBottom: sizeFactor / 2, fontWeight: "bold" }}>
+            Ngo Cong Hau
+          </String>
         </View>
       </ScreenView>
     );

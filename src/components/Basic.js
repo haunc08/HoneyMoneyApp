@@ -686,7 +686,9 @@ export class TransactionsFullList extends Component {
               <String style={styles.transactionsFullListMonth}>{month}</String>
             </View>
           </View>
-          <String style={{ marginBottom: 0, fontWeight: "bold", color: "black" }}>
+          <String
+            style={{ marginBottom: 0, fontWeight: "bold", color: "black" }}
+          >
             {change}
           </String>
         </Row>
@@ -919,38 +921,6 @@ export class Card extends Component {
         </Row>
         {this.props.children}
       </View>
-    );
-  }
-}
-
-export class OutlineToggleButton extends Component {
-  render() {
-    //change this to state instead
-    const checked = this.props.checked;
-    return (
-      <TouchableOpacity
-        style={styles.outlineToggleButton(this.props.color, checked)}
-        onPress={this.props.onPress}
-      >
-        <Icon
-          name={
-            checked == "false" ? this.props.uncheckIcon : this.props.checkIcon
-          }
-          type="material-community"
-          color={this.props.color}
-          size={sizeFactor * 1.25}
-        />
-        <String
-          style={{
-            color:
-              checked == "true" ? this.props.color : this.props.uncheckColor,
-            fontWeight: checked == "true" ? "normal" : "bold",
-          }}
-        >
-          {this.props.uncheckIcon == "" ? "" : " "}
-          {checked == "true" ? this.props.checkedText : this.props.children}
-        </String>
-      </TouchableOpacity>
     );
   }
 }
