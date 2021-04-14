@@ -5,7 +5,7 @@ export default class TransactionScreen extends React.Component {
   render() {
     return (
       <View>
-        <Text style={{ fontSize: 20 }} />
+        <Text style={{ fontSize: 20 }}>TransactionScreen</Text>
       </View>
     );
   }
