@@ -478,4 +478,18 @@ export const styles = StyleSheet.create({
     fontWeight: "bold",
     color: colors.gray3,
   },
+  outlineToggleButton: (color,checked)=>{
+    return {
+    justifyContent: "center",
+    borderWidth: 1.25,
+    paddingHorizontal: sizeFactor,
+    borderColor: color,
+    backgroundColor: checked == "true" ? "transparent" : color,
+    borderRadius: 9999,
+    borderStyle: checked == "true" ? "dashed" : "solid",
+    paddingTop: sizeFactor * 0.75,
+    flexDirection: "row",
+    marginBottom: sizeFactor,
+    };
+  },
 });

@@ -889,3 +889,35 @@ export class Card extends Component {
     );
   }
 }
+
+export class OutlineToggleButton extends Component {
+  render() {
+    //change this to state instead
+    const checked = this.props.checked;
+    return (
+      <TouchableOpacity
+        style={styles.outlineToggleButton(this.props.color, checked)}
+        onPress={this.props.onPress}
+      >
+        <Icon
+          name={
+            checked == "false" ? this.props.uncheckIcon : this.props.checkIcon
+          }
+          type="material-community"
+          color={this.props.color}
+          size={sizeFactor * 1.25}
+        />
+        <String
+          style={{
+            color:
+              checked == "true" ? this.props.color : this.props.uncheckColor,
+            fontWeight: checked == "true" ? "normal" : "bold",
+          }}
+        >
+          {this.props.uncheckIcon == "" ? "" : " "}
+          {checked == "true" ? this.props.checkedText : this.props.children}
+        </String>
+      </TouchableOpacity>
+    );
+  }
+}
