@@ -155,7 +155,6 @@ class TransactionsScreen extends Component {
       endBalance: cal.lose,
     };
     monthlist.push(item);
-    console.log(monthlist);
 
     return monthlist;
   }
@@ -468,7 +467,9 @@ class TransactionsScreen extends Component {
           subcategory: category.categoryName,
           onPress: () => {
             this.props.SelectTransaction(item.key);
-            this.props.navigation.navigate("EditTransaction");
+            this.props.navigation.navigate("TransactionNavigator", {
+                screen: "EditTransaction",
+              });
           },
           source: findIcon(category.icon),
           amount: b ? "+" + item.money : "-" + item.money,
