@@ -99,7 +99,8 @@ export class WalletScreen extends Component {
                         <AddWalletButton
                             color={colors.blue}
                             onPress={() => {
-                                this.props.navigation.navigate("AddWalletScreen");
+                                this.props.navigation.navigate("WalletNavigator",
+                                {screen: "AddWalletScreen",});
                             }}
                         />
                     </View>
@@ -120,7 +121,8 @@ export class WalletScreen extends Component {
                                 }}
                                 onPressEdit={() => {
                                     this.props.SelectWallet(item);
-                                    this.props.navigation.navigate({ name: "EditWalletScreen" });
+                                    this.props.navigation.navigate("WalletNavigator",
+                                    {screen: "EditWalletScreen",});
                                 }}
                                 onPressSuDung={() => {
                                     this.props.SelectWallet(item);

@@ -18,6 +18,10 @@ import {
 }
 from "../screens"
 
+import {
+    colors,
+} from "../constants/colors"
+
 //Navigator
 const Tab = createBottomTabNavigator();
 
@@ -129,7 +133,7 @@ export default class TabBarNavigator extends Component {
                                     </ActionButton.Item>
 
                                     <ActionButton.Item
-                                        //buttonColor={colors.greenDark}
+                                        buttonColor={colors.greenDark}
                                         size={50}
                                         title="Thu"
                                     >
@@ -149,7 +153,7 @@ export default class TabBarNavigator extends Component {
                                     </ActionButton.Item>
 
                                     <ActionButton.Item
-                                        //buttonColor={colors.indigo}
+                                        buttonColor={colors.indigo}
                                         size={50}
                                         title="Chuyển ví"
                                     >

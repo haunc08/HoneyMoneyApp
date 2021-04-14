@@ -104,7 +104,7 @@ export const styles = StyleSheet.create({
     paddingBottom: sizeFactor * 0.25,
     paddingHorizontal: sizeFactor,
     borderRadius: sizeFactor,
-}
+  },
   //SimpleCarousel
   simpleCarousel: {
     backgroundColor: "white",
@@ -400,6 +400,20 @@ export const styles = StyleSheet.create({
       fontSize: sizeFactor * 0.75,
       fontWeight: this.choosed ? "bold" : "normal",
       color: this.choosed ? colors.blue : "black",
+    };
+  },
+  outlineToggleButton: (color,checked)=>{
+    return {
+    justifyContent: "center",
+    borderWidth: 1.25,
+    paddingHorizontal: sizeFactor,
+    borderColor: color,
+    backgroundColor: checked == "true" ? "transparent" : color,
+    borderRadius: 9999,
+    borderStyle: checked == "true" ? "dashed" : "solid",
+    paddingTop: sizeFactor * 0.75,
+    flexDirection: "row",
+    marginBottom: sizeFactor,
     };
   },
   walletRow: {
