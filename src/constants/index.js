@@ -1,5 +1,5 @@
 import { colors } from "./colors";
-import { 
+import {
   windowWidth,
   windowHeight,
   sizeFactor,
@@ -15,5 +15,5 @@ export {
   sizeFactor,
   managerCategoryWidth,
   managerCategoryHeight,
-  styles
-}
+  styles,
+};
