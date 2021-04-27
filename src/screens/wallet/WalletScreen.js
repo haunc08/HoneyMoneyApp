@@ -1,19 +1,23 @@
 import React, { Component } from "react";
-import { View, FlatList } from "react-native";
+import {View} from "react-native";
 import {
-  String,
-  ScreenView,
-  Row,
-  Wallet,
-  Title,
-  AddWalletButton,
-  Space,
-  NormalCard,
-  LooseDivider,
+    String,
+    ScreenView,
+    Row,
+    Wallet,
+    Title,
+    AddWalletButton,
+    Space,
+    NormalCard,
+    LooseDivider,
 } from "../../components/Basic";
-import { colors } from "../../constants/colors";
-import { sizeFactor } from "../../constants/ruler";
-
+import {
+    colors,
+} from "../../constants/colors"
+import {
+    sizeFactor,
+} from "../../constants/ruler";
+import { FlatList } from "react-native-gesture-handler";
 //firebase
 import * as firebase from "firebase";
 
@@ -29,165 +33,161 @@ import { userRef } from "../../components/DataConnect";
 import { UpdateWalletAction, SelectWallet } from "../../redux/actions";
 
 //Navigator
-import toMoneyString, {
-  toMoneyStringWithoutVND,
-} from "../../components/toMoneyString";
+import toMoneyString, { toMoneyStringWithoutVND } from "../../components/toMoneyString";
 
 export class WalletScreen extends Component {
-  _isMounted = false;
-  constructor(props) {
-    super(props);
-  }
-  componentDidMount() {
-    let uid = "none";
-    if (firebase.auth().currentUser) {
-      uid = firebase.auth().currentUser.uid;
+    _isMounted = false;
+    constructor(props) {
+        super(props);
     }
-    const userWalletRef = userRef.child(uid).child("Wallet");
-    userWalletRef.on("value", (snap) => {
-      this.props.Update(snap);
-    });
-  }
-  tinhtong() {
-    var i = 0;
-    this.props.walletData.forEach((item) => {
-      i += parseInt(item.money);
-    });
-    return i;
-  }
-  render() {
-    return (
-      <ScreenView>
-        <View style={{}}>
-          <NormalCard
-            style={{
-              alignItems: "stretch",
-              marginBottom: sizeFactor * 2,
-            }}
-          >
-            <View style={{ alignItems: "center" }}>
-              <String
-                style={{
-                  fontSize: sizeFactor,
-                  fontWeight: "bold",
-                  color: colors.gray,
-                }}
-              >
-                Số dư toàn bộ ví
-              </String>
-            </View>
-            <LooseDivider />
-            <View style={{ alignItems: "center" }}>
-              <String style={{ fontSize: sizeFactor * 2 }}>
-                {toMoneyString(this.tinhtong())}
-              </String>
-            </View>
-          </NormalCard>
-        </View>
-        <Row>
-          <Title>Quản lí ví</Title>
-          <View
-            style={{
-              alignSelf: "flex-end",
-              marginBottom: sizeFactor,
-              marginRight: sizeFactor,
-              flexDirection: "row",
-            }}
-          >
-            <AddWalletButton
-              color={colors.blue}
-              onPress={() => {
-                this.props.navigation.navigate("WalletNavigator", {
-                  screen: "AddWalletScreen",
-                });
-              }}
-            />
-          </View>
-        </Row>
-        <FlatList
-          data={this.props.walletData}
-          renderItem={({ item }) => {
-            return (
-              <Wallet
-                heading={item.name}
-                color={item.color}
-                date={item.date}
-                isDefault={item.isDefault}
-                onPressDefault={() => {
-                  if (item.isDefault == "false") {
-                    defaultChanged(item);
-                  }
-                }}
-                onPressEdit={() => {
-                  this.props.SelectWallet(item);
-                  this.props.navigation.navigate("WalletNavigator", {
-                    screen: "EditWalletScreen",
-                  });
-                }}
-                onPressSuDung={() => {
-                  this.props.SelectWallet(item);
-                  this.props.navigation.navigate({
-                    name: "WalletTransferScreen",
-                  });
-                }}
-              >
-                {toMoneyStringWithoutVND(item.money)}
-              </Wallet>
-            );
-          }}
-        ></FlatList>
-        <Space />
-      </ScreenView>
-    );
-  }
+    componentDidMount() {
+        let uid = "none";
+        if (firebase.auth().currentUser) {
+            uid = firebase.auth().currentUser.uid;
+        }
+        const userWalletRef = userRef.child(uid).child("Wallet");
+        userWalletRef.on("value", (snap) => {
+            this.props.Update(snap);
+        });
+    }
+    tinhtong() {
+        var i = 0;
+        this.props.walletData.forEach((item) => {
+            i += parseInt(item.money);
+        });
+        return i;
+    }
+    render() {
+        return (
+            <ScreenView>
+                <View style={{}}>
+                    <NormalCard
+                        style={{
+                            alignItems: "stretch",
+                            marginBottom: sizeFactor * 2,
+                        }}
+                    >
+                        <View style={{ alignItems: "center" }}>
+                            <String
+                                style={{
+                                    fontSize: sizeFactor,
+                                    fontWeight: "bold",
+                                    color: colors.gray,
+                                }}
+                            >
+                                Số dư toàn bộ ví
+                            </String>
+                        </View>
+                        <LooseDivider />
+                        <View style={{ alignItems: "center" }}>
+                            <String style={{ fontSize: sizeFactor * 2 }}>
+                                {toMoneyString(this.tinhtong())}
+                            </String>
+                        </View>
+                    </NormalCard>
+                </View>
+                <Row>
+                    <Title>Quản lí ví</Title>
+                    <View
+                        style={{
+                            alignSelf: "flex-end",
+                            marginBottom: sizeFactor,
+                            marginRight: sizeFactor,
+                            flexDirection: "row",
+                        }}
+                    >
+                        <AddWalletButton
+                            color={colors.blue}
+                            onPress={() => {
+                                this.props.navigation.navigate("WalletNavigator",
+                                {screen: "AddWalletScreen",});
+                            }}
+                        />
+                    </View>
+                </Row>
+                <FlatList
+                    data={this.props.walletData}
+                    renderItem={({ item }) => {
+                        return (
+                            <Wallet
+                                heading={item.name}
+                                color={item.color}
+                                date={item.date}
+                                isDefault={item.isDefault}
+                                onPressDefault={() => {
+                                    if (item.isDefault == "false") {
+                                        defaultChanged(item);
+                                    }
+                                }}
+                                onPressEdit={() => {
+                                    this.props.SelectWallet(item);
+                                    this.props.navigation.navigate("WalletNavigator",
+                                    {screen: "EditWalletScreen",});
+                                }}
+                                onPressSuDung={() => {
+                                    this.props.SelectWallet(item);
+                                    this.props.navigation.navigate({
+                                        name: "WalletTransferScreen",
+                                    });
+                                }}
+                            >
+                                {toMoneyStringWithoutVND(item.money)}
+                            </Wallet>
+                        );
+                    }}
+                ></FlatList>
+                <Space />
+            </ScreenView>
+        );
+    }
 }
 
 defaultChanged = (walletItem) => {
-  let uid = "none";
-  if (firebase.auth().currentUser) {
-    uid = firebase.auth().currentUser.uid;
-  }
-  const userWalletRef = userRef.child(uid).child("Wallet");
-  userWalletRef.once("value", (snap) => {
-    snap.forEach((element) => {
-      if (element.toJSON().isDefault == "true") {
-        userWalletRef.child(element.key).update({
-          //name: element.toJSON().name,
-          //color: element.toJSON().color,
-          //date: element.toJSON().date,
-          //money: element.toJSON().money,
-          isDefault: "false",
+    let uid = "none";
+    if (firebase.auth().currentUser) {
+        uid = firebase.auth().currentUser.uid;
+    }
+    const userWalletRef = userRef.child(uid).child("Wallet");
+    userWalletRef.once("value", (snap) => {
+        snap.forEach((element) => {
+            if (element.toJSON().isDefault == "true") {
+                userWalletRef.child(element.key).update({
+                    //name: element.toJSON().name,
+                    //color: element.toJSON().color,
+                    //date: element.toJSON().date,
+                    //money: element.toJSON().money,
+                    isDefault: "false",
+                });
+            }
         });
-      }
     });
-  });
-  userWalletRef.child(walletItem.key).update({
-    //name: walletItem.name,
-    //color: walletItem.color,
-    //date:walletItem.date,
-    //money: walletItem.money,
-    isDefault: "true",
-  });
+    userWalletRef.child(walletItem.key).update({
+        //name: walletItem.name,
+        //color: walletItem.color,
+        //date:walletItem.date,
+        //money: walletItem.money,
+        isDefault: "true",
+    });
 };
 
 //redux define container
 
 const mapStateToProps = (state) => {
-  return {
-    walletData: state.WalletReducer,
-    //selectedWallet: state.selectedWalletReducer,
-  };
+    return {
+        walletData: state.WalletReducer,
+        //selectedWallet: state.selectedWalletReducer,
+    };
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {
-    Update: (snap) => {
-      dispatch(UpdateWalletAction(snap));
-    },
-    SelectWallet: (value) => {
-      dispatch(SelectWallet(value));
-    },
-  };
+    return {
+        Update: (snap) => {
+            dispatch(UpdateWalletAction(snap));
+        },
+        SelectWallet: (value) => {
+            dispatch(SelectWallet(value));
+        },
+    };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(WalletScreen);
 

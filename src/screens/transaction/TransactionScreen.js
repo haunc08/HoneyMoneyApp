@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, FlatList } from "react-native";
+import { View } from "react-native";
 import {
   ScreenView,
   TransactionMonthSummary,
@@ -19,6 +19,7 @@ import {
 import * as firebase from "firebase";
 import { findIcon } from "../../components/Image";
 
+import { FlatList } from "react-native-gesture-handler";
 import toMoneyString from "../../components/toMoneyString";
 import { userRef } from "../../components/DataConnect";
 
