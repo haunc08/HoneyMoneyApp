@@ -1,5 +1,5 @@
 import SignInScreen from "./authentication/SignInScreen";
-import SignUpScreen, { SignUp } from "./authentication/SignUpScreen";
+import SignUpScreen from "./authentication/SignUpScreen";
 import AddBudgetScreen from "./budget/AddBudgetScreen";
 import BudgetScreen from "./budget/BudgetScreen";
 import EditBudgetScreen from "./budget/EditBudgetScreen";
@@ -40,5 +40,4 @@ export {
   EditWalletScreen,
   WalletScreen,
   WalletTransferScreen,
-  SignUp,
 };
