@@ -1,5 +1,5 @@
 // react
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
 import { View, TouchableOpacity, TextInput } from "react-native";
 
 // firebase
@@ -7,17 +7,15 @@ import { firebase, userRef } from "../../database";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 // redux
-import { connect, useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   changeType,
-  changeName,
   openDialog,
   openIconDialog,
   selectIcon,
   closeIconDialog,
   clearSearchText,
   workWithSubCategory,
-  chooseCategory,
 } from "../../redux/actions";
 
 // other packages
@@ -41,6 +39,7 @@ import IconImage, { findIcon } from "../../assets";
 
 // constants
 import { colors, sizeFactor, styles } from "../../constants";
+import { Alert } from "react-native";
 
 const SubCategoriesView = () => {
   const subCategories = useSelector((state) => state.subCategories);
@@ -136,44 +135,48 @@ const AddCategoryScreen = ({ navigation }) => {
     const type = selectedType == 0 ? "001" : selectedType == 1 ? "002" : "003";
     const icon = IconImage[selectedIcon.addIndex].type;
 
-    await userCategoryRef
-      .push({
-        CategoryName: name,
-        Icon: icon,
-        ParentID: "",
-        TypeID: type,
-        IsDeleted: false,
-      })
-      .then((item) => {
-        item.once("value", (snapshot) => {
-          console.log(snapshot);
-          const category = {
-            key: item.key,
-            categoryName: snapshot.toJSON().CategoryName,
-            icon: snapshot.toJSON().Icon,
-            isDeleted: snapshot.toJSON().IsDeleted,
-            parentID: snapshot.toJSON().ParentID,
-            typeID: snapshot.toJSON().TypeID,
-          };
-          console.log("###");
-          console.log(category);
-          setParentCategory((prevState) => ({
-            ...prevState,
-            category,
-          }));
-        });
+    if (name === "") {
+      Alert.alert("Thông báo", "Nhập tên danh mục để tạo.");
+    } else {
+      await userCategoryRef
+        .push({
+          CategoryName: name,
+          Icon: icon,
+          ParentID: "",
+          TypeID: type,
+          IsDeleted: false,
+        })
+        .then((item) => {
+          item.once("value", (snapshot) => {
+            console.log(snapshot);
+            const category = {
+              key: item.key,
+              categoryName: snapshot.toJSON().CategoryName,
+              icon: snapshot.toJSON().Icon,
+              isDeleted: snapshot.toJSON().IsDeleted,
+              parentID: snapshot.toJSON().ParentID,
+              typeID: snapshot.toJSON().TypeID,
+            };
+            console.log("###");
+            console.log(category);
+            setParentCategory((prevState) => ({
+              ...prevState,
+              category,
+            }));
+          });
 
-        console.log(parentCategory);
-      });
-    //console.log(category);
-    addSubcategory();
-    // if searching, don't find a category, user can add category immediately by pressing themdanhmuc,
-    // after adding, clear search text to stop searchings
-    dispatch(clearSearchText());
-    navigation.goBack();
+          console.log(parentCategory);
+        });
+      //console.log(category);
+      addSubcategory();
+      // if searching, don't find a category, user can add category immediately by pressing themdanhmuc,
+      // after adding, clear search text to stop searchings
+      dispatch(clearSearchText());
+      navigation.goBack();
+    }
   };
 
-  const openIconDialog = () => {
+  const openIcon = () => {
     // reset selectedIndex whenever open icon dialog
     // b/c if choose icon and close dialog, without reseting, selectedIndex != addIndex (expect ==)
     selectIcon(selectedIcon.addIndex);
@@ -204,7 +207,7 @@ const AddCategoryScreen = ({ navigation }) => {
         <Space />
         <TouchableOpacity
           onPress={() => {
-            openIconDialog();
+            openIcon();
           }}
         >
           <Avatar
