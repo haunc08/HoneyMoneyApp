@@ -126,7 +126,7 @@ const AddCategoryScreen = ({ navigation }) => {
       });
       //console.log("pid " + parentCategory.key);
     });
-    reloadAddedSubCategories();
+    //reloadAddedSubCategories();
   };
 
   // done
