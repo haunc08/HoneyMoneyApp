@@ -10,7 +10,12 @@ import { Notifications } from "expo";
 import { Permissions } from "expo-permissions";
 
 // components
-import { HomoTextInput, Button1, Button2, Button3 } from "../../components/Basic";
+import {
+  HomoTextInput,
+  Button1,
+  Button2,
+  Button3,
+} from "../../components/Basic";
 
 // constants
 import { sizeFactor, windowWidth } from "../../constants/ruler";
@@ -62,7 +67,9 @@ class SignInScreen extends Component {
     }
   };
   askPermissions = async () => {
-    const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+    const { status: existingStatus } = await Permissions.getAsync(
+      Permissions.NOTIFICATIONS
+    );
     let finalStatus = existingStatus;
     if (existingStatus !== "granted") {
       const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
@@ -156,7 +163,10 @@ class SignInScreen extends Component {
                 >
                   Đăng ký
                 </Button2>
-                <Button1 style={{ width: sizeFactor * 8.5 }} onPress={() => this.userLogin()}>
+                <Button1
+                  style={{ width: sizeFactor * 8.5 }}
+                  onPress={() => this.userLogin()}
+                >
                   Đăng nhập
                 </Button1>
               </View>
