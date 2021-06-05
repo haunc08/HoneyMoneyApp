@@ -31,6 +31,7 @@ import {  userRef } from "../../components/DataConnect";
 
 import { UpdateWalletAction, SelectWallet } from "../../redux/actions/index";
 import { Alert } from "react-native";
+import toMoneyString from "../../components/toMoneyString";
 
 const data1 = [
     {
@@ -107,7 +108,7 @@ export class WalletTransferScreen extends Component {
     );
     }
     render() {
-        const Item = ({ name, color }) =>
+        const Item = ({ name, color, money }) =>
         <View
             style={{
                 alignContent: "center",
@@ -125,6 +126,9 @@ export class WalletTransferScreen extends Component {
             />
             <String style={{ marginBottom: 0, fontSize: sizeFactor * 1.5 }}>
                 {name}
+            </String>
+            <String style={{ marginBottom: 0, fontSize: sizeFactor * 1.5 }}>
+                {" (" + toMoneyString(money) + ")"}
             </String>
         </View>;
         const data = [];
@@ -224,7 +228,7 @@ export class WalletTransferScreen extends Component {
                     </View>
                     <TouchableOpacity onPress={()=>{this.setState({visible: true, select: 1})}}>
                         <Row style={{ marginBottom: 0 }}>
-                            <Item name={this.state.nguon.name} color={this.state.nguon.color} />
+                            <Item name={this.state.nguon.name} color={this.state.nguon.color} money={this.state.nguon.money}/>
                             <Icon
                                 name="chevron-right"
                                 type="material-community"
@@ -255,7 +259,7 @@ export class WalletTransferScreen extends Component {
                     </View>
                     <TouchableOpacity onPress={()=>{this.setState({visible: true, select: 2})}}>
                         <Row style={{ marginBottom: 0 }}>
-                            <Item name={this.state.dich.name} color={this.state.dich.color} />   
+                            <Item name={this.state.dich.name} color={this.state.dich.color} money={this.state.dich.money}/>   
                             <Icon
                                 name="chevron-right"
                                 type="material-community"
