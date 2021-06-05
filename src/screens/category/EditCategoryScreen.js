@@ -1,12 +1,13 @@
 // react
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import { View, TouchableOpacity, TextInput } from "react-native";
 
 // firebase
 import { firebase, userRef } from "../../database";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 // redux
-import { connect } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import {
   changeType,
   changeName,
@@ -39,13 +40,293 @@ import {
 } from "../../components/Basic";
 
 import IconImage, { findIcon, getIndex } from "../../assets";
-import AddSubcategoryDialog from "../../components/AddSubcategoryDialog";
-import ChooseIconDialog from "../../components/ChooseIconDialog";
+//import AddSubcategoryDialog from '../components/AddSubcategoryDialog';
+//import ChooseIconDialog from '../components/ChooseIconDialog'
 
-// constans
+// constants
 import { colors, sizeFactor, styles } from "../../constants";
 
-class EditCategoryScreen extends Component {
+const EditCategoryScreen = ({ navigation }) => {
+  const [user, loading, error] = useAuthState(firebase.auth());
+
+  const [addedSubCategories, setAddedSubCategories] = useState([]);
+  const [deleteBtnName, setDeleteBtnName] = useState("Xoa");
+
+  const chosenCategory = useSelector((state) => state.chosenCategory);
+  const categoryName = useSelector((state) => state.categoryName);
+  //const subCategories = useSelector(state => state.subCategories)
+  const selectedType = useSelector((state) => state.selectedType);
+  const isVisible = useSelector((state) => state.isVisible);
+  //const addedSubCategories = useSelector(state => state.addedSubCategories)
+  const editableButtonGroup = useSelector((state) => state.editableButtonGroup);
+  const selectedIcon = useSelector((state) => state.selectedIcon);
+  const editedSubCategories = useSelector((state) => state.editedSubCategories);
+  const subCategories = useSelector((state) => state.subCategories);
+
+  const dispatch = useDispatch();
+
+  const swipeSettings = {
+    autoClose: true,
+    onClose: (secID, rowID, direction) => {},
+    onOpen: (secID, rowID, direction) => {},
+    right: [
+      {
+        onPress: () => {
+          deleteCategory();
+        },
+        text: "Xóa",
+        type: "delete",
+      },
+    ],
+  };
+
+  const iconPath = IconImage[selectedIcon.editIndex].iconPath;
+
+  const SubCategoriesView = () => {
+    return (
+      <View>
+        {subCategories.map((item, i) => (
+          <TouchableOpacity onPress={() => openEditSubDialog(item)}>
+            <ListItem
+              key={item.key}
+              title={item.categoryName}
+              leftAvatar={{
+                source: findIcon(item.icon),
+                width: sizeFactor * 2.5,
+                height: sizeFactor * 2.5,
+                rounded: false,
+              }}
+              chevron={
+                //sorry for bad code, pls edit this
+                item.categoryName == "Thêm mới"
+                  ? false
+                  : { size: sizeFactor * 1.5 }
+              }
+              contentContainerStyle={{ marginHorizontal: 0 }}
+              rightContentContainerStyle={{ marginHorizontal: 0 }}
+              containerStyle={{ paddingHorizontal: 0 }}
+              titleStyle={{ fontSize: sizeFactor }}
+              pad={sizeFactor}
+            />
+          </TouchableOpacity>
+        ))}
+      </View>
+    );
+  };
+
+  const getSelectedIndex = () => {
+    const type = chosenCategory.typeID;
+    switch (type) {
+      case "001":
+        return 0;
+      case "002":
+        return 1;
+      case "003":
+        return 2;
+    }
+  };
+
+  const updateCategory = async () => {
+    // update parent category
+    const category = chosenCategory;
+    const type =
+      selectedType === 0 ? "001" : selectedType === 1 ? "002" : "003";
+    const icon = IconImage[selectedIcon.editIndex].type;
+
+    const userCategoryRef = userRef.child(user.uid).child("Category");
+
+    userCategoryRef.child(category.key).update({
+      CategoryName: categoryName,
+      Icon: icon,
+      TypeID: type,
+    });
+
+    // update sub categories of category
+    //const addedSubCategories = addedSubCategories;
+    //const editedSubCategories = editedSubCategories;
+    const userSubcategoryRef = userCategoryRef
+      .child(category.key)
+      .child("SubCategories/");
+
+    // add new subs
+    addedSubCategories.map((item) => {
+      userSubcategoryRef.push({
+        CategoryName: item.categoryName,
+        Icon: item.icon,
+        IsDeleted: item.isDeleted,
+      });
+    });
+
+    // update edited subs
+    editedSubCategories.map((item) => {
+      userSubcategoryRef.child(item.key).update({
+        CategoryName: item.categoryName,
+        Icon: item.icon,
+        IsDeleted: item.isDeleted,
+      });
+    });
+
+    dispatch(reloadAddedSubCategories());
+    dispatch(reloadEditedSubCategories());
+
+    // exit this screen
+    navigation.goBack();
+  };
+
+  const deleteCategory = () => {
+    // edit isDeleted
+    const userCategoryRef = userRef.child(user.uid).child("Category");
+
+    const category = chosenCategory;
+    //console.log(this.props.chosenCategory);
+    userCategoryRef.child(category.key).update({
+      CategoryName: category.categoryName,
+      Icon: category.icon,
+      IsDeleted: true,
+    });
+
+    // exit this screen
+    navigation.goBack();
+  };
+
+  const openIcon = () => {
+    // reset selectedIndex whenever open icon dialog
+    // b/c if choose icon and close dialog, without reseting, selectedIndex != editIndex (expect ==)
+    dispatch(selectIcon(selectedIcon.editIndex));
+    dispatch(openIconDialog());
+  };
+
+  const openAddSubDialog = () => {
+    dispatch(workWithSubCategory());
+    // ??
+    setDeleteBtnName("");
+
+    dispatch(DeselectSubAction());
+    dispatch(editSubName(""));
+
+    dispatch(openDialog());
+  };
+
+  const openEditSubDialog = (subCategory) => {
+    dispatch(workWithSubCategory());
+    setDeleteBtnName("Xóa");
+
+    const subIconIndex = getIndex(subCategory.icon);
+    dispatch(setSubIcon(subIconIndex));
+    dispatch(selectIcon(subIconIndex));
+    dispatch(editSubName(subCategory.categoryName));
+    dispatch(SelectSubAction(subCategory));
+
+    dispatch(openDialog());
+  };
+
+  return (
+    <ScreenView>
+      {/* <ChooseIconDialog /> */}
+      <View
+        style={{
+          justifyContent: "center",
+          alignContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Space />
+        <Space />
+        <Space />
+        <TouchableOpacity
+          onPress={() => {
+            openIcon();
+          }}
+        >
+          <Avatar
+            size={sizeFactor * 6}
+            avatarStyle={{
+              width: sizeFactor * 4.5,
+              height: sizeFactor * 4.5,
+              marginLeft: sizeFactor * 0.75,
+              marginTop: sizeFactor * 0.75,
+            }}
+            source={iconPath}
+          >
+            <Accessory size={sizeFactor * 1.75} />
+          </Avatar>
+        </TouchableOpacity>
+      </View>
+      <Title style={{ marginLeft: sizeFactor * 1.5 }}>Chi tiết danh mục</Title>
+      <RoundedView>
+        <String style={{ fontWeight: "bold" }}>Tên danh mục</String>
+        <TextInput
+          style={styles.inputText}
+          placeholder="Danh mục của tôi"
+          value={categoryName}
+          onChangeText={(text) => dispatch(changeName(text))}
+        />
+        <Space />
+        <String style={{ fontWeight: "bold" }}>Mục đích</String>
+        <AddWalletKindSelect
+          selectedIndex={selectedType}
+          buttons={["Vay/Trả", "Chi tiêu", "Thu nhập"]}
+          onPress={(index) => dispatch(changeType(index))}
+        />
+        <Space />
+        <String style={{ fontWeight: "bold" }}>Danh mục con</String>
+        <Swipeout style={{ marginBottom: sizeFactor / 2 }} {...swipeSettings}>
+          <SubCategoriesView />
+        </Swipeout>
+        <TouchableOpacity onPress={() => openAddSubDialog()}>
+          <View
+            style={{
+              backgroundColor: "white",
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
+            <Avatar
+              size={sizeFactor * 3}
+              avatarStyle={{
+                width: sizeFactor * 2.5,
+                height: sizeFactor * 2.5,
+                marginTop: sizeFactor * 0.25,
+                marginLeft: sizeFactor * 0.25,
+              }}
+              source={require("../../assets/categories/themdanhmuccon.png")}
+            ></Avatar>
+            <String
+              style={{
+                marginLeft: sizeFactor / 2,
+                marginTop: sizeFactor * 0.75,
+              }}
+            >
+              Thêm danh mục con
+            </String>
+          </View>
+        </TouchableOpacity>
+      </RoundedView>
+      <Space />
+      <Button
+        color="white"
+        backgroundColor={colors.blue}
+        style={{ marginHorizontal: sizeFactor }}
+        onPress={() => updateCategory()}
+      >
+        Lưu thay đổi
+      </Button>
+      <Button
+        color="white"
+        backgroundColor={colors.red}
+        style={{ marginHorizontal: sizeFactor }}
+        onPress={() => deleteCategory()}
+      >
+        Xóa danh mục
+      </Button>
+      {/* <AddSubcategoryDialog
+                  deleteBtn_name={this.state.deleteBtn_name}
+              ></AddSubcategoryDialog> */}
+    </ScreenView>
+  );
+};
+
+class EditCategoryScree extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -232,7 +513,7 @@ class EditCategoryScreen extends Component {
 
     return (
       <ScreenView>
-        <ChooseIconDialog />
+        {/* <ChooseIconDialog /> */}
         <View
           style={{
             justifyContent: "center",
@@ -334,9 +615,9 @@ class EditCategoryScreen extends Component {
         >
           Xóa danh mục
         </Button>
-        <AddSubcategoryDialog
-          deleteBtn_name={this.state.deleteBtn_name}
-        ></AddSubcategoryDialog>
+        {/* <AddSubcategoryDialog
+                    deleteBtn_name={this.state.deleteBtn_name}
+                ></AddSubcategoryDialog> */}
       </ScreenView>
     );
   }
