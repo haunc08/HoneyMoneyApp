@@ -105,6 +105,26 @@ class SettingScreen extends Component {
           />
           <SettingRow
             color={colors.green}
+            iconName="currency-cny"
+            text="Chuyển đổi ngoại tệ"
+            onPress={() => {
+              this.props.navigation.navigate("SettingNavigator", {
+                screen: "ExchangeScreen",
+              });
+            }}
+          />
+          <SettingRow
+            color={colors.green}
+            iconName="currency-cny"
+            text="Tính lãi suất nâng cao"
+            onPress={() => {
+              this.props.navigation.navigate("SettingNavigator", {
+                screen: "InterestScreen",
+              });
+            }}
+          />
+          <SettingRow
+            color={colors.green}
             iconName="package-variant"
             text="Quản lý danh mục"
             onPress={() => {

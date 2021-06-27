@@ -7,8 +7,9 @@ import { firebase, userRef } from "../../database";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 // redux
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector, connect } from "react-redux";
 import {
+  changeName,
   changeType,
   openDialog,
   openIconDialog,
@@ -16,6 +17,7 @@ import {
   closeIconDialog,
   clearSearchText,
   workWithSubCategory,
+  chooseCategory,
 } from "../../redux/actions";
 
 // other packages
@@ -34,8 +36,8 @@ import {
 } from "../../components/Basic";
 
 import IconImage, { findIcon } from "../../assets";
-//import AddSubcategoryDialog from "../components/AddSubcategoryDialog";
-//import ChooseIconDialog from '../components/ChooseIconDialog';
+import AddSubcategoryDialog from "../../components/AddSubcategoryDialog";
+import ChooseIconDialog from "../../components/ChooseIconDialog";
 
 // constants
 import { colors, sizeFactor, styles } from "../../constants";

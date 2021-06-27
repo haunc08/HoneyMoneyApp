@@ -6,53 +6,65 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 // screens
 import {
-    SettingScreen,
-    SettingAlertScreen,
-    SettingNameScreen,
-    SettingPasswordScreen,
-    BudgetScreen
-}
-from "../screens"
+  SettingScreen,
+  SettingAlertScreen,
+  SettingNameScreen,
+  SettingPasswordScreen,
+  BudgetScreen,
+  ExchangeScreen,
+  InterestScreen,
+} from "../screens";
 
 // navigators
-import CategoryNavigator from './CategoryNavigator';
+import CategoryNavigator from "./CategoryNavigator";
 
 const SettingStack = createStackNavigator();
 
 export default class SettingScreensNavigator extends Component {
-    render() {
-        return (
-            <SettingStack.Navigator>
-                <SettingStack.Screen
-                    name="SettingScreen"
-                    component={SettingScreen}
-                    options={{ headerShown: false }}
-                />
-                <SettingStack.Screen
-                    name="SettingNameScreen"
-                    component={SettingNameScreen}
-                    options={{ headerShown: false, title: "" }}
-                />
-                <SettingStack.Screen
-                    name="SettingPasswordScreen" 
-                    component={SettingPasswordScreen} 
-                    options={{headerShown: false, title: ""}}/>
-                <SettingStack.Screen
-                    name="SettingAlertScreen"
-                    component={SettingAlertScreen}
-                    options={{ headerShown: false, title: "" }}
-                />
-                <SettingStack.Screen
-                    name="CategoryNavigator"
-                    component={CategoryNavigator}
-                    options={{ headerShown: false, title: "" }}
-                />
-                <SettingStack.Screen
-                    name="BudgetScreen"
-                    component={BudgetScreen}
-                    options={{ headerShown: false, title: "" }}
-                />
-            </SettingStack.Navigator>
-        );
-    }
+  render() {
+    return (
+      <SettingStack.Navigator>
+        <SettingStack.Screen
+          name="SettingScreen"
+          component={SettingScreen}
+          options={{ headerShown: false }}
+        />
+        <SettingStack.Screen
+          name="SettingNameScreen"
+          component={SettingNameScreen}
+          options={{ headerShown: false, title: "" }}
+        />
+        <SettingStack.Screen
+          name="SettingPasswordScreen"
+          component={SettingPasswordScreen}
+          options={{ headerShown: false, title: "" }}
+        />
+        <SettingStack.Screen
+          name="SettingAlertScreen"
+          component={SettingAlertScreen}
+          options={{ headerShown: false, title: "" }}
+        />
+        <SettingStack.Screen
+          name="CategoryNavigator"
+          component={CategoryNavigator}
+          options={{ headerShown: false, title: "" }}
+        />
+        <SettingStack.Screen
+          name="BudgetScreen"
+          component={BudgetScreen}
+          options={{ headerShown: false, title: "" }}
+        />
+        <SettingStack.Screen
+          name="ExchangeScreen"
+          component={ExchangeScreen}
+          options={{ headerShown: false, title: "" }}
+        />
+        <SettingStack.Screen
+          name="InterestScreen"
+          component={InterestScreen}
+          options={{ headerShown: false, title: "" }}
+        />
+      </SettingStack.Navigator>
+    );
+  }
 }

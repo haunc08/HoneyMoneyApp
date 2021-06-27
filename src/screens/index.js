@@ -11,6 +11,8 @@ import SettingAlertScreen from "./setting/SettingAlertScreen";
 import SettingNameScreen from "./setting/SettingNameScreen";
 import SettingPasswordScreen from "./setting/SettingPasswordScreen";
 import SettingScreen from "./setting/SettingScreen";
+import ExchangeScreen from "./setting/ExchangeScreen";
+import InterestScreen from "./setting/InterestScreen";
 import AddTransactionScreen from "./transaction/AddTransactionScreen";
 import TransactionScreen from "./transaction/TransactionScreen";
 import EditTransactionScreen from "./transaction/EditTransactionScreen";
@@ -32,6 +34,7 @@ export {
   SettingAlertScreen,
   SettingNameScreen,
   SettingPasswordScreen,
+  ExchangeScreen,
   SettingScreen,
   AddTransactionScreen,
   TransactionScreen,
@@ -40,4 +43,5 @@ export {
   EditWalletScreen,
   WalletScreen,
   WalletTransferScreen,
+  InterestScreen,
 };
