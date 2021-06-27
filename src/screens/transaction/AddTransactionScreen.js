@@ -365,7 +365,7 @@ export class AddTransactionScreen extends Component {
     };
 
     addNewTransaction = () => {
-        if (!this.props.selectedCategory || !this.props.newSoDu) {
+        if (this.props.selectedCategory.key == "" || !this.props.newSoDu) {
             Alert.alert(
                 "Thông báo",
                 "Thông tin không hợp lệ",
