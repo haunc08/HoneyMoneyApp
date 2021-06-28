@@ -14,6 +14,9 @@ import subCategoriesReducer from "./category/subCategoriesReducer";
 import editableButtonGroupReducer from "./category/editableButtonGroupReducer";
 import editedSubCategoriesReducer from "./category/editedSubCategoriesReducer";
 import isVisibleReducer from "./category/isVisibleReducer";
+import isVisibleIconDialogReducer from "./category/isVisibleIconDialogReducer";
+import subcategoryNameReducer from "./category/subcategoryNameReducer";
+import isWorkingWithSubReducer from "./category/isWorkingWithSubReducer";
 //wallet reducers
 import WalletReducer from "./wallet/WalletReducer";
 import selectedWalletReducer from "./wallet/selectedWalletReducer";
@@ -53,6 +56,9 @@ const allReducers = combineReducers({
   editedSubCategories: editedSubCategoriesReducer,
   isVisible: isVisibleReducer,
   userName: userNameReducer,
+  isVisibleIconDialog: isVisibleIconDialogReducer,
+  subcategoryName: subcategoryNameReducer,
+  isWorkingWithSub: isWorkingWithSubReducer,
   //Hau
 });
 
