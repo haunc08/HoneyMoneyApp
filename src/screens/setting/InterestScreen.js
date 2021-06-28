@@ -14,6 +14,7 @@ import {
   ScreenView,
   HomoTextInput,
   Button1,
+  Button2,
   Space,
 } from "../../components/Basic";
 
@@ -22,45 +23,66 @@ import { colors, sizeFactor, styles, windowWidth } from "../../constants";
 import { Picker } from "react-native";
 import { ButtonGroup } from "react-native-elements";
 import { TextInput } from "react-native";
-
-const API_KEY = "1ec65cb486056ac5fbf5a45fb5dd9eee";
+import toMoneyString, { FloatToMoney } from "../../components/toMoneyString";
 
 export const InterestScreen = () => {
-  const currencies = ["VND", "USD", "EUR", "JPY", "AUD"];
-  const [loading, setLoading] = useState(true);
-  const [from, setFrom] = useState(0);
-  const [to, setTo] = useState(1);
-  const [convertedAmount, setConvertedAmount] = useState(-1);
-  const [amount, setAmount] = useState();
-  const calculate = () => {
-    if (!amount) return null;
-    try {
-      fetch(
-        `http://api.exchangeratesapi.io/v1/latest?access_key=${API_KEY}&symbols=USD,AUD,GBP,JPY,CNY,VND&format=1`
-        // `https://raw.githubusercontent.com/adhithiravi/React-Hooks-Examples/master/testAPI.json`
-      )
-        .then((response) => response.json())
-        .then((json) => {
-          if (currencies[from] === "EUR") {
-            setConvertedAmount(amount * json.rates[currencies[to]]);
-            return;
-          }
-          if (currencies[to] === "EUR") {
-            setConvertedAmount(amount / json.rates[currencies[from]]);
-            return;
-          }
-          setConvertedAmount(
-            (amount * json.rates[currencies[to]]) / json.rates[currencies[from]]
-          );
-        })
-        .catch((error) => console.error(error))
-        .finally(() => setLoading(false));
-    } catch (error) {
-      Alert.alert(
-        "Đã có lỗi xảy ra",
-        "Vui lòng kiểm tra lại internet và dữ liệu đã nhập."
-      );
+  const modes = ["Lãi suất thường", "Lãi suất kép"];
+  const [mode, setMode] = useState(0);
+  const [amount, setAmount] = useState("");
+  const [duration, setDuration] = useState("");
+  const [rate, setRate] = useState("");
+  const [frequency, setFrequency] = useState("");
+  const [result, setResult] = useState("");
+
+  const calculateNormal = () => {
+    Alert.alert(FloatToMoney(1000000.555));
+    if (amount && duration && rate) {
+      const res =
+        (((parseFloat(amount) * parseFloat(rate)) / 100) *
+          parseFloat(duration)) /
+        12;
+      setResult(toMoneyString(res.toString()));
+    } else Alert.alert("Thông báo", "Bạn chưa nhập đủ thông tin");
+  };
+
+  const calculateAdvanced = () => {
+    if (amount && duration && rate && frequency) {
+      const res =
+        parseFloat(amount) *
+          Math.pow(
+            1 + parseFloat(rate) / 100 / parseFloat(frequency),
+            parseFloat(duration) * parseFloat(frequency)
+          ) -
+        parseFloat(amount);
+      setResult(toMoneyString(res.toString()));
+    } else Alert.alert("Thông báo", "Bạn chưa nhập đủ thông tin");
+  };
+
+  const config = (mode) => {
+    switch (mode) {
+      case 0: {
+        return {
+          durationLabel: "Kỳ hạn (tháng)",
+          durationPlaceHolder: "Nhập số tháng",
+          calFunction: () => calculateNormal(),
+        };
+      }
+      case 1: {
+        return {
+          durationLabel: "Số năm",
+          durationPlaceHolder: "Nhập số năm",
+          calFunction: () => calculateAdvanced(),
+        };
+      }
     }
+  };
+
+  const resetFields = () => {
+    setAmount("");
+    setDuration("");
+    setRate("");
+    setResult("");
+    setFrequency("");
   };
 
   return (
@@ -73,7 +95,7 @@ export const InterestScreen = () => {
         }}
       >
         <Image
-          source={require("../../assets/others/exchange.png")}
+          source={require("../../assets/others/interest.png")}
           style={[
             styles.hugeCategory,
             {
@@ -86,9 +108,18 @@ export const InterestScreen = () => {
         />
 
         <String style={{ fontWeight: "bold", fontSize: sizeFactor * 1.5 }}>
-          Chuyển đổi ngoại tệ
+          Tính lãi suất
         </String>
       </View>
+      <ButtonGroup
+        containerStyle={{ marginTop: -10, marginHorizontal: sizeFactor * 3 }}
+        onPress={(index) => {
+          resetFields();
+          setMode(index);
+        }}
+        selectedIndex={mode}
+        buttons={modes}
+      />
       <View
         style={{
           alignItems: "center",
@@ -97,7 +128,7 @@ export const InterestScreen = () => {
         }}
       >
         <HomoTextInput
-          label="Tiền tệ gốc"
+          label="Số tiền gửi"
           placeholder="Nhập số tiền"
           keyboardType="decimal-pad"
           value={amount}
@@ -105,47 +136,65 @@ export const InterestScreen = () => {
             setAmount(value);
           }}
         />
-        <ButtonGroup
-          containerStyle={{ marginTop: -10 }}
-          onPress={(index) => {
-            setFrom(index);
-          }}
-          selectedIndex={from}
-          buttons={currencies}
-          disabled={[to]}
-          // containerStyle={{ width: windowWidth - sizeFactor * 6 }}
-        />
-        <Space loose />
+
         <HomoTextInput
-          label="Tiền tệ đích"
-          placeholder=""
+          label={config(mode).durationLabel}
+          placeholder={config(mode).durationPlaceHolder}
           keyboardType="decimal-pad"
-          value={convertedAmount.toString()}
-        />
-        <ButtonGroup
-          containerStyle={{ marginTop: -10 }}
-          onPress={(index) => {
-            setTo(index);
+          value={duration}
+          onChangeText={(value) => {
+            setDuration(value);
           }}
-          selectedIndex={to}
-          buttons={currencies}
-          disabled={[from]}
-          // containerStyle={{ width: windowWidth - sizeFactor * 6 }}
+        />
+
+        <HomoTextInput
+          label="Lãi suất hàng năm"
+          placeholder="Nhập % năm"
+          keyboardType="decimal-pad"
+          value={rate}
+          onChangeText={(value) => {
+            setRate(value);
+          }}
+        />
+        {mode === 1 && (
+          <HomoTextInput
+            label="Số lần ghép lãi trong năm"
+            placeholder="Số lần"
+            keyboardType="decimal-pad"
+            value={frequency}
+            onChangeText={(value) => {
+              setFrequency(value);
+            }}
+          />
+        )}
+        <HomoTextInput
+          labelStyle={{ color: colors.blue }}
+          inputStyle={{ color: colors.blue }}
+          label="Tiền lãi cuối kì"
+          placeholder="Tiền lãi"
+          keyboardType="decimal-pad"
+          value={result}
         />
       </View>
       <View
         style={{
           alignItems: "stretch",
           marginHorizontal: sizeFactor * 3,
-          marginVertical: sizeFactor * 2,
         }}
       >
-        <Button1
+        <Button2
           onPress={() => {
-            calculate();
+            resetFields();
           }}
         >
-          Chuyển đổi
+          Nhập lại
+        </Button2>
+        <Button1
+          onPress={() => {
+            config(mode).calFunction();
+          }}
+        >
+          Tính
         </Button1>
       </View>
     </ScreenView>

@@ -14,6 +14,7 @@ import {
   ScreenView,
   HomoTextInput,
   Button1,
+  Button2,
   Space,
 } from "../../components/Basic";
 
@@ -30,10 +31,10 @@ export const ExchangeScreen = () => {
   const [loading, setLoading] = useState(true);
   const [from, setFrom] = useState(0);
   const [to, setTo] = useState(1);
-  const [convertedAmount, setConvertedAmount] = useState(-1);
+  const [convertedAmount, setConvertedAmount] = useState("");
   const [amount, setAmount] = useState();
-  const calculate = () => {
-    if (!amount) return null;
+  const calculate = async (value, fromCurerncy, toCurrency) => {
+    if (!value) return null;
     try {
       fetch(
         `http://api.exchangeratesapi.io/v1/latest?access_key=${API_KEY}&symbols=USD,AUD,GBP,JPY,CNY,VND&format=1`
@@ -41,16 +42,17 @@ export const ExchangeScreen = () => {
       )
         .then((response) => response.json())
         .then((json) => {
-          if (currencies[from] === "EUR") {
-            setConvertedAmount(amount * json.rates[currencies[to]]);
+          if (currencies[fromCurerncy] === "EUR") {
+            setConvertedAmount(value * json.rates[currencies[toCurrency]]);
             return;
           }
-          if (currencies[to] === "EUR") {
-            setConvertedAmount(amount / json.rates[currencies[from]]);
+          if (currencies[toCurrency] === "EUR") {
+            setConvertedAmount(value / json.rates[currencies[fromCurerncy]]);
             return;
           }
           setConvertedAmount(
-            (amount * json.rates[currencies[to]]) / json.rates[currencies[from]]
+            (value * json.rates[currencies[toCurrency]]) /
+              json.rates[currencies[fromCurerncy]]
           );
         })
         .catch((error) => console.error(error))
@@ -108,7 +110,11 @@ export const ExchangeScreen = () => {
         <ButtonGroup
           containerStyle={{ marginTop: -10 }}
           onPress={(index) => {
-            setFrom(index);
+            if (index !== from) {
+              setFrom(index);
+              setAmount("");
+              setConvertedAmount("");
+            }
           }}
           selectedIndex={from}
           buttons={currencies}
@@ -118,14 +124,19 @@ export const ExchangeScreen = () => {
         <Space loose />
         <HomoTextInput
           label="Tiền tệ đích"
-          placeholder=""
+          placeholder="Số tiền quy đổi"
           keyboardType="decimal-pad"
           value={convertedAmount.toString()}
+          labelStyle={{ color: colors.blue }}
+          inputStyle={{ color: colors.blue }}
         />
         <ButtonGroup
           containerStyle={{ marginTop: -10 }}
           onPress={(index) => {
-            setTo(index);
+            if (index !== to) {
+              setTo(index);
+              setConvertedAmount("");
+            }
           }}
           selectedIndex={to}
           buttons={currencies}
@@ -140,9 +151,23 @@ export const ExchangeScreen = () => {
           marginVertical: sizeFactor * 2,
         }}
       >
+        <Button2
+          onPress={async () => {
+            if (convertedAmount.toString()) {
+              const temp = convertedAmount.toString();
+              await calculate(convertedAmount, to, from);
+              setAmount(temp);
+            }
+            const temp2 = to;
+            setTo(from);
+            setFrom(temp2);
+          }}
+        >
+          Đổi chiều
+        </Button2>
         <Button1
           onPress={() => {
-            calculate();
+            calculate(amount, from, to);
           }}
         >
           Chuyển đổi
