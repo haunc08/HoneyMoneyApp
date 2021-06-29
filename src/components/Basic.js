@@ -95,7 +95,9 @@ export class HomoTextInput extends Component {
           color: colors.gray,
         }}
         labelStyle={{ color: colors.gray }}
-        leftIconContainerStyle={{ marginRight: sizeFactor / 2 }}
+        leftIconContainerStyle={{
+          marginRight: this.props.leftIconName ? sizeFactor / 2 : 0,
+        }}
         containerStyle={styles.homoTextInputContainerStyle}
         inputContainerStyle={styles.homoTextInputInputContainerStyle}
         errorStyle={styles.homoTextInputErrorStyle}
@@ -836,7 +838,14 @@ export class LooseDivider extends Component {
 
 export class Space extends Component {
   render() {
-    return <View style={{ height: 0, marginBottom: sizeFactor / 2 }} />;
+    return (
+      <View
+        style={{
+          height: 0,
+          marginBottom: this.props.loose ? sizeFactor * 2 : sizeFactor / 2,
+        }}
+      />
+    );
   }
 }
 

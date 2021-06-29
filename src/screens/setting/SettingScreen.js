@@ -42,7 +42,7 @@ class SettingScreen extends Component {
       .auth()
       .signOut()
       .then(() => {
-        console.log(firebase.auth().currentUser);
+        //console.log(firebase.auth().currentUser);
         console.log(this.props.isSignedIn);
       })
       .catch((error) => this.setState({ errorMessage: error.message }));
@@ -105,6 +105,26 @@ class SettingScreen extends Component {
           />
           <SettingRow
             color={colors.green}
+            iconName="currency-cny"
+            text="Chuyển đổi ngoại tệ"
+            onPress={() => {
+              this.props.navigation.navigate("SettingNavigator", {
+                screen: "ExchangeScreen",
+              });
+            }}
+          />
+          <SettingRow
+            color={colors.green}
+            iconName="currency-cny"
+            text="Tính lãi suất nâng cao"
+            onPress={() => {
+              this.props.navigation.navigate("SettingNavigator", {
+                screen: "InterestScreen",
+              });
+            }}
+          />
+          <SettingRow
+            color={colors.green}
             iconName="package-variant"
             text="Quản lý danh mục"
             onPress={() => {
@@ -120,7 +140,7 @@ class SettingScreen extends Component {
             text="Quản lí hạn mức"
             onPress={() =>
               this.props.navigation.navigate("SettingNavigator", {
-                screen: "BudgetScreen",
+                screen: "BudgetNavigator",
               })
             }
           />

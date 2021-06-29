@@ -6,53 +6,66 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 // screens
 import {
-    SettingScreen,
-    SettingAlertScreen,
-    SettingNameScreen,
-    SettingPasswordScreen,
-    BudgetScreen
-}
-from "../screens"
+  SettingScreen,
+  SettingAlertScreen,
+  SettingNameScreen,
+  SettingPasswordScreen,
+  BudgetScreen,
+  ExchangeScreen,
+  InterestScreen,
+} from "../screens";
 
 // navigators
-import CategoryNavigator from './CategoryNavigator';
+import CategoryNavigator from "./CategoryNavigator";
+import BudgetNavigator from "./BudgetNavigator";
 
 const SettingStack = createStackNavigator();
 
 export default class SettingScreensNavigator extends Component {
-    render() {
-        return (
-            <SettingStack.Navigator>
-                <SettingStack.Screen
-                    name="SettingScreen"
-                    component={SettingScreen}
-                    options={{ headerShown: false }}
-                />
-                <SettingStack.Screen
-                    name="SettingNameScreen"
-                    component={SettingNameScreen}
-                    options={{ headerShown: false, title: "" }}
-                />
-                <SettingStack.Screen
-                    name="SettingPasswordScreen" 
-                    component={SettingPasswordScreen} 
-                    options={{headerShown: false, title: ""}}/>
-                <SettingStack.Screen
-                    name="SettingAlertScreen"
-                    component={SettingAlertScreen}
-                    options={{ headerShown: false, title: "" }}
-                />
-                <SettingStack.Screen
-                    name="CategoryNavigator"
-                    component={CategoryNavigator}
-                    options={{ headerShown: false, title: "" }}
-                />
-                <SettingStack.Screen
-                    name="BudgetScreen"
-                    component={BudgetScreen}
-                    options={{ headerShown: false, title: "" }}
-                />
-            </SettingStack.Navigator>
-        );
-    }
+  render() {
+    return (
+      <SettingStack.Navigator>
+        <SettingStack.Screen
+          name="SettingScreen"
+          component={SettingScreen}
+          options={{ headerShown: false }}
+        />
+        <SettingStack.Screen
+          name="SettingNameScreen"
+          component={SettingNameScreen}
+          options={{ title: "Thông tin người dùng" }}
+        />
+        <SettingStack.Screen
+          name="SettingPasswordScreen"
+          component={SettingPasswordScreen}
+          options={{ title: "Thay đổi mật khẩu" }}
+        />
+        <SettingStack.Screen
+          name="SettingAlertScreen"
+          component={SettingAlertScreen}
+          options={{ title: "Thông báo" }}
+        />
+        <SettingStack.Screen
+          name="CategoryNavigator"
+          component={CategoryNavigator}
+          options={{ title: "Quản lý danh mục" }}
+        />
+        <SettingStack.Screen
+          name="BudgetNavigator"
+          component={BudgetNavigator}
+          options={{ title: "Quản lý hạn mức" }}
+        />
+        <SettingStack.Screen
+          name="ExchangeScreen"
+          component={ExchangeScreen}
+          options={{ title: "Chuyển đổi ngoại tệ" }}
+        />
+        <SettingStack.Screen
+          name="InterestScreen"
+          component={InterestScreen}
+          options={{ title: "Tính lãi suất nâng cao" }}
+        />
+      </SettingStack.Navigator>
+    );
+  }
 }

@@ -1,5 +1,5 @@
 // react
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import {
     View,
     ScrollView,
@@ -7,7 +7,6 @@ import {
 } from "react-native";
 
 // firebase
-//import * as firebase from "firebase";
 import { firebase, userRef } from "../../database";
 
 // redux
@@ -48,7 +47,7 @@ import { sizeFactor } from "../../constants";
 // assets
 import { findIcon, getIndex } from "../../assets";
 
-class CategoriesScreen extends Component {
+class CategoryScreen extends Component {
     _isMounted = false;
 
     constructor() {
@@ -344,4 +343,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CategoriesScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(CategoryScreen);
