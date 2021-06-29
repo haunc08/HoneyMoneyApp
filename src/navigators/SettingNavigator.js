@@ -17,6 +17,7 @@ import {
 
 // navigators
 import CategoryNavigator from "./CategoryNavigator";
+import BudgetNavigator from "./BudgetNavigator";
 
 const SettingStack = createStackNavigator();
 
@@ -50,8 +51,8 @@ export default class SettingScreensNavigator extends Component {
           options={{ headerShown: false, title: "" }}
         />
         <SettingStack.Screen
-          name="BudgetScreen"
-          component={BudgetScreen}
+          name="BudgetNavigator"
+          component={BudgetNavigator}
           options={{ headerShown: false, title: "" }}
         />
         <SettingStack.Screen

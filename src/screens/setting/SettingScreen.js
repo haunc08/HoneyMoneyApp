@@ -140,7 +140,7 @@ class SettingScreen extends Component {
             text="Quản lí hạn mức"
             onPress={() =>
               this.props.navigation.navigate("SettingNavigator", {
-                screen: "BudgetScreen",
+                screen: "BudgetNavigator",
               })
             }
           />
