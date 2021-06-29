@@ -60,7 +60,25 @@ class TransactionsScreen extends Component {
       parseInt(parts[0], 10)
     );
   }
-  getDataAll() {
+  toString(date) {
+    var day = date.getDate(); //Current Date
+    var month = date.getMonth() + 1; //Current Month
+    var year = date.getFullYear(); //Current Year
+    var fulldate;
+    if (day < 10) {
+        fulldate = "0" + day;
+    } else {
+        fulldate = day;
+    }
+    if (month < 10) {
+        fulldate = fulldate + "/" + "0" + month;
+    } else {
+        fulldate = fulldate + "/" + month;
+    }
+    fulldate = fulldate + "/" + year;
+    return fulldate;
+  }
+  getDataAll(isTrigger) {
     var temp = [];
     this.props.walletData.forEach((element) => {
       if (
@@ -71,6 +89,45 @@ class TransactionsScreen extends Component {
           //console.log(transaction)
           if((element.transactionList[transaction].category.key == this.state.categorychoose && this.state.categorychoose != -1 || this.state.categorychoose == -1))
           {
+            //moi them vao 29/06
+            if(isTrigger)
+            {
+              var newdate = this.toDate(element.transactionList[transaction].date)
+              newdate.setMonth(newdate.getMonth()+1)
+
+              if(element.transactionList[transaction].isLoopNextMonth && newdate < new Date())
+              {
+                var wallet = element;
+                let uid = "none";
+                if (firebase.auth().currentUser) {
+                    uid = firebase.auth().currentUser.uid;
+                }
+            
+                const userWalletRef = userRef.child(uid).child("Wallet");
+                userWalletRef
+                    .child(wallet.key)
+                    .child("transactionList")
+                    .child(transaction)
+                    .update({
+                      isLoopNextMonth: false,
+                    });
+                userWalletRef
+                    .child(wallet.key)
+                    .child("transactionList")
+                    .push()
+                    .set({
+                        category: element.transactionList[transaction].category,
+                        subCategory: element.transactionList[transaction].subCategory,
+                        money: element.transactionList[transaction].money,
+                        date: this.toString(newdate),
+                        note:element.transactionList[transaction].note,
+                        isLoopNextMonth: true,
+                        //isCreatedLoop: false,
+                  }); 
+                
+              }
+            }
+            //end new code
             var tempInfo = {
               date: element.transactionList[transaction].date,
               money: element.transactionList[transaction].money,
@@ -86,9 +143,9 @@ class TransactionsScreen extends Component {
     });
   }
 
-  getMonthList() {
+  getMonthList(isTrigger) {
     var monthlist = [];
-    var data = this.getDataAll();
+    var data = this.getDataAll(isTrigger);
     if (data[0] === undefined) {
       return [];
     }
@@ -495,9 +552,9 @@ class TransactionsScreen extends Component {
   }
   getTransactionFullListData(offsetIndex) {
     var x = Math.ceil(offsetIndex) / Math.ceil(windowWidth - 2 * sizeFactor);
-    if (this.getMonthList().length == 0) return [];
+    if (this.getMonthList(false).length == 0) return [];
     if (Math.ceil(offsetIndex) % Math.ceil(windowWidth - 2 * sizeFactor) == 0) {
-      var monthcode = this.getMonthList()[x].index;
+      var monthcode = this.getMonthList(false)[x].index;
       var m = monthcode % 12;
       var y = monthcode / 12;
       if (m == 0) {
@@ -566,7 +623,7 @@ class TransactionsScreen extends Component {
             ref={(ref) => {
               this.flatListRef = ref;
             }}
-            data={this.getMonthList()}
+            data={this.getMonthList(true)}
             scrollEnabled={false}
             horizontal={true}
             keyExtractor={(item) => item.index}
@@ -600,7 +657,7 @@ class TransactionsScreen extends Component {
 const mapStateToProps = (state) => {
   return {
     walletData: state.WalletReducer,
-    //selectedWallet: state.selectedWalletReducer,
+    selectedWallet: state.selectedWalletReducer,
     allCategories: state.allCategories,
     //Thang new
     selectedCategory: state.chosenCategory,

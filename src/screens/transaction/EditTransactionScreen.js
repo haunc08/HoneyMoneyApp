@@ -62,6 +62,7 @@ import {
 } from "../../components/DataConnect";
 
 import { Alert } from "react-native";
+import { Switch } from "react-native";
 
 export class EditTransactionScreen extends Component {
     _isMounted = false;
@@ -72,6 +73,7 @@ export class EditTransactionScreen extends Component {
             //selectedTenVi: this.props.route.params?.walletName ?? '',
             //defaultColor: this.props.route.params?.walletColor ?? colors.blue,
             fulllist: false,
+            isLoop: false,
         };
     }
     toDate(datestring) {
@@ -170,7 +172,7 @@ export class EditTransactionScreen extends Component {
         this.props.changeDate(this.toDate(trans.date));
         this.props.chooseCategory(categories.filter((item) => item.key == trans.category.key)[0]);
 
-        this.setState({ note: trans.note });
+        this.setState({ note: trans.note, isLoop: trans.isLoopNextMonth });
         //this.props.deselectCategory();
     }
 
@@ -379,6 +381,7 @@ export class EditTransactionScreen extends Component {
                 money: this.props.newSoDu,
                 date: this.toString(this.props.date),
                 note: this.state.note,
+                isLoopNextMonth: this.state.isLoop,
             });
         var category = this.props.selectedCategory;
 
@@ -578,6 +581,26 @@ export class EditTransactionScreen extends Component {
                             />
                         </View>
                     </TouchableOpacity>
+                </View>
+                <View style={{
+                        backgroundColor: "white",
+                        marginHorizontal: sizeFactor,
+                        borderRadius: sizeFactor,
+                        paddingTop: sizeFactor * 0.75,
+                        paddingBottom: sizeFactor,
+                        marginBottom: sizeFactor,
+                    }}>
+                    <View style={{ marginHorizontal: sizeFactor, flexDirection:"row", flex: 1 }}>
+                        <String style={{ fontWeight: "bold", color: this.props.selectedWallet.color, marginTop: 10, flex: 8}}>
+                            Lặp lại theo tháng
+                        </String>
+                        <Switch style={{flex:2}}
+                                value = {this.state.isLoop} onValueChange = {(value)=>{this.setState({isLoop: value})}}
+                                trackColor={{ false: "#767577", true: this.props.selectedWallet.color }}
+                                thumbColor={this.state.isLoop ? colors.grey4 : colors.grey5}>
+                            
+                        </Switch>
+                    </View>
                 </View>
                 <View
                     style={{

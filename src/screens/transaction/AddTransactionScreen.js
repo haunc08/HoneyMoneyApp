@@ -23,7 +23,7 @@ import {
     sizeFactor,
     styles,
 } from "../../constants"
-import { Icon} from "react-native-elements";
+import { colors, Icon} from "react-native-elements";
 import { findIcon } from "../../components/Image";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
@@ -60,6 +60,7 @@ import {
 } from "../../components/DataConnect";
 
 import { Alert } from "react-native";
+import { Switch } from "react-native";
 
 export class AddTransactionScreen extends Component {
     _isMounted = false;
@@ -71,6 +72,7 @@ export class AddTransactionScreen extends Component {
             //defaultColor: this.props.route.params?.walletColor ?? colors.blue,
             fulllist: false,
             typeID: this.props.route.params?.typeID,
+            isLoop: false,
         };
     }
     toString(date) {
@@ -384,6 +386,7 @@ export class AddTransactionScreen extends Component {
         if (firebase.auth().currentUser) {
             uid = firebase.auth().currentUser.uid;
         }
+
         const userWalletRef = userRef.child(uid).child("Wallet");
         userWalletRef
             .child(wallet.key)
@@ -395,6 +398,8 @@ export class AddTransactionScreen extends Component {
                 money: this.props.newSoDu,
                 date: this.toString(this.props.date),
                 note: this.state.note,
+                isLoopNextMonth: this.state.isLoop,
+                //isCreatedLoop: false,
             });
         var category = this.props.selectedCategory;
 
@@ -607,6 +612,26 @@ export class AddTransactionScreen extends Component {
                             />
                         </View>
                     </TouchableOpacity>
+                </View>
+                <View style={{
+                        backgroundColor: "white",
+                        marginHorizontal: sizeFactor,
+                        borderRadius: sizeFactor,
+                        paddingTop: sizeFactor * 0.75,
+                        paddingBottom: sizeFactor,
+                        marginBottom: sizeFactor,
+                    }}>
+                    <View style={{ marginHorizontal: sizeFactor, flexDirection:"row", flex: 1 }}>
+                        <String style={{ fontWeight: "bold", color: this.props.selectedWallet.color, marginTop: 10, flex: 8}}>
+                            Lặp lại theo tháng
+                        </String>
+                        <Switch style={{flex:2}}
+                                value = {this.state.isLoop} onValueChange = {(value)=>{this.setState({isLoop: value})}}
+                                trackColor={{ false: "#767577", true: this.props.selectedWallet.color }}
+                                thumbColor={this.state.isLoop ? colors.grey4 : colors.grey5}>
+                            
+                        </Switch>
+                    </View>
                 </View>
                 <View style={{ marginVertical: sizeFactor }}>
                     <OutlineButton
