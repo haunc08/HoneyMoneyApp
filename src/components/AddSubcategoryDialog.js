@@ -35,6 +35,8 @@ import {
   setSubIcon,
   DeselectSubAction,
   editSubName,
+  editSubCategory,
+  getSubCategories,
 } from "../redux/actions";
 
 class AddSubcategoryDialog extends Component {
@@ -54,22 +56,30 @@ class AddSubcategoryDialog extends Component {
     const name = this.props.subcategoryName;
 
     const subCategory = {
+      key: this.props.selectedSub?.key,
       categoryName: name,
       icon: IconImage[this.props.selectedIcon.subIndex].type,
+      isDeleted: false,
     };
 
-    if (this.props.selectedSub.key === "") {
+    if (this.props.selectedSub?.key === "" || !this.props.selectedSub) {
       // neu la them thi code day
       this.props.updateSubCategories(subCategory);
       this.props.addSubCategory(subCategory);
     } else {
       // day la code cho edit sub
-      console.log("X");
+      var subCategories = this.props.subCategories;
+      subCategories.forEach((item, index) => {
+        if (subCategory.key === item.key) {
+          subCategories[index] = subCategory;
+        }
+      });
+
+      this.props.getSubCategories(subCategories);
+      this.props.editSubCategory(subCategory);
     }
 
-    this.resetState();
-
-    this.props.closeDialog();
+    this.closeDialog();
     // đang tạo ra 1 state addedSub và mỗi lần nhấn đồng ý thì vừa thêm cate đó vô subs vừa thêm vô addedSubs
   };
 
@@ -165,7 +175,6 @@ function mapStateToProps(state) {
     selectedSub: state.selectedSubReducer,
     selectedIcon: state.selectedIcon,
     addedSubCategories: state.addedSubCategories,
-    selectedSub: state.selectedSubReducer,
     subcategoryName: state.subcategoryName,
   };
 }
@@ -198,6 +207,12 @@ function mapDispatchToProps(dispatch) {
     },
     editSubName: (name) => {
       dispatch(editSubName(name));
+    },
+    editSubCategory: (subCategory) => {
+      dispatch(editSubCategory(subCategory));
+    },
+    getSubCategories: (subCategories) => {
+      dispatch(getSubCategories(subCategories));
     },
   };
 }

@@ -42,7 +42,7 @@ class SettingScreen extends Component {
       .auth()
       .signOut()
       .then(() => {
-        console.log(firebase.auth().currentUser);
+        //console.log(firebase.auth().currentUser);
         console.log(this.props.isSignedIn);
       })
       .catch((error) => this.setState({ errorMessage: error.message }));
@@ -140,7 +140,7 @@ class SettingScreen extends Component {
             text="Quản lí hạn mức"
             onPress={() =>
               this.props.navigation.navigate("SettingNavigator", {
-                screen: "BudgetScreen",
+                screen: "BudgetNavigator",
               })
             }
           />

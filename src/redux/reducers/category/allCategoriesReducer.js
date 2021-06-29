@@ -25,8 +25,7 @@ const defaultCategories = () => {
       // console.log("ek " + element.toJSON().TypeID)
     });
   });
-  console.log(userCategoryRef);
-  console.log("###");
+  //console.log(userCategoryRef);
   return categories;
 };
 
