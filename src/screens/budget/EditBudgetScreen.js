@@ -72,7 +72,28 @@ const EditBudgetScreen = ({ route, navigation }) => {
     );
   };
 
-  const deleteBudget = () => {};
+  const deleteBudget = () => {
+    Alert.alert(
+      "Thông báo",
+      "Bạn có muốn xóa giới hạn mức chi cho danh mục này không?",
+      [
+        {
+          text: "OK",
+          onPress: () => {
+            const updatedCategory = { ...selectedCategory };
+            delete updatedCategory.key;
+            delete updatedCategory.budget;
+
+            // delete budget: set new obj without budget property
+            userCategoryRef.child(selectedCategory.key).set(updatedCategory);
+            console.log("deleted budget");
+            navigation.goBack();
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+  };
 
   return (
     <ScreenView
@@ -111,7 +132,7 @@ const EditBudgetScreen = ({ route, navigation }) => {
           keyboardType="number-pad"
           errorMessage=""
           style={{ width: windowWidth - sizeFactor * 4, margin: 0 }}
-          defaultValue={toMoneyString(selectedCategory?.budget)}
+          defaultValue={selectedCategory?.budget}
           onChangeText={setNewBudget}
         />
       </View>
@@ -123,7 +144,9 @@ const EditBudgetScreen = ({ route, navigation }) => {
         }}
       >
         <Button1 onPress={editBudget}>Xác nhận</Button1>
-        <Button3 style={{ color: colors.red }}>Xóa tiết kiệm</Button3>
+        <Button3 style={{ color: colors.red }} onPress={deleteBudget}>
+          Xóa tiết kiệm
+        </Button3>
       </View>
     </ScreenView>
   );
