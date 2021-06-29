@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View } from "react-native";
+import { View, Picker } from "react-native";
 import {
   ScreenView,
   TransactionMonthSummary,
@@ -15,6 +15,7 @@ import {
   SelectWallet,
   SelectTransaction,
   updateCategories,
+  chooseCategory,
 } from "../../redux/actions";
 import * as firebase from "firebase";
 import { findIcon } from "../../components/Image";
@@ -31,6 +32,7 @@ class TransactionsScreen extends Component {
       monthlist: [],
       offset: 0,
       firstscroll: 0,
+      categorychoose: -1,
     };
   }
   componentDidMount() {
@@ -67,12 +69,15 @@ class TransactionsScreen extends Component {
       ) {
         Object.keys(element.transactionList).forEach((transaction) => {
           //console.log(transaction)
-          var tempInfo = {
-            date: element.transactionList[transaction].date,
-            money: element.transactionList[transaction].money,
-            category: element.transactionList[transaction].category,
-          };
-          temp.push(tempInfo);
+          if((element.transactionList[transaction].category.key == this.state.categorychoose && this.state.categorychoose != -1 || this.state.categorychoose == -1))
+          {
+            var tempInfo = {
+              date: element.transactionList[transaction].date,
+              money: element.transactionList[transaction].money,
+              category: element.transactionList[transaction].category,
+            };
+            temp.push(tempInfo);
+          }
         });
       }
     });
@@ -299,18 +304,21 @@ class TransactionsScreen extends Component {
       if (element.transactionList != undefined && element.isDefault == "true") {
         Object.keys(element.transactionList).forEach((transaction) => {
           //console.log(transaction)
-          var tempInfo = {
-            key: transaction,
-            category: element.transactionList[transaction].category.key,
-            subCategory: element.transactionList[transaction].subCategory,
-            date: element.transactionList[transaction].date,
-            money: element.transactionList[transaction].money,
-          };
-          if (
-            this.toDate(tempInfo.date) >= startDate &&
-            this.toDate(tempInfo.date) <= endDate
-          ) {
-            temp.push(tempInfo);
+          if((element.transactionList[transaction].category.key == this.state.categorychoose && this.state.categorychoose != -1 || this.state.categorychoose == -1))
+          {
+            var tempInfo = {
+              key: transaction,
+              category: element.transactionList[transaction].category.key,
+              subCategory: element.transactionList[transaction].subCategory,
+              date: element.transactionList[transaction].date,
+              money: element.transactionList[transaction].money,
+            };
+            if (
+              this.toDate(tempInfo.date) >= startDate &&
+              this.toDate(tempInfo.date) <= endDate
+            ) {
+              temp.push(tempInfo);
+            }
           }
         });
       }
@@ -510,11 +518,39 @@ class TransactionsScreen extends Component {
   _listEmptyComponentMonth = () => {
     return <View>{/* <EmtpyTransactionsIndicator/> */}</View>;
   };
+//add new
+  renderPickerCategoryItem() {
+    var data = this.props.allCategories;
+    var categorylist = [];
+    categorylist.push(<Picker.Item label={"Tất cả"} value={-1} />)
+    data?.forEach((item) => {
+      categorylist.push(<Picker.Item label={item.categoryName.toString()} value={item.key} />);
+    });
+    return categorylist;
+  }
+
+  // chooseCategoryPicker(itemValue) {
+  //   console.log(itemValue);
+  //   if(itemValue!=-1)
+  //   {
+  //     this.props.chooseCategory(itemValue);
+  //   }
+  //   //console.log(this.props.selectedCategory);
+  // }
 
   render() {
     //const month = this.getMonthList();
     return (
       <ScreenView>
+        <Picker
+          selectedValue={this.state.categorychoose}
+          onValueChange={(itemValue, itemIndex) => {
+              this.setState({ categorychoose: itemValue });
+              //this.chooseCategoryPicker(itemValue);
+            }
+          }>
+            {this.renderPickerCategoryItem()}  
+        </Picker>
         {/* {<Title>Lịch sử giao dịch </Title>} */}
         <SimpleCarousel
           //scrollref={(ref)=>this.Carousel = ref}
@@ -566,6 +602,8 @@ const mapStateToProps = (state) => {
     walletData: state.WalletReducer,
     //selectedWallet: state.selectedWalletReducer,
     allCategories: state.allCategories,
+    //Thang new
+    selectedCategory: state.chosenCategory,
   };
 };
 
@@ -582,6 +620,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     updateCategories: (categories) => {
       dispatch(updateCategories(categories));
+    },
+    chooseCategory: (category) => {
+      dispatch(chooseCategory(category));
     },
   };
 };
