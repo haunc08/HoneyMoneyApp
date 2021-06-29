@@ -175,7 +175,7 @@ export default class TabBarNavigator extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      menuActive: true,
+      menuActive: false,
     };
     this.menuRef = React.createRef();
   }
@@ -261,6 +261,7 @@ export default class TabBarNavigator extends Component {
                 >
                   <ActionButton
                     // buttonColor={colors.yellow}
+                    // autoInactive={true}
                     active={this.state.menuActive}
                     ref={this.menuRef}
                     size={60}
@@ -290,6 +291,7 @@ export default class TabBarNavigator extends Component {
                     >
                       <TouchableOpacity
                         onPress={() => {
+                          this.onBackdropPress();
                           this.props.navigation.navigate("WalletNavigator", {
                             screen: "AddTransactionScreen",
                             params: { typeID: "003" },
@@ -311,6 +313,8 @@ export default class TabBarNavigator extends Component {
                     >
                       <TouchableOpacity
                         onPress={() => {
+                          this.onBackdropPress();
+
                           this.props.navigation.navigate("WalletNavigator", {
                             screen: "WalletTransferScreen",
                           });
@@ -330,6 +334,7 @@ export default class TabBarNavigator extends Component {
                     >
                       <TouchableOpacity
                         onPress={() => {
+                          this.onBackdropPress();
                           this.props.navigation.navigate("WalletNavigator", {
                             screen: "AddTransactionScreen",
                             params: { typeID: "002" },
