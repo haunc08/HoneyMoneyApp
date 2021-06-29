@@ -12,19 +12,22 @@ const Stack = createStackNavigator();
 export default class BudgetNavigator extends Component {
   render() {
     return (
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="BudgetScreen" component={BudgetScreen} />
+      <Stack.Navigator>
+        <Stack.Screen
+          name="BudgetScreen"
+          component={BudgetScreen}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen
           name="AddBudgetScreen"
           component={AddBudgetScreen}
-          options={{ headerShown: true, title: "Thêm hạn mức" }}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="EditBudgetScreen"
           component={EditBudgetScreen}
           options={{
-            headerShown: true,
-            title: "Xem hạn mức",
+            headerShown: false,
           }}
         />
       </Stack.Navigator>

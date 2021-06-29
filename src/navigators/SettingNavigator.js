@@ -33,37 +33,37 @@ export default class SettingScreensNavigator extends Component {
         <SettingStack.Screen
           name="SettingNameScreen"
           component={SettingNameScreen}
-          options={{ headerShown: false, title: "" }}
+          options={{ title: "Thông tin người dùng" }}
         />
         <SettingStack.Screen
           name="SettingPasswordScreen"
           component={SettingPasswordScreen}
-          options={{ headerShown: false, title: "" }}
+          options={{ title: "Thay đổi mật khẩu" }}
         />
         <SettingStack.Screen
           name="SettingAlertScreen"
           component={SettingAlertScreen}
-          options={{ headerShown: false, title: "" }}
+          options={{ title: "Thông báo" }}
         />
         <SettingStack.Screen
           name="CategoryNavigator"
           component={CategoryNavigator}
-          options={{ headerShown: false, title: "" }}
+          options={{ title: "Quản lý danh mục" }}
         />
         <SettingStack.Screen
           name="BudgetNavigator"
           component={BudgetNavigator}
-          options={{ headerShown: false, title: "" }}
+          options={{ title: "Quản lý hạn mức" }}
         />
         <SettingStack.Screen
           name="ExchangeScreen"
           component={ExchangeScreen}
-          options={{ headerShown: false, title: "" }}
+          options={{ title: "Chuyển đổi ngoại tệ" }}
         />
         <SettingStack.Screen
           name="InterestScreen"
           component={InterestScreen}
-          options={{ headerShown: false, title: "" }}
+          options={{ title: "Tính lãi suất nâng cao" }}
         />
       </SettingStack.Navigator>
     );
