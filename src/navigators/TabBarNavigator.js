@@ -202,7 +202,7 @@ export default class TabBarNavigator extends Component {
               if (route.name === "Transactions") {
                 iconName = "swap-horizontal";
               } else if (route.name === "Settings") {
-                iconName = "settings";
+                iconName = "cog";
               } else if (route.name === "Report") {
                 iconName = "chart-timeline-variant";
               } else if (route.name === "Wallet") {
@@ -240,15 +240,16 @@ export default class TabBarNavigator extends Component {
         >
           <Tab.Screen
             name="Transactions"
-            component={TransactionScreen}
+            // component={TransactionScreen}
             options={{ title: "Các giao dịch" }}
-          />
+          >
+            {() => <TransactionScreen disablePress={this.state.menuActive} />}
+          </Tab.Screen>
 
-          <Tab.Screen
-            name="Report"
-            component={ReportScreen}
-            options={{ title: "Báo cáo" }}
-          />
+          <Tab.Screen name="Report" options={{ title: "Báo cáo" }}>
+            {() => <ReportScreen disablePress={this.state.menuActive} />}
+          </Tab.Screen>
+
           <Tab.Screen
             name="Add"
             component={ActionButton}
@@ -262,6 +263,7 @@ export default class TabBarNavigator extends Component {
                   <ActionButton
                     // buttonColor={colors.yellow}
                     // autoInactive={true}
+                    style={{ backgroundColor: "pink" }}
                     active={this.state.menuActive}
                     ref={this.menuRef}
                     size={60}
@@ -360,14 +362,13 @@ export default class TabBarNavigator extends Component {
           <Tab.Screen
             name="Wallet"
             //component={BudgetScreen}
-            component={WalletScreen}
             options={{ title: "Các ví" }}
-          />
-          <Tab.Screen
-            name="Settings"
-            component={SettingScreen}
-            options={{ title: "Tùy chỉnh" }}
-          />
+          >
+            {() => <WalletScreen disablePress={this.state.menuActive} />}
+          </Tab.Screen>
+          <Tab.Screen name="Settings" options={{ title: "Tùy chỉnh" }}>
+            {() => <SettingScreen disablePress={this.state.menuActive} />}
+          </Tab.Screen>
         </Tab.Navigator>
       </View>
     );

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Picker } from "react-native";
+import { View, Picker, FlatList } from "react-native";
 import {
   ScreenView,
   TransactionMonthSummary,
@@ -20,7 +20,6 @@ import {
 import * as firebase from "firebase";
 import { findIcon } from "../../components/Image";
 
-import { FlatList } from "react-native-gesture-handler";
 import toMoneyString from "../../components/toMoneyString";
 import { userRef } from "../../components/DataConnect";
 
@@ -69,8 +68,12 @@ class TransactionsScreen extends Component {
       ) {
         Object.keys(element.transactionList).forEach((transaction) => {
           //console.log(transaction)
-          if((element.transactionList[transaction].category.key == this.state.categorychoose && this.state.categorychoose != -1 || this.state.categorychoose == -1))
-          {
+          if (
+            (element.transactionList[transaction].category.key ==
+              this.state.categorychoose &&
+              this.state.categorychoose != -1) ||
+            this.state.categorychoose == -1
+          ) {
             var tempInfo = {
               date: element.transactionList[transaction].date,
               money: element.transactionList[transaction].money,
@@ -304,8 +307,12 @@ class TransactionsScreen extends Component {
       if (element.transactionList != undefined && element.isDefault == "true") {
         Object.keys(element.transactionList).forEach((transaction) => {
           //console.log(transaction)
-          if((element.transactionList[transaction].category.key == this.state.categorychoose && this.state.categorychoose != -1 || this.state.categorychoose == -1))
-          {
+          if (
+            (element.transactionList[transaction].category.key ==
+              this.state.categorychoose &&
+              this.state.categorychoose != -1) ||
+            this.state.categorychoose == -1
+          ) {
             var tempInfo = {
               key: transaction,
               category: element.transactionList[transaction].category.key,
@@ -476,8 +483,8 @@ class TransactionsScreen extends Component {
           onPress: () => {
             this.props.SelectTransaction(item.key);
             this.props.navigation.navigate("TransactionNavigator", {
-                screen: "EditTransaction",
-              });
+              screen: "EditTransaction",
+            });
           },
           source: findIcon(category.icon),
           amount: b ? "+" + item.money : "-" + item.money,
@@ -516,15 +523,21 @@ class TransactionsScreen extends Component {
     return <View></View>;
   };
   _listEmptyComponentMonth = () => {
-    return <View>{/* <EmtpyTransactionsIndicator/> */}</View>;
+    return (
+      <View>
+        <EmtpyTransactionsIndicator />
+      </View>
+    );
   };
-//add new
+  //add new
   renderPickerCategoryItem() {
     var data = this.props.allCategories;
     var categorylist = [];
-    categorylist.push(<Picker.Item label={"Tất cả"} value={-1} />)
+    categorylist.push(<Picker.Item label={"Tất cả"} value={-1} />);
     data?.forEach((item) => {
-      categorylist.push(<Picker.Item label={item.categoryName.toString()} value={item.key} />);
+      categorylist.push(
+        <Picker.Item label={item.categoryName.toString()} value={item.key} />
+      );
     });
     return categorylist;
   }
@@ -541,15 +554,17 @@ class TransactionsScreen extends Component {
   render() {
     //const month = this.getMonthList();
     return (
-      <ScreenView>
+      <ScreenView disablePress={this.props.disablePress}>
         <Picker
+          style={{ marginLeft: sizeFactor }}
+          // mode="dropdown"
           selectedValue={this.state.categorychoose}
           onValueChange={(itemValue, itemIndex) => {
-              this.setState({ categorychoose: itemValue });
-              //this.chooseCategoryPicker(itemValue);
-            }
-          }>
-            {this.renderPickerCategoryItem()}  
+            this.setState({ categorychoose: itemValue });
+            //this.chooseCategoryPicker(itemValue);
+          }}
+        >
+          {this.renderPickerCategoryItem()}
         </Picker>
         {/* {<Title>Lịch sử giao dịch </Title>} */}
         <SimpleCarousel

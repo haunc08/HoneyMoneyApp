@@ -162,7 +162,10 @@ export class TransactionMonthSummary extends Component {
 export class ScreenView extends Component {
   render() {
     return (
-      <SafeAreaView style={[styles.background, this.props.style]}>
+      <SafeAreaView
+        pointerEvents={this.props.disablePress ? "none" : "auto"}
+        style={[styles.background, this.props.style]}
+      >
         <KeyboardAvoidingView behavior="height" enabled={true}>
           <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.screenView}>{this.props.children}</View>
@@ -929,6 +932,32 @@ export class Card extends Component {
           </TouchableOpacity>
         </Row>
         {this.props.children}
+      </View>
+    );
+  }
+}
+
+export class EmtpyTransactionsIndicator extends Component {
+  render() {
+    return (
+      <View style={{ alignItems: "center", marginVertical: sizeFactor * 4 }}>
+        <Image
+          style={{
+            width: sizeFactor * 6,
+            height: sizeFactor * 6 * 0.56666666666,
+            marginBottom: sizeFactor * 1.25,
+          }}
+          source={require("../assets/empty.png")}
+        />
+        <String
+          style={{
+            fontSize: sizeFactor,
+            fontWeight: "bold",
+            color: colors.gray3,
+          }}
+        >
+          Bạn chưa có giao dịch nào!
+        </String>
       </View>
     );
   }
