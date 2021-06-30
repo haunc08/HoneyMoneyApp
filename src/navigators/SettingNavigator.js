@@ -13,6 +13,11 @@ import {
   BudgetScreen,
   ExchangeScreen,
   InterestScreen,
+  AddBudgetScreen,
+  EditBudgetScreen,
+  CategoryScreen,
+  AddCategoryScreen,
+  EditCategoryScreen,
 } from "../screens";
 
 // navigators
@@ -46,14 +51,34 @@ export default class SettingScreensNavigator extends Component {
           options={{ title: "Thông báo" }}
         />
         <SettingStack.Screen
-          name="CategoryNavigator"
-          component={CategoryNavigator}
+          name="CategoryScreen"
+          component={CategoryScreen}
           options={{ title: "Quản lý danh mục" }}
         />
         <SettingStack.Screen
-          name="BudgetNavigator"
-          component={BudgetNavigator}
+          name="AddCategoryScreen"
+          component={AddCategoryScreen}
+          options={{ title: "Thêm danh mục" }}
+        />
+        <SettingStack.Screen
+          name="EditCategoryScreen"
+          component={EditCategoryScreen}
+          options={{ title: "Xem danh mục" }}
+        />
+        <SettingStack.Screen
+          name="BudgetScreen"
+          component={BudgetScreen}
           options={{ title: "Quản lý hạn mức" }}
+        />
+        <SettingStack.Screen
+          name="AddBudgetScreen"
+          component={AddBudgetScreen}
+          options={{ title: "Thêm hạn mức" }}
+        />
+        <SettingStack.Screen
+          name="EditBudgetScreen"
+          component={EditBudgetScreen}
+          options={{ title: "Xem hạn mức" }}
         />
         <SettingStack.Screen
           name="ExchangeScreen"

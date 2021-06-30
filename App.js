@@ -1,5 +1,5 @@
 // react
-import React from "react";
+import React, { useEffect } from "react";
 import { LogBox } from "react-native";
 
 // firebase
@@ -15,6 +15,7 @@ import { NavigationContainer } from "@react-navigation/native";
 
 // navigators
 import { AuthenticationNavigator, MainNavigator } from "./src/navigators";
+import admob, { MaxAdContentRating } from "@react-native-firebase/admob";
 
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
@@ -26,6 +27,24 @@ console.disableYellowBox = true;
 
 function DisplayedScreens() {
   const [user, loading, error] = useAuthState(firebase.auth());
+
+  // useEffect(() => {
+  //   if (user) {
+  //     admob()
+  //       .setRequestConfiguration({
+  //         // Update all future requests suitable for parental guidance
+  //         maxAdContentRating: MaxAdContentRating.PG,
+  //         // Indicates that you want your content treated as child-directed for purposes of COPPA.
+  //         tagForChildDirectedTreatment: true,
+  //         // Indicates that you want the ad request to be handled in a
+  //         // manner suitable for users under the age of consent.
+  //         tagForUnderAgeOfConsent: true,
+  //       })
+  //       .then(() => {
+  //         // Request config successfully set!
+  //       });
+  //   }
+  // }, []);
   //const user = true;
   if (user) {
     return (
