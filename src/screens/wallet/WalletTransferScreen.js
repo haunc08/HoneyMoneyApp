@@ -84,6 +84,18 @@ export class WalletTransferScreen extends Component {
     }
     chuyentien()
     {
+        if(this.state.nguon.key == this.state.dich.key)
+        {
+            Alert.alert("Thông báo", "Hãy chọn hai ví khác nhau để chuyển", 
+            [
+                {
+                    text: "OK",
+                }
+            ], {cancelable: false}
+            
+        );
+            return;
+        }
         let uid = 'none';
         if(firebase.auth().currentUser) {
             uid = firebase.auth().currentUser.uid;
@@ -105,7 +117,7 @@ export class WalletTransferScreen extends Component {
                 }
             }
         ], {cancelable: false}
-    );
+        );
     }
     render() {
         const Item = ({ name, color, money }) =>
