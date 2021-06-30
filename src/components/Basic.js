@@ -197,6 +197,7 @@ export class SimpleCarousel extends Component {
         bounces={false}
         style={styles.simpleCarousel}
         onScroll={this.props.onScroll}
+        onContentSizeChange={() => this.scrollref.scrollToEnd({animated: false})}
       >
         {this.props.children}
       </ScrollView>
