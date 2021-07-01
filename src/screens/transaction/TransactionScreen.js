@@ -66,14 +66,14 @@ class TransactionsScreen extends Component {
     var year = date.getFullYear(); //Current Year
     var fulldate;
     if (day < 10) {
-        fulldate = "0" + day;
+      fulldate = "0" + day;
     } else {
-        fulldate = day;
+      fulldate = day;
     }
     if (month < 10) {
-        fulldate = fulldate + "/" + "0" + month;
+      fulldate = fulldate + "/" + "0" + month;
     } else {
-        fulldate = fulldate + "/" + month;
+      fulldate = fulldate + "/" + month;
     }
     fulldate = fulldate + "/" + year;
     return fulldate;
@@ -87,44 +87,51 @@ class TransactionsScreen extends Component {
       ) {
         Object.keys(element.transactionList).forEach((transaction) => {
           //console.log(transaction)
-          if((element.transactionList[transaction].category.key == this.state.categorychoose && this.state.categorychoose != -1 || this.state.categorychoose == -1))
-          {
+          if (
+            (element.transactionList[transaction].category.key ==
+              this.state.categorychoose &&
+              this.state.categorychoose != -1) ||
+            this.state.categorychoose == -1
+          ) {
             //moi them vao 29/06
-            if(isTrigger)
-            {
-              var newdate = this.toDate(element.transactionList[transaction].date)
-              newdate.setMonth(newdate.getMonth()+1)
+            if (isTrigger) {
+              var newdate = this.toDate(
+                element.transactionList[transaction].date
+              );
+              newdate.setMonth(newdate.getMonth() + 1);
 
-              if(element.transactionList[transaction].isLoopNextMonth && newdate < new Date())
-              {
+              if (
+                element.transactionList[transaction].isLoopNextMonth &&
+                newdate < new Date()
+              ) {
                 var wallet = element;
                 let uid = "none";
                 if (firebase.auth().currentUser) {
-                    uid = firebase.auth().currentUser.uid;
+                  uid = firebase.auth().currentUser.uid;
                 }
-            
+
                 const userWalletRef = userRef.child(uid).child("Wallet");
                 userWalletRef
-                    .child(wallet.key)
-                    .child("transactionList")
-                    .child(transaction)
-                    .update({
-                      isLoopNextMonth: false,
-                    });
+                  .child(wallet.key)
+                  .child("transactionList")
+                  .child(transaction)
+                  .update({
+                    isLoopNextMonth: false,
+                  });
                 userWalletRef
-                    .child(wallet.key)
-                    .child("transactionList")
-                    .push()
-                    .set({
-                        category: element.transactionList[transaction].category,
-                        subCategory: element.transactionList[transaction].subCategory,
-                        money: element.transactionList[transaction].money,
-                        date: this.toString(newdate),
-                        note:element.transactionList[transaction].note,
-                        isLoopNextMonth: true,
-                        //isCreatedLoop: false,
-                  }); 
-                
+                  .child(wallet.key)
+                  .child("transactionList")
+                  .push()
+                  .set({
+                    category: element.transactionList[transaction].category,
+                    subCategory:
+                      element.transactionList[transaction].subCategory,
+                    money: element.transactionList[transaction].money,
+                    date: this.toString(newdate),
+                    note: element.transactionList[transaction].note,
+                    isLoopNextMonth: true,
+                    //isCreatedLoop: false,
+                  });
               }
             }
             //end new code
@@ -361,8 +368,12 @@ class TransactionsScreen extends Component {
       if (element.transactionList != undefined && element.isDefault == "true") {
         Object.keys(element.transactionList).forEach((transaction) => {
           //console.log(transaction)
-          if((element.transactionList[transaction].category.key == this.state.categorychoose && this.state.categorychoose != -1 || this.state.categorychoose == -1))
-          {
+          if (
+            (element.transactionList[transaction].category.key ==
+              this.state.categorychoose &&
+              this.state.categorychoose != -1) ||
+            this.state.categorychoose == -1
+          ) {
             var tempInfo = {
               key: transaction,
               category: element.transactionList[transaction].category.key,
@@ -533,8 +544,8 @@ class TransactionsScreen extends Component {
           onPress: () => {
             this.props.SelectTransaction(item.key);
             this.props.navigation.navigate("TransactionNavigator", {
-                screen: "EditTransaction",
-              });
+              screen: "EditTransaction",
+            });
           },
           source: findIcon(category.icon),
           amount: b ? "+" + item.money : "-" + item.money,
@@ -554,9 +565,8 @@ class TransactionsScreen extends Component {
     var x = Math.ceil(offsetIndex) / Math.ceil(windowWidth - 2 * sizeFactor);
     if (this.getMonthList(false).length == 0) return [];
     if (Math.ceil(offsetIndex) % Math.ceil(windowWidth - 2 * sizeFactor) == 0) {
-      if(x > this.getMonthList(false).length)
-      {
-        x = this.getMonthList(false).length - 1
+      if (x > this.getMonthList(false).length) {
+        x = this.getMonthList(false).length - 1;
       }
       console.log(this.getMonthList(false).length);
       var monthcode = this.getMonthList(false)[x].index;
@@ -580,13 +590,15 @@ class TransactionsScreen extends Component {
   _listEmptyComponentMonth = () => {
     return <View>{/* <EmtpyTransactionsIndicator/> */}</View>;
   };
-//add new
+  //add new
   renderPickerCategoryItem() {
     var data = this.props.allCategories;
     var categorylist = [];
-    categorylist.push(<Picker.Item label={"Tất cả"} value={-1} />)
+    categorylist.push(<Picker.Item label={"Tất cả"} value={-1} />);
     data?.forEach((item) => {
-      categorylist.push(<Picker.Item label={item.categoryName.toString()} value={item.key} />);
+      categorylist.push(
+        <Picker.Item label={item.categoryName.toString()} value={item.key} />
+      );
     });
     return categorylist;
   }
@@ -607,11 +619,11 @@ class TransactionsScreen extends Component {
         <Picker
           selectedValue={this.state.categorychoose}
           onValueChange={(itemValue, itemIndex) => {
-              this.setState({ categorychoose: itemValue });
-              //this.chooseCategoryPicker(itemValue);
-            }
-          }>
-            {this.renderPickerCategoryItem()}  
+            this.setState({ categorychoose: itemValue });
+            //this.chooseCategoryPicker(itemValue);
+          }}
+        >
+          {this.renderPickerCategoryItem()}
         </Picker>
         {/* {<Title>Lịch sử giao dịch </Title>} */}
         <SimpleCarousel
