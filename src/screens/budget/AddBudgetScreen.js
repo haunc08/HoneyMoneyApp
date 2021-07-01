@@ -91,32 +91,61 @@ const AddBudgetScreen = ({ navigation }) => {
     return true;
   };
 
+  const checkDuplicatedInput = async () => {
+    let duplicated = false;
+    // const selectedCategoryIndex = allCategories.indexOf(category);
+    await userCategoryRef.child(category.key).once("value", (snapshot) => {
+      console.log(snapshot.toJSON());
+      if (snapshot.toJSON().budget && snapshot.toJSON().budget > 0) {
+        console.log("duplicated");
+        Alert.alert(
+          "Thông báo",
+          "Hạn mức cho danh mục này đã được tạo.",
+          [
+            {
+              text: "OK",
+              onPress: () => {},
+            },
+          ],
+          { cancelable: false }
+        );
+        duplicated = true;
+      }
+    });
+    return duplicated;
+  };
+
   const resetAll = () => {
     setNewSoDu(0);
     setCategory("");
   };
 
-  const luuNganSach = () => {
+  const luuNganSach = async () => {
     if (!checkValidInput()) return;
 
-    userCategoryRef.child(category.key).update({
-      budget: newSoDu,
-    });
-    resetAll();
+    await checkDuplicatedInput().then((res) => {
+      console.log(res);
+      if (!res) {
+        userCategoryRef.child(category.key).update({
+          budget: parseInt(newSoDu),
+        });
+        resetAll();
 
-    Alert.alert(
-      "Thông báo",
-      "Bạn đã thêm giới hạn mức chi cho danh mục này thành công",
-      [
-        {
-          text: "OK",
-          onPress: () => {
-            navigation.goBack();
-          },
-        },
-      ],
-      { cancelable: false }
-    );
+        Alert.alert(
+          "Thông báo",
+          "Bạn đã thêm giới hạn mức chi cho danh mục này thành công",
+          [
+            {
+              text: "OK",
+              onPress: () => {
+                navigation.goBack();
+              },
+            },
+          ],
+          { cancelable: false }
+        );
+      }
+    });
   };
 
   const Item = ({ name }) => (
@@ -225,7 +254,6 @@ const AddBudgetScreen = ({ navigation }) => {
           <FlatList
             data={data}
             renderItem={(item) => {
-              console.log(item);
               return (
                 <TouchableOpacity onPress={item.item.onPress}>
                   <Item name={item.item.categoryName} />

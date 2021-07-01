@@ -129,7 +129,7 @@ class SettingScreen extends Component {
             text="Quản lý danh mục"
             onPress={() => {
               this.props.navigation.navigate("SettingNavigator", {
-                screen: "CategoryNavigator",
+                screen: "CategoryScreen",
               });
               console.log(firebase.auth().currentUser.uid);
             }}
@@ -140,7 +140,7 @@ class SettingScreen extends Component {
             text="Quản lí hạn mức"
             onPress={() =>
               this.props.navigation.navigate("SettingNavigator", {
-                screen: "BudgetNavigator",
+                screen: "BudgetScreen",
               })
             }
           />

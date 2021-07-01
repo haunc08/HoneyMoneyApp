@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View } from "react-native";
+import { View, Platform } from "react-native";
 import {
   String,
   ScreenView,
@@ -28,11 +28,19 @@ import { userRef } from "../../components/DataConnect";
 //Redux action
 import { UpdateWalletAction, SelectWallet } from "../../redux/actions";
 
-//Navigator
 import toMoneyString, {
   toMoneyStringWithoutVND,
 } from "../../components/toMoneyString";
+import { AdMobBanner } from "expo-ads-admob";
 
+// await setTestDeviceIDAsync("EMULATOR");
+
+// const adUnitID = Platform.select({
+//   // https://developers.google.com/admob/ios/test-ads
+//   ios: "ca-app-pub-3940256099942544~1458002511",
+//   // https://developers.google.com/admob/android/test-ads
+//   android: "ca-app-pub-3940256099942544~3347511713",
+// });
 export class WalletScreen extends Component {
   _isMounted = false;
   constructor(props) {
@@ -58,6 +66,14 @@ export class WalletScreen extends Component {
   render() {
     return (
       <ScreenView disablePress={this.props.disablePress}>
+        <View>
+          <AdMobBanner
+            bannerSize="smartBannerLandscape"
+            adUnitID="ca-app-pub-3940256099942544/6300978111" // Test ID, Replace with your-admob-unit-id
+            servePersonalizedAds={true} // true or false
+            onDidFailToReceiveAdWithError={(error) => console.log(error)}
+          />
+        </View>
         <View style={{}}>
           <NormalCard
             style={{

@@ -31,6 +31,8 @@ import {
 } from "react-native-svg";
 import toMoneyString from "../../components/toMoneyString";
 
+import { AdMobBanner } from "expo-ads-admob";
+
 export class ReportScreen extends Component {
   constructor(props) {
     super(props);
@@ -537,8 +539,16 @@ export class ReportScreen extends Component {
     const xAxisHeight = 30;
 
     return (
-      <ScreenView disablePress={this.props.disablePress}>
+      <ScreenView>
         {/* {<Title>Báo cáo</Title>} */}
+        <View style={{ marginBottom: 16 }}>
+          <AdMobBanner
+            bannerSize="smartBannerLandscape"
+            adUnitID="ca-app-pub-3940256099942544/6300978111" // Test ID, Replace with your-admob-unit-id
+            servePersonalizedAds={true} // true or false
+            onDidFailToReceiveAdWithError={(error) => console.log(error)}
+          />
+        </View>
         <View
           style={{
             backgroundColor: "white",

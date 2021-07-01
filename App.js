@@ -1,5 +1,5 @@
 // react
-import React from "react";
+import React, { useEffect } from "react";
 import { LogBox } from "react-native";
 
 // firebase
@@ -26,6 +26,7 @@ console.disableYellowBox = true;
 
 function DisplayedScreens() {
   const [user, loading, error] = useAuthState(firebase.auth());
+
   //const user = true;
   if (user) {
     return (
