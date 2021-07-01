@@ -18,7 +18,6 @@ import { sizeFactor, styles, colors } from "../../constants";
 import { Icon } from "react-native-elements";
 import { findIcon } from "../../components/Image";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import Calculator from "../../components/Calculator";
 
 //redux
 import { connect } from "react-redux";
@@ -58,17 +57,15 @@ export class EditTransactionScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showCalc: true,
       note: "",
       //selectedTenVi: this.props.route.params?.walletName ?? '',
       //defaultColor: this.props.route.params?.walletColor ?? colors.blue,
       fulllist: false,
       isLoop: false,
     };
-    this.calcRef = React.createRef();
   }
   toDate(datestring) {
-    var parts = datestring?.split("/");
+    var parts = datestring.split("/");
     return new Date(
       parseInt(parts[2], 10),
       parseInt(parts[1], 10) - 1,
@@ -161,7 +158,7 @@ export class EditTransactionScreen extends Component {
     //this.props.changeSoDu("");
     const categories = this.props.allCategories;
     const temp = categories.filter(
-      (item) => item.typeID === trans.category?.typeID
+      (item) => item.typeID === trans.category.typeID
     );
     this.props.reloadCategory(temp);
 
@@ -392,15 +389,15 @@ export class EditTransactionScreen extends Component {
 
     var b;
 
-    if (category?.typeID == "002") {
+    if (category.typeID == "002") {
       b = false;
     } else {
-      if (category?.typeID == "003") {
+      if (category.typeID == "003") {
         b = true;
       } else {
         if (
-          category?.categoryName == "Đi vay" ||
-          category?.categoryName == "Thu nợ"
+          category.categoryName == "Đi vay" ||
+          category.categoryName == "Thu nợ"
         ) {
           b = true;
         } else {
@@ -484,7 +481,7 @@ export class EditTransactionScreen extends Component {
     //this.setState({note: ""});
     this.props.deselectCategory();
     this.textInput.clear();
-    // this.textInput2.clear();
+    this.textInput2.clear();
     let uid = "none";
     if (firebase.auth().currentUser) {
       uid = firebase.auth().currentUser.uid;
@@ -528,291 +525,252 @@ export class EditTransactionScreen extends Component {
         </View>
       );
     return (
-      <View style={{ flex: 1 }}>
-        {this.state.showCalc && (
-          <Calculator
-            initValue={this.props.newSoDu}
-            ref={this.calcRef}
-            onPressButton={() => {
-              // this.setState({
-              //   amount: this?.calcRef?.current?.state?.calculationText,
-              // });
-              this.props.changeSoDu(
-                this?.calcRef?.current?.state?.calculationText
-              );
+      <ScreenView style={{ backgroundColor: this.props.selectedWallet?.color }}>
+        <View
+          style={{
+            alignItems: "flex-end",
+            paddingLeft: sizeFactor,
+            paddingRight: sizeFactor * 1.5,
+          }}
+        >
+          <String
+            style={{ color: "white", fontWeight: "bold", marginBottom: 0 }}
+          >
+            Số tiền
+          </String>
+          <TextInput
+            maxLength={15}
+            value={this.props.newSoDu}
+            contextMenuHidden={true}
+            placeholder="0"
+            style={{
+              color: "white",
+              fontWeight: "bold",
+              fontSize: sizeFactor * 2,
+              marginBottom: sizeFactor * 0.75,
+              width: sizeFactor * 30,
+              textAlign: "right",
             }}
-            onCollapse={() => {
-              this.setState({ showCalc: false });
+            ref={(input) => {
+              this.textInput2 = input;
+            }}
+            keyboardType="number-pad" //dung tam cai nay cho den khi co ban phim so hoc//
+            onChangeText={(text) => {
+              this.props.changeSoDu(text);
             }}
           />
-        )}
-        <ScreenView
-          style={{ backgroundColor: this.props.selectedWallet?.color }}
+          <String style={{ color: "white", fontWeight: "bold" }}>
+            Danh mục
+          </String>
+        </View>
+        <View
+          style={{
+            backgroundColor: "white",
+            marginHorizontal: sizeFactor,
+            borderRadius: sizeFactor,
+            paddingTop: sizeFactor * 0.75,
+            paddingBottom: sizeFactor,
+            marginBottom: sizeFactor,
+          }}
+        >
+          <View style={{ marginHorizontal: sizeFactor }}>
+            <ScrollView horizontal={true}>
+              <View style={{ marginBottom: sizeFactor / 2 }}>
+                <CategoryTable rows={rows} />
+              </View>
+            </ScrollView>
+          </View>
+          {subCategoryShow}
+          <TouchableOpacity
+            onPress={() => {
+              this.setState({ fulllist: !this.state.fulllist });
+            }}
+          >
+            <View style={{ justifyContent: "center" }}>
+              <Icon
+                name={this.state.fulllist ? "chevron-up" : "chevron-down"}
+                type="material-community"
+                color="black"
+                size={sizeFactor * 2}
+              />
+            </View>
+          </TouchableOpacity>
+        </View>
+        <View
+          style={{
+            backgroundColor: "white",
+            marginHorizontal: sizeFactor,
+            borderRadius: sizeFactor,
+            paddingTop: sizeFactor * 0.75,
+            paddingBottom: sizeFactor,
+            marginBottom: sizeFactor,
+          }}
         >
           <View
             style={{
-              alignItems: "flex-end",
-              paddingLeft: sizeFactor,
-              paddingRight: sizeFactor * 1.5,
+              marginHorizontal: sizeFactor,
+              flexDirection: "row",
+              flex: 1,
             }}
           >
             <String
-              style={{ color: "white", fontWeight: "bold", marginBottom: 0 }}
-            >
-              Số tiền
-            </String>
-            {/* <TextInput
-              maxLength={15}
-              value={this.props.newSoDu}
-              contextMenuHidden={true}
-              placeholder="0"
               style={{
-                color: "white",
                 fontWeight: "bold",
-                fontSize: sizeFactor * 2,
-                marginBottom: sizeFactor * 0.75,
-                width: sizeFactor * 30,
-                textAlign: "right",
+                color: this.props.selectedWallet.color,
+                marginTop: 10,
+                flex: 8,
               }}
-              ref={(input) => {
-                this.textInput2 = input;
-              }}
-              keyboardType="number-pad" //dung tam cai nay cho den khi co ban phim so hoc//
-              onChangeText={(text) => {
-                this.props.changeSoDu(text);
-              }}
-            /> */}
-            <TouchableOpacity onPress={() => this.setState({ showCalc: true })}>
-              <String
-                style={{
-                  color: "white",
-                  fontWeight: "bold",
-                  fontSize: sizeFactor * 2,
-                  marginBottom: sizeFactor * 0.75,
-                  // width: sizeFactor * 30,
-                  textAlign: "right",
-                }}
-              >
-                {this.props.newSoDu || "0"}
-              </String>
-            </TouchableOpacity>
-            <String style={{ color: "white", fontWeight: "bold" }}>
-              Danh mục
+            >
+              Lặp lại theo tháng
             </String>
-          </View>
-          <View
-            style={{
-              backgroundColor: "white",
-              marginHorizontal: sizeFactor,
-              borderRadius: sizeFactor,
-              paddingTop: sizeFactor * 0.75,
-              paddingBottom: sizeFactor,
-              marginBottom: sizeFactor,
-            }}
-          >
-            <View style={{ marginHorizontal: sizeFactor }}>
-              <ScrollView horizontal={true}>
-                <View style={{ marginBottom: sizeFactor / 2 }}>
-                  <CategoryTable rows={rows} />
-                </View>
-              </ScrollView>
-            </View>
-            {subCategoryShow}
-            <TouchableOpacity
-              onPress={() => {
-                this.setState({ fulllist: !this.state.fulllist });
+            <Switch
+              style={{ flex: 2 }}
+              value={this.state.isLoop}
+              onValueChange={(value) => {
+                this.setState({ isLoop: value });
               }}
-            >
-              <View style={{ justifyContent: "center" }}>
-                <Icon
-                  name={this.state.fulllist ? "chevron-up" : "chevron-down"}
-                  type="material-community"
-                  color="black"
-                  size={sizeFactor * 2}
-                />
-              </View>
-            </TouchableOpacity>
-          </View>
-          <View
-            style={{
-              backgroundColor: "white",
-              marginHorizontal: sizeFactor,
-              borderRadius: sizeFactor,
-              paddingTop: sizeFactor * 0.75,
-              paddingBottom: sizeFactor,
-              marginBottom: sizeFactor,
-            }}
-          >
-            <View
-              style={{
-                marginHorizontal: sizeFactor,
-                flexDirection: "row",
-                flex: 1,
+              trackColor={{
+                false: "#767577",
+                true: this.props.selectedWallet.color,
               }}
-            >
-              <String
-                style={{
-                  fontWeight: "bold",
-                  color: this.props.selectedWallet.color,
-                  marginTop: 10,
-                  flex: 8,
+              thumbColor={this.state.isLoop ? colors.grey4 : colors.grey5}
+            ></Switch>
+          </View>
+        </View>
+        <View
+          style={{
+            backgroundColor: "white",
+            marginHorizontal: sizeFactor,
+            borderRadius: sizeFactor,
+            marginBottom: sizeFactor,
+            paddingHorizontal: sizeFactor,
+            paddingBottom: sizeFactor * 1.25,
+          }}
+        >
+          <View
+            style={{ right: sizeFactor, top: sizeFactor, position: "absolute" }}
+          ></View>
+          <Title style={{ marginLeft: 0 }}>Nâng cao</Title>
+          <String style={{ fontWeight: "bold" }}>Chọn ngày</String>
+          <RowLeft style={{ flex: 9 }}>
+            <View style={{ flex: 2.75, marginRight: sizeFactor / 2 }}>
+              <ToggleButton
+                color={this.props.selectedWallet?.color}
+                background="white"
+                choosed={
+                  this.props.selectedDateMode == "LastDay" ? "true" : "false"
+                }
+                style={{ paddingHorizontal: sizeFactor / 4 }}
+                onPress={() => {
+                  this.props.changeDateMode("LastDay");
                 }}
               >
-                Lặp lại theo tháng
-              </String>
-              <Switch
-                style={{ flex: 2 }}
-                value={this.state.isLoop}
-                onValueChange={(value) => {
-                  this.setState({ isLoop: value });
-                }}
-                trackColor={{
-                  false: "#767577",
-                  true: this.props.selectedWallet.color,
-                }}
-                thumbColor={this.state.isLoop ? colors.grey4 : colors.grey5}
-              ></Switch>
+                Hôm qua
+              </ToggleButton>
             </View>
-          </View>
-          <View
-            style={{
-              backgroundColor: "white",
-              marginHorizontal: sizeFactor,
-              borderRadius: sizeFactor,
-              marginBottom: sizeFactor,
-              paddingHorizontal: sizeFactor,
-              paddingBottom: sizeFactor * 1.25,
-            }}
-          >
-            <View
-              style={{
-                right: sizeFactor,
-                top: sizeFactor,
-                position: "absolute",
-              }}
-            ></View>
-            <Title style={{ marginLeft: 0 }}>Nâng cao</Title>
-            <String style={{ fontWeight: "bold" }}>Chọn ngày</String>
-            <RowLeft style={{ flex: 9 }}>
-              <View style={{ flex: 2.75, marginRight: sizeFactor / 2 }}>
-                <ToggleButton
-                  color={this.props.selectedWallet?.color}
-                  background="white"
-                  choosed={
-                    this.props.selectedDateMode == "LastDay" ? "true" : "false"
-                  }
-                  style={{ paddingHorizontal: sizeFactor / 4 }}
-                  onPress={() => {
-                    this.props.changeDateMode("LastDay");
-                  }}
-                >
-                  Hôm qua
-                </ToggleButton>
-              </View>
-              <View style={{ flex: 2.75, marginRight: sizeFactor / 2 }}>
-                <ToggleButton
-                  color={this.props.selectedWallet?.color}
-                  background="white"
-                  choosed={
-                    this.props.selectedDateMode == "Today" ? "true" : "false"
-                  }
-                  style={{ paddingHorizontal: sizeFactor / 4 }}
-                  onPress={() => {
-                    this.props.changeDateMode("Today");
-                  }}
-                >
-                  Hôm nay
-                </ToggleButton>
-              </View>
-              <View style={{ flex: 2.75, marginRight: sizeFactor / 2 }}>
-                <ToggleButton
-                  color={this.props.selectedWallet?.color}
-                  background="white"
-                  choosed={
-                    this.props.selectedDateMode == "NextDay" ? "true" : "false"
-                  }
-                  style={{ paddingHorizontal: sizeFactor / 4 }}
-                  onPress={() => {
-                    this.props.changeDateMode("NextDay");
-                  }}
-                >
-                  Ngày mai
-                </ToggleButton>
-              </View>
-            </RowLeft>
-            <String>hoặc chọn một ngày khác</String>
-            <RowLeft style={{ flex: 9 }}>
-              <View style={{ flex: 3.5 }}>
-                <ToggleButton
-                  color={this.props.selectedWallet?.color}
-                  background="white"
-                  choosed={
-                    this.props.selectedDateMode == "Custom" ? "true" : "false"
-                  }
-                  style={{ paddingHorizontal: sizeFactor / 4 }}
-                  onPress={() => {
-                    this.props.changeDateMode("Custom");
-                    this.props.setShow(true);
-                  }}
-                >
-                  {this.toString(this.props.date)}
-                </ToggleButton>
-              </View>
-            </RowLeft>
-            {this.props.show && (
-              <DateTimePicker
-                testID="dateTimePicker"
-                value={this.props.date}
-                mode="date"
-                is24Hour={true}
-                display="default"
-                onChange={(event, selectedDate) => {
-                  this.props.setShow(false);
-                  selectedDate ? this.props.changeDate(selectedDate) : {};
+            <View style={{ flex: 2.75, marginRight: sizeFactor / 2 }}>
+              <ToggleButton
+                color={this.props.selectedWallet?.color}
+                background="white"
+                choosed={
+                  this.props.selectedDateMode == "Today" ? "true" : "false"
+                }
+                style={{ paddingHorizontal: sizeFactor / 4 }}
+                onPress={() => {
+                  this.props.changeDateMode("Today");
                 }}
-              />
-            )}
-            <Space />
-            <String style={{ fontWeight: "bold" }}>Ghi chú</String>
-            <TextInput
-              style={styles.inputMultilineText}
-              multiline={true}
-              placeholder="Vài điều cần ghi lại..."
-              value={this.state.note}
-              onChangeText={(text) => {
-                this.setState({ note: text });
-              }}
-              ref={(input) => {
-                this.textInput = input;
+              >
+                Hôm nay
+              </ToggleButton>
+            </View>
+            <View style={{ flex: 2.75, marginRight: sizeFactor / 2 }}>
+              <ToggleButton
+                color={this.props.selectedWallet?.color}
+                background="white"
+                choosed={
+                  this.props.selectedDateMode == "NextDay" ? "true" : "false"
+                }
+                style={{ paddingHorizontal: sizeFactor / 4 }}
+                onPress={() => {
+                  this.props.changeDateMode("NextDay");
+                }}
+              >
+                Ngày mai
+              </ToggleButton>
+            </View>
+          </RowLeft>
+          <String>hoặc chọn một ngày khác</String>
+          <RowLeft style={{ flex: 9 }}>
+            <View style={{ flex: 3.5 }}>
+              <ToggleButton
+                color={this.props.selectedWallet?.color}
+                background="white"
+                choosed={
+                  this.props.selectedDateMode == "Custom" ? "true" : "false"
+                }
+                style={{ paddingHorizontal: sizeFactor / 4 }}
+                onPress={() => {
+                  this.props.changeDateMode("Custom");
+                  this.props.setShow(true);
+                }}
+              >
+                {this.toString(this.props.date)}
+              </ToggleButton>
+            </View>
+          </RowLeft>
+          {this.props.show && (
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={this.props.date}
+              mode="date"
+              is24Hour={true}
+              display="default"
+              onChange={(event, selectedDate) => {
+                this.props.setShow(false);
+                selectedDate ? this.props.changeDate(selectedDate) : {};
               }}
             />
-          </View>
-          <OutlineButton
-            style={{ marginHorizontal: sizeFactor * 1.5 }}
-            backgroundColor="white"
-            color="white"
-            onPress={() => {
-              this.editTransaction();
+          )}
+          <Space />
+          <String style={{ fontWeight: "bold" }}>Ghi chú</String>
+          <TextInput
+            style={styles.inputMultilineText}
+            multiline={true}
+            placeholder="Vài điều cần ghi lại..."
+            value={this.state.note}
+            onChangeText={(text) => {
+              this.setState({ note: text });
             }}
-          >
-            Lưu thay đổi
-          </OutlineButton>
-          <Button2
-            style={{
-              marginHorizontal: sizeFactor * 1.5,
-              backgroundColor: "white",
+            ref={(input) => {
+              this.textInput = input;
             }}
-            textStyle={{
-              color: colors.red,
-            }}
-            onPress={() => {
-              this.deleteTransaction();
-            }}
-          >
-            Xoá giao dịch
-          </Button2>
-        </ScreenView>
-      </View>
+          />
+        </View>
+        <OutlineButton
+          style={{ marginHorizontal: sizeFactor * 1.5 }}
+          backgroundColor="white"
+          color="white"
+          onPress={() => {
+            this.editTransaction();
+          }}
+        >
+          Lưu thay đổi
+        </OutlineButton>
+        <Button2
+          style={{
+            marginHorizontal: sizeFactor * 1.5,
+            backgroundColor: "white",
+          }}
+          textStyle={{
+            color: colors.red,
+          }}
+          onPress={() => {
+            this.deleteTransaction();
+          }}
+        >
+          Xoá giao dịch
+        </Button2>
+      </ScreenView>
     );
   }
 }
