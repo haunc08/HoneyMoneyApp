@@ -50,7 +50,7 @@ class SettingScreen extends Component {
 
   render() {
     return (
-      <ScreenView>
+      <ScreenView disablePress={this.props.disablePress}>
         <View style={{ marginBottom: sizeFactor }}>
           <Image
             style={{
