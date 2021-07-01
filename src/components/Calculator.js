@@ -188,6 +188,12 @@ export default class Calculator extends Component {
     this.handleEqualSign(true);
   }
 
+  clear() {
+    this.setState({
+      calculationText: "0",
+    });
+  }
+
   // include clear all, backspace, calculate result (=)
   basicFunctions(text) {
     switch (text) {

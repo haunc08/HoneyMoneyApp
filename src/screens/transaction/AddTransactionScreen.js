@@ -464,6 +464,7 @@ export class AddTransactionScreen extends Component {
     this.setState({ note: "" });
     this.props.deselectCategory();
     this.textInput.clear();
+    this.calcRef.current.clear();
     // this.textInput2.clear();
     let uid = "none";
     if (firebase.auth().currentUser) {
