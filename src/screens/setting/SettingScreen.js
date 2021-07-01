@@ -115,7 +115,7 @@ class SettingScreen extends Component {
           />
           <SettingRow
             color={colors.green}
-            iconName="currency-cny"
+            iconName="bank-plus"
             text="Tính lãi suất nâng cao"
             onPress={() => {
               this.props.navigation.navigate("SettingNavigator", {
@@ -136,7 +136,7 @@ class SettingScreen extends Component {
           />
           <SettingRow
             color={colors.green}
-            iconName="bank"
+            iconName="piggy-bank"
             text="Quản lí hạn mức"
             onPress={() =>
               this.props.navigation.navigate("SettingNavigator", {

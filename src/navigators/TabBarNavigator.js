@@ -196,6 +196,7 @@ export default class TabBarNavigator extends Component {
           <BackDrop onPress={() => this.onBackdropPress()} />
         )}
         <Tab.Navigator
+          initialRouteName="Wallet"
           screenOptions={({ route }) => ({
             tabBarIcon: ({ focused, color, size }) => {
               let iconName;

@@ -53,7 +53,7 @@ class TransactionsScreen extends Component {
   }
 
   toDate(datestring) {
-    var parts = datestring.split("/");
+    var parts = datestring?.split("/");
     return new Date(
       parseInt(parts[2], 10),
       parseInt(parts[1], 10) - 1,
@@ -289,15 +289,15 @@ class TransactionsScreen extends Component {
 
       var b;
 
-      if (category.typeID == "002") {
+      if (category?.typeID == "002") {
         b = false;
       } else {
-        if (category.typeID == "003") {
+        if (category?.typeID == "003") {
           b = true;
         } else {
           if (
-            category.categoryName == "Đi vay" ||
-            category.categoryName == "Thu nợ"
+            category?.categoryName == "Đi vay" ||
+            category?.categoryName == "Thu nợ"
           ) {
             b = true;
           } else {
@@ -460,15 +460,15 @@ class TransactionsScreen extends Component {
 
         var b;
 
-        if (category.typeID == "002") {
+        if (category?.typeID == "002") {
           b = false;
         } else {
-          if (category.typeID == "003") {
+          if (category?.typeID == "003") {
             b = true;
           } else {
             if (
-              category.categoryName == "Đi vay" ||
-              category.categoryName == "Thu nợ"
+              category?.categoryName == "Đi vay" ||
+              category?.categoryName == "Thu nợ"
             ) {
               b = true;
             } else {
@@ -478,7 +478,7 @@ class TransactionsScreen extends Component {
         }
         //item to new data
         var itemdata = {
-          subcategory: category.categoryName,
+          subcategory: category?.categoryName,
           onPress: () => {
             this.props.SelectTransaction(item.key);
             this.props.navigation.navigate("TransactionNavigator", {
@@ -521,15 +521,15 @@ class TransactionsScreen extends Component {
 
         var b;
 
-        if (category.typeID == "002") {
+        if (category?.typeID == "002") {
           b = false;
         } else {
-          if (category.typeID == "003") {
+          if (category?.typeID == "003") {
             b = true;
           } else {
             if (
-              category.categoryName == "Đi vay" ||
-              category.categoryName == "Thu nợ"
+              category?.categoryName == "Đi vay" ||
+              category?.categoryName == "Thu nợ"
             ) {
               b = true;
             } else {
@@ -540,7 +540,7 @@ class TransactionsScreen extends Component {
 
         //item to new data
         var itemdata = {
-          subcategory: category.categoryName,
+          subcategory: category?.categoryName,
           onPress: () => {
             this.props.SelectTransaction(item.key);
             this.props.navigation.navigate("TransactionNavigator", {
@@ -622,6 +622,7 @@ class TransactionsScreen extends Component {
     return (
       <ScreenView>
         <Picker
+          style={{ marginLeft: sizeFactor }}
           selectedValue={this.state.categorychoose}
           onValueChange={(itemValue, itemIndex) => {
             this.setState({ categorychoose: itemValue });

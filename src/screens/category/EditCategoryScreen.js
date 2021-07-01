@@ -58,7 +58,7 @@ class EditCategoryScreen extends Component {
   }
 
   getSelectedIndex = () => {
-    const type = this.props.chosenCategory.typeID;
+    const type = this.props.chosencategory?.typeID;
     switch (type) {
       case "001":
         return 0;
@@ -135,7 +135,7 @@ class EditCategoryScreen extends Component {
     const category = this.props.chosenCategory;
     //console.log(this.props.chosenCategory);
     userCategoryRef.child(category.key).update({
-      CategoryName: category.categoryName,
+      CategoryName: category?.categoryName,
       Icon: category.icon,
       IsDeleted: true,
     });
