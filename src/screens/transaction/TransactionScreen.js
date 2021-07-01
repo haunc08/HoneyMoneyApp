@@ -563,6 +563,11 @@ class TransactionsScreen extends Component {
   }
   getTransactionFullListData(offsetIndex) {
     var x = Math.ceil(offsetIndex) / Math.ceil(windowWidth - 2 * sizeFactor);
+    console.log(
+      "555555555555555555555555",
+      offsetIndex,
+      Math.ceil(windowWidth - 2 * sizeFactor)
+    );
     if (this.getMonthList(false).length == 0) return [];
     if (Math.ceil(offsetIndex) % Math.ceil(windowWidth - 2 * sizeFactor) == 0) {
       if (x > this.getMonthList(false).length) {
@@ -647,9 +652,10 @@ class TransactionsScreen extends Component {
             ListEmptyComponent={this._listEmptyComponent}
             //inverted={true}
             //contentContainerStyle={{ flexDirection: 'row-reverse' }}
-            renderItem={({ item }) => {
+            renderItem={({ item, index }) => {
               return (
                 <TransactionMonthSummary
+                  isLast={index === this.getMonthList(true).length - 1}
                   month={item.month}
                   openBalance={toMoneyString(item.openBalance)}
                   endBalance={toMoneyString(item.endBalance)}

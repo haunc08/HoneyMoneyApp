@@ -110,7 +110,15 @@ export class HomoTextInput extends Component {
 export class TransactionMonthSummary extends Component {
   render() {
     return (
-      <View style={styles.transactionMonthSummaryContainerStyle}>
+      <View
+        style={{
+          width: this.props.isLast
+            ? windowWidth - sizeFactor * 2 + 4
+            : windowWidth - sizeFactor * 2,
+          paddingHorizontal: sizeFactor,
+          paddingTop: sizeFactor,
+        }}
+      >
         <View style={styles.transactionMonthSummaryStyle}>
           <Icon
             name="chevron-left"
@@ -200,7 +208,9 @@ export class SimpleCarousel extends Component {
         bounces={false}
         style={styles.simpleCarousel}
         onScroll={this.props.onScroll}
-        onContentSizeChange={() => this.scrollref.scrollToEnd({animated: false})}
+        onContentSizeChange={() =>
+          this.scrollref.scrollToEnd({ animated: false })
+        }
       >
         {this.props.children}
       </ScrollView>
