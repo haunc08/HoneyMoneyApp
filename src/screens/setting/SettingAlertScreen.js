@@ -74,7 +74,7 @@ export default class SettingAlertScreen extends Component {
           mode="time"
           onConfirm={this.confirm}
           onCancel={this.cancel}
-          date={Date.now()}
+          date={new Date()}
         />
         <TouchableOpacity>
           <View

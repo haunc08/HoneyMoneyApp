@@ -126,7 +126,9 @@ export const ExchangeScreen = () => {
           label="Tiền tệ đích"
           placeholder="Số tiền quy đổi"
           keyboardType="decimal-pad"
-          value={convertedAmount.toString()}
+          value={
+            convertedAmount ? convertedAmount?.toFixed(3)?.toString() : "0"
+          }
           labelStyle={{ color: colors.blue }}
           inputStyle={{ color: colors.blue }}
         />
