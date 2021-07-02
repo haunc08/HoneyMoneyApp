@@ -65,7 +65,7 @@ export class EditTransactionScreen extends Component {
     };
   }
   toDate(datestring) {
-    var parts = datestring?.split("/");
+    var parts = datestring.split("/");
     return new Date(
       parseInt(parts[2], 10),
       parseInt(parts[1], 10) - 1,
@@ -525,7 +525,7 @@ export class EditTransactionScreen extends Component {
         </View>
       );
     return (
-      <ScreenView style={{ backgroundColor: this.props.selectedWallet?.color }}>
+      <ScreenView style={{ backgroundColor: this.props.selectedWallet.color }}>
         <View
           style={{
             alignItems: "flex-end",
@@ -655,7 +655,7 @@ export class EditTransactionScreen extends Component {
           <RowLeft style={{ flex: 9 }}>
             <View style={{ flex: 2.75, marginRight: sizeFactor / 2 }}>
               <ToggleButton
-                color={this.props.selectedWallet?.color}
+                color={this.props.selectedWallet.color}
                 background="white"
                 choosed={
                   this.props.selectedDateMode == "LastDay" ? "true" : "false"
@@ -670,7 +670,7 @@ export class EditTransactionScreen extends Component {
             </View>
             <View style={{ flex: 2.75, marginRight: sizeFactor / 2 }}>
               <ToggleButton
-                color={this.props.selectedWallet?.color}
+                color={this.props.selectedWallet.color}
                 background="white"
                 choosed={
                   this.props.selectedDateMode == "Today" ? "true" : "false"
@@ -685,7 +685,7 @@ export class EditTransactionScreen extends Component {
             </View>
             <View style={{ flex: 2.75, marginRight: sizeFactor / 2 }}>
               <ToggleButton
-                color={this.props.selectedWallet?.color}
+                color={this.props.selectedWallet.color}
                 background="white"
                 choosed={
                   this.props.selectedDateMode == "NextDay" ? "true" : "false"
@@ -703,7 +703,7 @@ export class EditTransactionScreen extends Component {
           <RowLeft style={{ flex: 9 }}>
             <View style={{ flex: 3.5 }}>
               <ToggleButton
-                color={this.props.selectedWallet?.color}
+                color={this.props.selectedWallet.color}
                 background="white"
                 choosed={
                   this.props.selectedDateMode == "Custom" ? "true" : "false"

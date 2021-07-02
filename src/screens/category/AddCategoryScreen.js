@@ -50,7 +50,34 @@ const SubCategoriesView = () => {
     <View>
       {subCategories.map((item, i) => (
         <TouchableOpacity>
-          <ListItem
+          <View
+            key={item.key}
+            style={{
+              backgroundColor: "white",
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
+            <Avatar
+              size={sizeFactor * 3}
+              avatarStyle={{
+                width: sizeFactor * 2.5,
+                height: sizeFactor * 2.5,
+                marginTop: sizeFactor * 0.25,
+                marginLeft: sizeFactor * 0.25,
+              }}
+              source={findIcon(item.icon)}
+            ></Avatar>
+            <String
+              style={{
+                marginLeft: sizeFactor / 2,
+                marginTop: sizeFactor * 0.75,
+              }}
+            >
+              {item.categoryName}
+            </String>
+          </View>
+          {/* <ListItem
             key={item.key}
             title={item.categoryName}
             leftAvatar={{
@@ -70,7 +97,7 @@ const SubCategoriesView = () => {
             containerStyle={{ paddingHorizontal: 0 }}
             titleStyle={{ fontSize: sizeFactor }}
             pad={sizeFactor}
-          />
+          /> */}
         </TouchableOpacity>
       ))}
     </View>
@@ -123,7 +150,7 @@ const AddCategoryScreen = ({ navigation }) => {
       userSubcategoryRef.push({
         CategoryName: item.categoryName,
         Icon: item.icon,
-        TypeID: parentcategory?.typeID,
+        TypeID: parentcategory.typeID,
         IsDeleted: false,
       });
       //console.log("pid " + parentCategory.key);

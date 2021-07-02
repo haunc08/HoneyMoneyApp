@@ -201,7 +201,7 @@ const AddBudgetScreen = ({ navigation }) => {
         />
 
         <String style={{ fontWeight: "bold", fontSize: sizeFactor * 1.5 }}>
-          {category?.categoryName}
+          {category.categoryName}
         </String>
       </View>
     );

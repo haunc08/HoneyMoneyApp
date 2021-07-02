@@ -5,7 +5,7 @@ const selectedSubReducer = (state = { key: "" }, action) => {
     state = "";
     state = {
       key: action.category.key,
-      categoryName: action.category?.categoryName,
+      categoryName: action.category.categoryName,
       icon: action.category.icon,
     };
     return state;

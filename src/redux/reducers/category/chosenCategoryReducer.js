@@ -5,10 +5,10 @@ const chosenCategoryReducer = (state = { key: "" }, action) => {
     state = "";
     state = {
       key: action.category.key,
-      categoryName: action.category?.categoryName,
+      categoryName: action.category.categoryName,
       icon: action.category.icon,
       parentID: action.category.parentID,
-      typeID: action.category?.typeID,
+      typeID: action.category.typeID,
       isDeleted: action.category.isDeleted,
     };
     console.log(state);

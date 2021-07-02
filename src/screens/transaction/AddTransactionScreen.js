@@ -69,7 +69,7 @@ export class AddTransactionScreen extends Component {
       //selectedTenVi: this.props.route.params?.walletName ?? '',
       //defaultColor: this.props.route.params?.walletColor ?? colors.blue,
       fulllist: false,
-      typeID: this.props.route.params?.typeID,
+      typeID: this.props.route.params.typeID,
       isLoop: false,
     };
     this.calcRef = React.createRef();
@@ -485,15 +485,15 @@ export class AddTransactionScreen extends Component {
 
     var b;
 
-    if (category?.typeID == "002") {
+    if (category.typeID == "002") {
       b = false;
     } else {
-      if (category?.typeID == "003") {
+      if (category.typeID == "003") {
         b = true;
       } else {
         if (
-          category?.categoryName == "Đi vay" ||
-          category?.categoryName == "Thu nợ"
+          category.categoryName == "Đi vay" ||
+          category.categoryName == "Thu nợ"
         ) {
           b = true;
         } else {
@@ -600,7 +600,7 @@ export class AddTransactionScreen extends Component {
       <View style={{ flex: 1 }}>
         <StatusBar barStyle="dark-content" backgroundColor="white" />
 
-        {/* {this.state.showCalc && (
+        {this.state.showCalc && (
           <Calculator
             initValue={this.props.newSoDu}
             ref={this.calcRef}
@@ -616,9 +616,9 @@ export class AddTransactionScreen extends Component {
               this.setState({ showCalc: false });
             }}
           />
-        )} */}
+        )}
         <ScreenView
-          style={{ backgroundColor: this.props.selectedWallet?.color }}
+          style={{ backgroundColor: this.props.selectedWallet.color }}
         >
           <TouchableOpacity
             onPress={() => {
@@ -647,7 +647,7 @@ export class AddTransactionScreen extends Component {
                 }}
               />
               <Heading style={{ color: "white" }}>
-                {this.props.selectedWallet?.name}
+                {this.props.selectedWallet.name}
               </Heading>
               <Icon
                 name="unfold-more-horizontal"
@@ -781,7 +781,7 @@ export class AddTransactionScreen extends Component {
             <RowLeft style={{ flex: 9 }}>
               <View style={{ flex: 2.75, marginRight: sizeFactor / 2 }}>
                 <ToggleButton
-                  color={this.props.selectedWallet?.color}
+                  color={this.props.selectedWallet.color}
                   background="white"
                   choosed={
                     this.props.selectedDateMode == "LastDay" ? "true" : "false"
@@ -796,7 +796,7 @@ export class AddTransactionScreen extends Component {
               </View>
               <View style={{ flex: 2.75, marginRight: sizeFactor / 2 }}>
                 <ToggleButton
-                  color={this.props.selectedWallet?.color}
+                  color={this.props.selectedWallet.color}
                   background="white"
                   choosed={
                     this.props.selectedDateMode == "Today" ? "true" : "false"
@@ -811,7 +811,7 @@ export class AddTransactionScreen extends Component {
               </View>
               <View style={{ flex: 2.75, marginRight: sizeFactor / 2 }}>
                 <ToggleButton
-                  color={this.props.selectedWallet?.color}
+                  color={this.props.selectedWallet.color}
                   background="white"
                   choosed={
                     this.props.selectedDateMode == "NextDay" ? "true" : "false"
@@ -829,7 +829,7 @@ export class AddTransactionScreen extends Component {
             <RowLeft style={{ flex: 9 }}>
               <View style={{ flex: 3.5 }}>
                 <ToggleButton
-                  color={this.props.selectedWallet?.color}
+                  color={this.props.selectedWallet.color}
                   background="white"
                   choosed={
                     this.props.selectedDateMode == "Custom" ? "true" : "false"

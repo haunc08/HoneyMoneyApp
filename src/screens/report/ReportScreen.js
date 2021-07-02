@@ -66,7 +66,7 @@ export class ReportScreen extends Component {
   }
 
   toDate(datestring) {
-    var parts = datestring?.split("/");
+    var parts = datestring.split("/");
     return new Date(
       parseInt(parts[2], 10),
       parseInt(parts[1], 10) - 1,
@@ -336,15 +336,15 @@ export class ReportScreen extends Component {
 
           var b;
 
-          if (category?.typeID == "002") {
+          if (category.typeID == "002") {
             b = false;
           } else {
-            if (category?.typeID == "003") {
+            if (category.typeID == "003") {
               b = true;
             } else {
               if (
-                category?.categoryName == "Đi vay" ||
-                category?.categoryName == "Thu nợ"
+                category.categoryName == "Đi vay" ||
+                category.categoryName == "Thu nợ"
               ) {
                 b = true;
               } else {
