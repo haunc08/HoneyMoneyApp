@@ -656,7 +656,7 @@ class TransactionsScreen extends Component {
             renderItem={({ item, index }) => {
               return (
                 <TransactionMonthSummary
-                  isLast={index === this.getMonthList(true).length - 1}
+                  isLast={index === this.getMonthList(false).length - 1}
                   month={item.month}
                   openBalance={toMoneyString(item.openBalance)}
                   endBalance={toMoneyString(item.endBalance)}
