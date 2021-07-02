@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { View, ScrollView, TouchableOpacity, TextInput } from "react-native";
+import {
+  View,
+  ScrollView,
+  TouchableOpacity,
+  TextInput,
+  StatusBar,
+} from "react-native";
 import {
   String,
   ScreenView,
@@ -57,7 +63,7 @@ export class AddTransactionScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showCalc: true,
+      showCalc: false,
       note: "",
       //selectedTenVi: this.props.route.params?.walletName ?? '',
       //defaultColor: this.props.route.params?.walletColor ?? colors.blue,
@@ -511,7 +517,9 @@ export class AddTransactionScreen extends Component {
       );
     return (
       <View style={{ flex: 1 }}>
-        {this.state.showCalc && (
+        <StatusBar barStyle="dark-content" backgroundColor="white" />
+
+        {/* {this.state.showCalc && (
           <Calculator
             initValue={this.props.newSoDu}
             ref={this.calcRef}
@@ -527,7 +535,7 @@ export class AddTransactionScreen extends Component {
               this.setState({ showCalc: false });
             }}
           />
-        )}
+        )} */}
         <ScreenView
           style={{ backgroundColor: this.props.selectedWallet?.color }}
         >

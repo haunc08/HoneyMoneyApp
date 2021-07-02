@@ -1,6 +1,13 @@
 // react
 import React, { Component, useEffect, useState } from "react";
-import { Text, View, Image, ImageBackground, Alert } from "react-native";
+import {
+  Text,
+  View,
+  Image,
+  ImageBackground,
+  Alert,
+  StatusBar,
+} from "react-native";
 
 // firebase
 import * as firebase from "firebase";
@@ -97,6 +104,7 @@ const SignInScreen = ({ navigation }) => {
         flex: 1,
       }}
     >
+      <StatusBar translucent backgroundColor="transparent" />
       <ImageBackground
         source={require("../../assets/others/background.png")}
         style={{ flex: 1, resizeMode: "cover", justifyContent: "center" }}
