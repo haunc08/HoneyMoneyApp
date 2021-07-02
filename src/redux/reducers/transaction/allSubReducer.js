@@ -1,11 +1,20 @@
 const {UPDATESUBCATEGORY } = require("../../actions/actionType");
-import {categoryRef} from "../../../components/DataConnect"
+//import {userCategoryRef} from "../../../components/DataConnect"
+import {rootRef} from "../../../components/DataConnect"
+//firebase
+import * as firebase from "firebase";
 
 const allSubReducer = (state = [], action) => {
     switch(action.type){
         case UPDATESUBCATEGORY:
             state = [];
-            categoryRef.child(action.category.key + "/SubCategories/").on('value',(snap) => {
+            let uid = 'none';
+            if(firebase.auth().currentUser) {
+                uid = firebase.auth().currentUser.uid;
+            }
+            const userRef = rootRef.child('users');
+            const userCategoryRef = userRef.child(uid).child('Category/');
+            userCategoryRef.child(action.category.key + "/SubCategories/").on('value',(snap) => {
                 snap.forEach(element => {
                     state.push({
                         key: element.key,
