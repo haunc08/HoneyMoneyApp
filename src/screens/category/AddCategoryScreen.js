@@ -18,6 +18,11 @@ import {
   clearSearchText,
   workWithSubCategory,
   chooseCategory,
+  DeselectSubAction,
+  editSubName,
+  setSubIcon,
+  SelectSubAction,
+  workWithCategory,
 } from "../../redux/actions";
 
 // other packages
@@ -35,7 +40,7 @@ import {
   Button1,
 } from "../../components/Basic";
 
-import IconImage, { findIcon } from "../../assets";
+import IconImage, { findIcon, getIndex } from "../../assets";
 import AddSubcategoryDialog from "../../components/AddSubcategoryDialog";
 import ChooseIconDialog from "../../components/ChooseIconDialog";
 
@@ -44,12 +49,25 @@ import { colors, sizeFactor, styles } from "../../constants";
 import { Alert } from "react-native";
 
 const SubCategoriesView = () => {
+  const dispatch = useDispatch();
   const subCategories = useSelector((state) => state.subCategories);
+
+  const openEditSubDialog = (subCategory) => {
+    dispatch(workWithSubCategory());
+
+    const subIconIndex = getIndex(subCategory.icon);
+    dispatch(setSubIcon(subIconIndex));
+    dispatch(selectIcon(subIconIndex));
+    dispatch(editSubName(subCategory.categoryName));
+    dispatch(SelectSubAction(subCategory));
+
+    dispatch(openDialog());
+  };
 
   return (
     <View>
       {subCategories.map((item, i) => (
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => openEditSubDialog(item)}>
           <ListItem
             key={item.key}
             title={item.categoryName}
@@ -111,19 +129,19 @@ const AddCategoryScreen = ({ navigation }) => {
 
   // done
   // xem lai viec co can chosenCategory hay ko vi co ve khi goi ham chi can truyen category moi taoj vao la dc
-  const addSubcategory = async () => {
+  const addSubcategory = async (parent) => {
     //const subCategories = addedSubCategories;
-    //console.log(addedSubCategories);
+    console.log("start add sub", addedSubCategories, parent);
     const userSubcategoryRef = userCategoryRef
-      .child(parentCategory.key)
+      .child(parent.key)
       .child("SubCategories/");
-    //console.log("ref " + userSubcategoryRef);
+    console.log("ref " + userSubcategoryRef);
     //let update = {};
     await addedSubCategories.map((item) => {
       userSubcategoryRef.push({
         CategoryName: item.categoryName,
         Icon: item.icon,
-        TypeID: parentcategory?.typeID,
+        TypeID: parent?.typeID,
         IsDeleted: false,
       });
       //console.log("pid " + parentCategory.key);
@@ -161,16 +179,12 @@ const AddCategoryScreen = ({ navigation }) => {
             };
             console.log("###");
             console.log(category);
-            setParentCategory((prevState) => ({
-              ...prevState,
-              category,
-            }));
+            setParentCategory(category);
+            addSubcategory(category);
           });
-
-          console.log(parentCategory);
         });
       //console.log(category);
-      addSubcategory();
+
       // if searching, don't find a category, user can add category immediately by pressing themdanhmuc,
       // after adding, clear search text to stop searchings
       dispatch(clearSearchText());
@@ -182,6 +196,7 @@ const AddCategoryScreen = ({ navigation }) => {
     // reset selectedIndex whenever open icon dialog
     // b/c if choose icon and close dialog, without reseting, selectedIndex != addIndex (expect ==)
     selectIcon(selectedIcon.addIndex);
+    dispatch(workWithCategory());
     dispatch(openIconDialog());
   };
 
@@ -190,13 +205,15 @@ const AddCategoryScreen = ({ navigation }) => {
     // setState({
     //   deleteBtn_name: "",
     // });
+    dispatch(DeselectSubAction());
+    dispatch(editSubName(""));
 
     dispatch(openDialog());
   };
 
   return (
     <ScreenView>
-      {/* <ChooseIconDialog /> */}
+      <ChooseIconDialog />
       <View
         style={{
           justifyContent: "center",
@@ -285,7 +302,7 @@ const AddCategoryScreen = ({ navigation }) => {
       >
         Lưu thay đổi
       </Button1>
-      {/* <AddSubcategoryDialog></AddSubcategoryDialog> */}
+      <AddSubcategoryDialog></AddSubcategoryDialog>
     </ScreenView>
   );
 };
