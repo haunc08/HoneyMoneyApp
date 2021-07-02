@@ -24,11 +24,14 @@ import toMoneyString from "../../components/toMoneyString";
 
 const EditBudgetScreen = ({ route, navigation }) => {
   const { selectedCategory } = route.params;
+  console.log(selectedCategory);
   const [user] = useAuthState(firebase.auth());
 
   const userCategoryRef = userRef.child(user?.uid).child("Category");
 
-  const [newBudget, setNewBudget] = useState(0);
+  const [newBudget, setNewBudget] = useState(
+    selectedCategory.budget.toString()
+  );
 
   const checkValidInput = () => {
     if (parseInt(newBudget) == 0 || newBudget == "") {
