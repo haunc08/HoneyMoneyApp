@@ -8,7 +8,7 @@ const chosenCategoryReducer = (state = { key: "" }, action) => {
       categoryName: action.category.categoryName,
       icon: action.category.icon,
       parentID: action.category.parentID,
-      typeID: action.category.typeID,
+      typeID: action.category?.typeID,
       isDeleted: action.category.isDeleted,
     };
     console.log(state);

@@ -158,7 +158,7 @@ export class EditTransactionScreen extends Component {
     //this.props.changeSoDu("");
     const categories = this.props.allCategories;
     const temp = categories.filter(
-      (item) => item.typeID === trans.category.typeID
+      (item) => item.typeID === trans.category?.typeID
     );
     this.props.reloadCategory(temp);
 
@@ -389,10 +389,10 @@ export class EditTransactionScreen extends Component {
 
     var b;
 
-    if (category.typeID == "002") {
+    if (category?.typeID == "002") {
       b = false;
     } else {
-      if (category.typeID == "003") {
+      if (category?.typeID == "003") {
         b = true;
       } else {
         if (

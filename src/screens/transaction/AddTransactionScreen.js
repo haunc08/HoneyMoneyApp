@@ -19,11 +19,12 @@ import {
   OutlineButton,
   ToggleButton,
 } from "../../components/Basic";
-import { sizeFactor, styles } from "../../constants";
+import { sizeFactor, styles, windowWidth } from "../../constants";
 import { colors, Icon } from "react-native-elements";
 import { findIcon } from "../../components/Image";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Calculator from "../../components/Calculator";
+import { ProgressBar } from "react-native-paper";
 
 //redux
 import { connect } from "react-redux";
@@ -58,6 +59,12 @@ import { userRef } from "../../components/DataConnect";
 import { Alert } from "react-native";
 import { Switch } from "react-native";
 import { numberOfDayInMonth, toDate } from "../../utils/datetime";
+import {
+  FloatToIntMoney,
+  FloatToMoney,
+  FloatToTypingMoney,
+  stringToTypingMoney,
+} from "../../components/toMoneyString";
 
 export class AddTransactionScreen extends Component {
   _isMounted = false;
@@ -71,8 +78,10 @@ export class AddTransactionScreen extends Component {
       fulllist: false,
       typeID: this.props.route.params.typeID,
       isLoop: false,
+      budgetInfo: null,
     };
     this.calcRef = React.createRef();
+    this.safeInputMoney = React.createRef();
   }
   toString(date) {
     var day = date.getDate(); //Current Date
@@ -116,9 +125,13 @@ export class AddTransactionScreen extends Component {
   };
   chooseCategory = (category) => {
     if (this.props.selectedCategory.key == category.key) {
+      this.setState({ budgetInfo: null });
       this.props.deselectCategory();
       this.props.deselectSub();
     } else {
+      this.calcRemainingMoneyRealtime(category?.key).then((budgetInfo) => {
+        this.setState({ budgetInfo: budgetInfo });
+      });
       this.props.deselectSub();
       this.props.chooseCategory(category);
       this.props.updateSub(category);
@@ -214,7 +227,9 @@ export class AddTransactionScreen extends Component {
             }
             key={categories[index].key}
             source={iconPath}
-            onPress={() => this.chooseCategory(categories[index])}
+            onPress={() => {
+              this.chooseCategory(categories[index]);
+            }}
           >
             {name}
           </Category>
@@ -224,7 +239,8 @@ export class AddTransactionScreen extends Component {
           <Category
             key={index}
             source={require("../../assets/categories/themdanhmuc.png")}
-            onPress={() => this.props.navigation.navigate("CategoryNavigator", {
+            onPress={() =>
+              this.props.navigation.navigate("CategoryNavigator", {
                 screen: "AddCategoryScreen",
               })
             }
@@ -261,7 +277,9 @@ export class AddTransactionScreen extends Component {
                 }
                 key={categories[index].key}
                 source={iconPath}
-                onPress={() => this.chooseCategory(categories[index])}
+                onPress={() => {
+                  this.chooseCategory(categories[index]);
+                }}
                 stringContainerStyle={{ width: sizeFactor * 4 }}
               >
                 {name}
@@ -273,7 +291,8 @@ export class AddTransactionScreen extends Component {
             <Category
               key={index}
               source={require("../../assets/categories/themdanhmuc.png")}
-              onPress={() => this.props.navigation.navigate("CategoryNavigator", {
+              onPress={() =>
+                this.props.navigation.navigate("CategoryNavigator", {
                   screen: "AddCategoryScreen",
                 })
               }
@@ -382,6 +401,7 @@ export class AddTransactionScreen extends Component {
       return (
         <KindSelect
           onPress={(index) => {
+            this.setState({ budgetInfo: null });
             this.getDataBasedOnType(index);
             this.props.deselectSub();
             this.props.deselectCategory();
@@ -446,6 +466,25 @@ export class AddTransactionScreen extends Component {
     return budget;
   };
 
+  getBudgetInfoRealtime = async (categoryKey) => {
+    let budget = 0;
+    let uid = "none";
+    if (firebase.auth().currentUser) {
+      uid = firebase.auth().currentUser.uid;
+    }
+    console.log("eeeeeeeeeeeeeeeee", categoryKey);
+
+    await userRef
+      .child(uid)
+      .child(`Category`)
+      .child(categoryKey)
+      .once("value", (cate) => {
+        console.log(cate);
+        budget = cate.toJSON().budget;
+      });
+    return budget;
+  };
+
   calcRemainingMoney = () => {
     var lose = 0;
     let budget = 0;
@@ -466,6 +505,31 @@ export class AddTransactionScreen extends Component {
     }
     console.log(budget, lose);
     return budget - lose;
+  };
+
+  calcRemainingMoneyRealtime = async (categoryKey) => {
+    var used = 0;
+    let budget = 0;
+
+    var data = this.getDataInMonth(
+      new Date().getMonth() + 1,
+      new Date().getFullYear()
+    );
+
+    data.forEach((transaction) => {
+      if (transaction.categoryKey == categoryKey) {
+        used += parseInt(transaction.money);
+      }
+    });
+
+    if (categoryKey != "") {
+      budget = await this.getBudgetInfoRealtime(categoryKey);
+    }
+    console.log(budget, used);
+    return {
+      budget: budget,
+      remain: budget - used,
+    };
   };
 
   addNewTransaction = async () => {
@@ -507,10 +571,10 @@ export class AddTransactionScreen extends Component {
 
     var b;
 
-    if (category.typeID == "002") {
+    if (category?.typeID == "002") {
       b = false;
     } else {
-      if (category.typeID == "003") {
+      if (category?.typeID == "003") {
         b = true;
       } else {
         if (
@@ -570,6 +634,7 @@ export class AddTransactionScreen extends Component {
     this.props.changeSoDu("");
     this.props.changeDateMode("Today");
     this.setState({ note: "" });
+    this.setState({ budgetInfo: null });
     this.props.deselectCategory();
     this.textInput.clear();
     this.calcRef?.current?.clear();
@@ -630,9 +695,9 @@ export class AddTransactionScreen extends Component {
               // this.setState({
               //   amount: this?.calcRef?.current?.state?.calculationText,
               // });
-              this.props.changeSoDu(
-                this?.calcRef?.current?.state?.calculationText
-              );
+              const tempRes = this?.calcRef?.current?.state?.calculationText;
+              this.safeInputMoney.current = tempRes;
+              this.props.changeSoDu(tempRes);
             }}
             onCollapse={() => {
               this.setState({ showCalc: false });
@@ -728,13 +793,78 @@ export class AddTransactionScreen extends Component {
                   textAlign: "right",
                 }}
               >
-                {this.props.newSoDu || "0"}
+                {stringToTypingMoney(this.props.newSoDu) || "0"}
               </String>
             </TouchableOpacity>
+            {!!this.state.budgetInfo?.budget && (
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
+                <View style={{ alignItems: "flex-end" }}>
+                  <String
+                    style={{
+                      color: "white",
+                      fontWeight: "bold",
+                      marginBottom: 0,
+                    }}
+                  >
+                    Còn lại
+                  </String>
+                  <String
+                    style={{
+                      color: "white",
+                      fontWeight: "bold",
+                      fontSize: sizeFactor * 1.5,
+                      marginBottom: sizeFactor * 0.75,
+                      // width: sizeFactor * 30,
+                      textAlign: "right",
+                    }}
+                  >
+                    {FloatToIntMoney(
+                      this.state.budgetInfo?.remain -
+                        (parseFloat(this.safeInputMoney?.current) || 0)
+                    )}
+                  </String>
+                </View>
+                <View
+                  style={{
+                    alignItems: "flex-end",
+                    marginLeft: sizeFactor,
+                    opacity: 0.5,
+                  }}
+                >
+                  <String
+                    style={{
+                      color: "white",
+                      fontWeight: "bold",
+                      marginBottom: 0,
+                    }}
+                  >
+                    Hạn mức
+                  </String>
+                  <String
+                    style={{
+                      color: "white",
+                      fontWeight: "bold",
+                      fontSize: sizeFactor * 1.5,
+                      marginBottom: sizeFactor * 0.75,
+                      // width: sizeFactor * 30,
+                      textAlign: "right",
+                    }}
+                  >
+                    {FloatToIntMoney(this.state.budgetInfo?.budget)}
+                  </String>
+                </View>
+              </View>
+            )}
             <String style={{ color: "white", fontWeight: "bold" }}>
               Danh mục
             </String>
           </View>
+
           <View
             style={{
               backgroundColor: "white",

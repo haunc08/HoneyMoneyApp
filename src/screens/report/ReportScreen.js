@@ -336,10 +336,10 @@ export class ReportScreen extends Component {
 
           var b;
 
-          if (category.typeID == "002") {
+          if (category?.typeID == "002") {
             b = false;
           } else {
-            if (category.typeID == "003") {
+            if (category?.typeID == "003") {
               b = true;
             } else {
               if (

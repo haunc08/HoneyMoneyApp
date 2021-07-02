@@ -64,3 +64,33 @@ export const FloatToMoney = (num) => {
     world.replace(/,/g, "_").replace(/\./g, ",").replace(/_/g, ".") + " VNĐ"
   );
 };
+
+export const FloatToIntMoney = (num) => {
+  return num
+    .toFixed(2)
+    .replace(/\d(?=(\d{3})+\.)/g, "$&,")
+    .slice(0, -3);
+};
+
+const operators = ["+", "-", "*", "/"];
+
+export const stringToTypingMoney = (text) => {
+  let input = text;
+  let endWithNum = false;
+  if (!operators.includes(input[input.length - 1])) {
+    endWithNum = true;
+    input += "+";
+  }
+
+  let res = "";
+  let last = 0;
+  for (let i = 0; i < input.length; i++) {
+    if (operators.includes(input[i])) {
+      res += FloatToIntMoney(parseFloat(input.slice(last, i)));
+      res += input[i];
+      last = i + 1;
+    }
+  }
+  if (endWithNum) return res.slice(0, -1);
+  return res;
+};
