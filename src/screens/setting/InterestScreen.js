@@ -35,13 +35,12 @@ export const InterestScreen = () => {
   const [result, setResult] = useState("");
 
   const calculateNormal = () => {
-    Alert.alert(FloatToMoney(1000000.555));
     if (amount && duration && rate) {
       const res =
         (((parseFloat(amount) * parseFloat(rate)) / 100) *
           parseFloat(duration)) /
         12;
-      setResult(toMoneyString(res.toString()));
+      setResult(FloatToMoney(res));
     } else Alert.alert("Thông báo", "Bạn chưa nhập đủ thông tin");
   };
 
@@ -54,7 +53,7 @@ export const InterestScreen = () => {
             parseFloat(duration) * parseFloat(frequency)
           ) -
         parseFloat(amount);
-      setResult(toMoneyString(res.toString()));
+      setResult(FloatToMoney(res));
     } else Alert.alert("Thông báo", "Bạn chưa nhập đủ thông tin");
   };
 

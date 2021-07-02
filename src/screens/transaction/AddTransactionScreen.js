@@ -464,7 +464,7 @@ export class AddTransactionScreen extends Component {
     this.setState({ note: "" });
     this.props.deselectCategory();
     this.textInput.clear();
-    this.calcRef.current.clear();
+    this.calcRef?.current?.clear();
     // this.textInput2.clear();
     let uid = "none";
     if (firebase.auth().currentUser) {
@@ -658,47 +658,6 @@ export class AddTransactionScreen extends Component {
               </View>
             </TouchableOpacity>
           </View>
-          <View
-            style={{
-              backgroundColor: "white",
-              marginHorizontal: sizeFactor,
-              borderRadius: sizeFactor,
-              paddingTop: sizeFactor * 0.75,
-              paddingBottom: sizeFactor,
-              marginBottom: sizeFactor,
-            }}
-          >
-            <View
-              style={{
-                marginHorizontal: sizeFactor,
-                flexDirection: "row",
-                flex: 1,
-              }}
-            >
-              <String
-                style={{
-                  fontWeight: "bold",
-                  color: this.props.selectedWallet.color,
-                  marginTop: 10,
-                  flex: 8,
-                }}
-              >
-                Lặp lại theo tháng
-              </String>
-              <Switch
-                style={{ flex: 2 }}
-                value={this.state.isLoop}
-                onValueChange={(value) => {
-                  this.setState({ isLoop: value });
-                }}
-                trackColor={{
-                  false: "#767577",
-                  true: this.props.selectedWallet.color,
-                }}
-                thumbColor={this.state.isLoop ? colors.grey4 : colors.grey5}
-              ></Switch>
-            </View>
-          </View>
           <View style={{ marginVertical: sizeFactor }}>
             <OutlineButton
               style={{ marginHorizontal: sizeFactor }}
@@ -810,6 +769,37 @@ export class AddTransactionScreen extends Component {
               />
             )}
             <Space />
+            <View
+              style={{
+                // marginHorizontal: sizeFactor,
+                marginBottom: sizeFactor,
+                flexDirection: "row",
+                flex: 1,
+              }}
+            >
+              <String
+                style={{
+                  fontWeight: "bold",
+                  color: this.props.selectedWallet.color,
+                  marginTop: 10,
+                  flex: 8,
+                }}
+              >
+                Lặp lại theo tháng
+              </String>
+              <Switch
+                style={{ flex: 2 }}
+                value={this.state.isLoop}
+                onValueChange={(value) => {
+                  this.setState({ isLoop: value });
+                }}
+                trackColor={{
+                  false: "#767577",
+                  true: this.props.selectedWallet.color,
+                }}
+                thumbColor={this.state.isLoop ? colors.grey4 : colors.grey5}
+              ></Switch>
+            </View>
             <String style={{ fontWeight: "bold" }}>Ghi chú</String>
             <TextInput
               style={styles.inputMultilineText}

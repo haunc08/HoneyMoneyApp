@@ -43,6 +43,20 @@ export default class SettingPasswordScreen extends Component {
       .catch((error) => {
         // Handle error.
         console.log(error);
+        Alert.alert(
+          "Thông báo",
+          error.toString(),
+          [
+            {
+              text: "OK",
+              onPress: () => {
+                console.log("OK pressed");
+                this.props.navigation.navigate("SettingScreen");
+              },
+            },
+          ],
+          { cancelable: false }
+        );
       });
 
     if (successful) {
