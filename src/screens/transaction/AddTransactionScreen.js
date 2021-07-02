@@ -51,6 +51,7 @@ import { userRef } from "../../components/DataConnect";
 
 import { Alert } from "react-native";
 import { Switch } from "react-native";
+import { numberOfDayInMonth, toDate } from "../../utils/datetime";
 
 export class AddTransactionScreen extends Component {
   _isMounted = false;
@@ -365,7 +366,81 @@ export class AddTransactionScreen extends Component {
     return;
   };
 
-  addNewTransaction = () => {
+  getDataInTimeRangeDate = (startDate, endDate) => {
+    var temp = [];
+    this.props.walletData.forEach((element) => {
+      if (element.transactionList != undefined && element.isDefault == "true") {
+        Object.keys(element.transactionList).forEach((transaction) => {
+          //console.log(transaction)
+          var tempInfo = {
+            key: transaction,
+            categoryKey: element.transactionList[transaction].category.key,
+            subCategory: element.transactionList[transaction].subCategory,
+            date: element.transactionList[transaction].date,
+            money: element.transactionList[transaction].money,
+          };
+          if (
+            toDate(tempInfo.date) >= startDate &&
+            toDate(tempInfo.date) <= endDate
+          ) {
+            temp.push(tempInfo);
+          }
+        });
+      }
+    });
+    return temp.sort((a, b) => {
+      return toDate(a.date) - toDate(b.date);
+    });
+  };
+
+  getDataInMonth = (month, year) => {
+    var start = new Date(year, month - 1, 1);
+    var end = new Date(year, month - 1, numberOfDayInMonth(month, year));
+    return this.getDataInTimeRangeDate(start, end);
+  };
+
+  getBudgetInfo = () => {
+    let budget = 0;
+    let uid = "none";
+    if (firebase.auth().currentUser) {
+      uid = firebase.auth().currentUser.uid;
+    }
+    console.log(this.props.selectedCategory);
+
+    userRef
+      .child(uid)
+      .child(`Category`)
+      .child(this.props.selectedCategory.key)
+      .once("value", (cate) => {
+        console.log(cate);
+        budget = cate.toJSON().budget;
+      });
+    return budget;
+  };
+
+  calcRemainingMoney = () => {
+    var lose = 0;
+    let budget = 0;
+
+    var data = this.getDataInMonth(
+      new Date().getMonth() + 1,
+      new Date().getFullYear()
+    );
+
+    data.forEach((transaction) => {
+      if (transaction.categoryKey == this.props.selectedCategory.key) {
+        lose += parseInt(transaction.money);
+      }
+    });
+
+    if (this.props.selectedCategory.key != "") {
+      budget = this.getBudgetInfo();
+    }
+    console.log(budget, lose);
+    return budget - lose;
+  };
+
+  addNewTransaction = async () => {
     if (this.props.selectedCategory.key == "" || !this.props.newSoDu) {
       Alert.alert(
         "Thông báo",
@@ -387,7 +462,7 @@ export class AddTransactionScreen extends Component {
     }
 
     const userWalletRef = userRef.child(uid).child("Wallet");
-    userWalletRef
+    await userWalletRef
       .child(wallet.key)
       .child("transactionList")
       .push()
@@ -426,7 +501,7 @@ export class AddTransactionScreen extends Component {
         uid = firebase.auth().currentUser.uid;
       }
       const userWalletRef = userRef.child(uid).child("Wallet");
-      userWalletRef.child(this.props.selectedWallet.key).update({
+      await userWalletRef.child(this.props.selectedWallet.key).update({
         money:
           parseInt(this.props.selectedWallet.money) +
           parseInt(this.props.newSoDu),
@@ -437,15 +512,20 @@ export class AddTransactionScreen extends Component {
         uid = firebase.auth().currentUser.uid;
       }
       const userWalletRef = userRef.child(uid).child("Wallet");
-      userWalletRef.child(this.props.selectedWallet.key).update({
+      await userWalletRef.child(this.props.selectedWallet.key).update({
         money: this.props.selectedWallet.money - this.props.newSoDu,
       });
     }
 
     this.resetAll();
+
+    const remainingMoney = this.calcRemainingMoney();
+    console.log(remainingMoney);
     Alert.alert(
       "Thông báo",
-      "Bạn đã tạo giao dịch mới thành công",
+      remainingMoney > 0
+        ? "Bạn đã tạo giao dịch mới thành công"
+        : "Bạn đã tạo giao dịch mới thành công nhưng hiện tại đã xài quá hạn mức",
       [
         {
           text: "OK",
@@ -464,7 +544,7 @@ export class AddTransactionScreen extends Component {
     this.setState({ note: "" });
     this.props.deselectCategory();
     this.textInput.clear();
-    this.calcRef.current.clear();
+    // this.calcRef.current.clear();
     // this.textInput2.clear();
     let uid = "none";
     if (firebase.auth().currentUser) {
@@ -477,6 +557,7 @@ export class AddTransactionScreen extends Component {
   };
 
   render() {
+    this.calcRemainingMoney();
     let rows = this.state.fulllist
       ? this.renderCategoryTable()
       : this.renderCategoryHorizon();
