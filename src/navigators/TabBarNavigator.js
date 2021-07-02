@@ -19,6 +19,7 @@ import {
 
 import { colors } from "../constants/colors";
 import { windowHeight, windowWidth } from "../constants";
+import { SettingNavigator, WalletNavigator } from ".";
 
 //Navigator
 const Tab = createBottomTabNavigator();
@@ -195,6 +196,7 @@ export default class TabBarNavigator extends Component {
           <BackDrop onPress={() => this.onBackdropPress()} />
         )}
         <Tab.Navigator
+          initialRouteName="Wallet"
           screenOptions={({ route }) => ({
             tabBarIcon: ({ focused, color, size }) => {
               let iconName;
@@ -240,15 +242,15 @@ export default class TabBarNavigator extends Component {
         >
           <Tab.Screen
             name="Transactions"
-            // component={TransactionScreen}
+            component={TransactionScreen}
             options={{ title: "Các giao dịch" }}
-          >
-            {() => <TransactionScreen disablePress={this.state.menuActive} />}
-          </Tab.Screen>
+          />
 
-          <Tab.Screen name="Report" options={{ title: "Báo cáo" }}>
-            {() => <ReportScreen disablePress={this.state.menuActive} />}
-          </Tab.Screen>
+          <Tab.Screen
+            name="Report"
+            options={{ title: "Báo cáo" }}
+            component={ReportScreen}
+          />
 
           <Tab.Screen
             name="Add"
@@ -361,14 +363,14 @@ export default class TabBarNavigator extends Component {
           ></Tab.Screen>
           <Tab.Screen
             name="Wallet"
-            //component={BudgetScreen}
+            component={WalletScreen}
             options={{ title: "Các ví" }}
-          >
-            {() => <WalletScreen disablePress={this.state.menuActive} />}
-          </Tab.Screen>
-          <Tab.Screen name="Settings" options={{ title: "Tùy chỉnh" }}>
-            {() => <SettingScreen disablePress={this.state.menuActive} />}
-          </Tab.Screen>
+          />
+          <Tab.Screen
+            name="Settings"
+            options={{ title: "Tùy chỉnh" }}
+            component={SettingScreen}
+          />
         </Tab.Navigator>
       </View>
     );

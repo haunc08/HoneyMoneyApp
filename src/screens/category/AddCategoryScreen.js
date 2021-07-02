@@ -123,7 +123,7 @@ const AddCategoryScreen = ({ navigation }) => {
       userSubcategoryRef.push({
         CategoryName: item.categoryName,
         Icon: item.icon,
-        TypeID: parentCategory.TypeID,
+        TypeID: parentcategory?.typeID,
         IsDeleted: false,
       });
       //console.log("pid " + parentCategory.key);

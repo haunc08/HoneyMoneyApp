@@ -11,11 +11,11 @@ import { Icon } from "react-native-elements";
 import { sizeFactor, colors, windowHeight, windowWidth } from "../constants";
 
 export default class Calculator extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       // calculation and result
-      calculationText: "0",
+      calculationText: props?.initValue || "0",
       //resultText: ""
     };
 
@@ -23,13 +23,19 @@ export default class Calculator extends Component {
     this.functions = ["⌫", "C", "="];
   }
 
-  calculateResult() {
+  calculateResult(andClose) {
     const text = this.state.calculationText;
 
-    this.setState({
-      //resultText: eval(text),
-      calculationText: eval(text).toString(),
-    });
+    this.setState(
+      {
+        //resultText: eval(text),
+        calculationText: Math.round(eval(text)).toString(),
+      },
+      function () {
+        this.props.onPressButton();
+        if (andClose) this.props.onCollapse();
+      }
+    );
   }
 
   // check if a tring is valid (the last char is a number)
@@ -72,19 +78,34 @@ export default class Calculator extends Component {
         return;
         // "." -> add
       } else if (text == ".") {
-        this.setState({
-          calculationText: this.state.calculationText + text,
-        });
+        this.setState(
+          {
+            calculationText: this.state.calculationText + text,
+          },
+          function () {
+            this.props.onPressButton();
+          }
+        );
         // number -> replace
       } else {
-        this.setState({
-          calculationText: text,
-        });
+        this.setState(
+          {
+            calculationText: text,
+          },
+          function () {
+            this.props.onPressButton();
+          }
+        );
       }
     } else {
-      this.setState({
-        calculationText: this.state.calculationText + text,
-      });
+      this.setState(
+        {
+          calculationText: this.state.calculationText + text,
+        },
+        function () {
+          this.props.onPressButton();
+        }
+      );
     }
   }
 
@@ -100,33 +121,79 @@ export default class Calculator extends Component {
           text.pop();
           text.push(operation);
 
-          this.setState({
-            calculationText: text.join(""),
-          });
+          this.setState(
+            {
+              calculationText: text.join(""),
+            },
+            function () {
+              this.props.onPressButton();
+            }
+          );
           return;
         }
 
         if (this.state.calculationText == "") return;
-        this.setState({
-          calculationText: this.state.calculationText + operation,
-        });
+        this.setState(
+          {
+            calculationText: this.state.calculationText + operation,
+          },
+          function () {
+            this.props.onPressButton();
+          }
+        );
     }
   }
 
   backspaceFunction() {
     if (this.state.calculationText.length == 1) {
-      this.setState({
-        calculationText: "0",
-      });
+      this.setState(
+        {
+          calculationText: "0",
+        },
+        function () {
+          this.props.onPressButton();
+        }
+      );
     } else {
       let temp = this.state.calculationText.split("");
       temp.pop();
 
-      this.setState({
-        calculationText: temp.join(""),
-      });
+      this.setState(
+        {
+          calculationText: temp.join(""),
+        },
+        function () {
+          this.props.onPressButton();
+        }
+      );
     }
   }
+
+  handleEqualSign(andClose) {
+    if (this.isValid() && this.state.calculationText != "0") {
+      this.calculateResult(andClose);
+      return true;
+    } else if (!this.isValid()) {
+      Vibration.vibrate(200);
+      return false;
+      //this.startShake();
+    }
+  }
+
+  handleCollapse() {
+    if (this.state.calculationText === "0") {
+      this.props.onCollapse();
+      return;
+    }
+    this.handleEqualSign(true);
+  }
+
+  clear() {
+    this.setState({
+      calculationText: "0",
+    });
+  }
+
   // include clear all, backspace, calculate result (=)
   basicFunctions(text) {
     switch (text) {
@@ -134,17 +201,17 @@ export default class Calculator extends Component {
         this.backspaceFunction();
         break;
       case "C":
-        this.setState({
-          calculationText: "0",
-        });
+        this.setState(
+          {
+            calculationText: "0",
+          },
+          function () {
+            this.props.onPressButton();
+          }
+        );
         break;
       case "=":
-        if (this.isValid() && this.state.calculationText != "0") {
-          this.calculateResult();
-        } else if (!this.isValid()) {
-          Vibration.vibrate(200);
-          //this.startShake();
-        }
+        this.handleEqualSign();
     }
   }
 
@@ -154,7 +221,7 @@ export default class Calculator extends Component {
       ["7", "8", "9"],
       ["4", "5", "6"],
       ["1", "2", "3"],
-      ["000", "0", "."],
+      ["000", "0", ""],
     ];
     for (let i = 0; i < 4; i++) {
       let row = [];
@@ -201,6 +268,28 @@ export default class Calculator extends Component {
 
     return (
       <View pointerEvents="box-none" style={styles.container}>
+        {/* <View style={styles.calculation}>
+          <Text style={styles.calculationText}>
+            {this.state.calculationText}
+          </Text>
+        </View> */}
+        <TouchableOpacity
+          onPress={() => {
+            this.handleCollapse();
+          }}
+          style={{
+            backgroundColor: colors.gray3,
+            borderColor: colors.gray2,
+            borderWidth: StyleSheet.hairlineWidth,
+          }}
+        >
+          <Icon
+            name="chevron-down"
+            type="material-community"
+            color="white"
+            size={sizeFactor * 2.5}
+          />
+        </TouchableOpacity>
         <View style={styles.buttons}>
           <View style={styles.numbers}>{numberRows}</View>
           <View style={styles.operations}>{operationRows}</View>
