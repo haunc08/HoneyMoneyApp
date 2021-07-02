@@ -131,6 +131,17 @@ export class AddTransactionScreen extends Component {
       this.props.selectSub(sub);
     }
   };
+
+  componentDidUpdate(prevProps) {
+    // when allCategories is updated after creating new category, renderedCategories is also updated
+    if (
+      this.props.allCategories !== prevProps.allCategories ||
+      this.props.selectedType !== prevProps.selectedType
+    ) {
+      this.getDataBasedOnType(this.props.selectedType);
+    }
+  }
+
   componentDidMount() {
     this.resetAll();
     // if(this.state.add)
@@ -155,12 +166,17 @@ export class AddTransactionScreen extends Component {
           this.props.SelectWallet(element);
       }
     });
-    const userCategoryRef = userRef.child(uid).child("Category");
-    userCategoryRef.on("value", (snapshot) => {
-      this.props.updateCategories(snapshot);
-    });
 
-    this.props.changeType(parseInt(this.state.typeID) - 1);
+    const userCategoryRef = userRef.child(uid).child("Category");
+    userCategoryRef
+      .orderByChild("IsDeleted")
+      .equalTo(false)
+      .on("value", (snapshot) => {
+        this.props.updateCategories(snapshot);
+      });
+
+    this.getDataBasedOnType(parseInt(this.state.typeID) - 1);
+    //this.props.changeType(parseInt(this.state.typeID) - 1);
 
     const categories = this.props.allCategories;
     const temp = categories.filter((item) => item.typeID === this.state.typeID);
@@ -208,7 +224,10 @@ export class AddTransactionScreen extends Component {
           <Category
             key={index}
             source={require("../../assets/categories/themdanhmuc.png")}
-            onPress={() => this.props.navigation.navigate("AddCategoryScreen")}
+            onPress={() => this.props.navigation.navigate("CategoryNavigator", {
+                screen: "AddCategoryScreen",
+              })
+            }
           >
             {"Thêm danh mục"}
           </Category>
@@ -254,8 +273,9 @@ export class AddTransactionScreen extends Component {
             <Category
               key={index}
               source={require("../../assets/categories/themdanhmuc.png")}
-              onPress={() =>
-                this.props.navigation.navigate("AddCategoryScreen")
+              onPress={() => this.props.navigation.navigate("CategoryNavigator", {
+                  screen: "AddCategoryScreen",
+                })
               }
             >
               {"Thêm danh mục"}
@@ -297,17 +317,18 @@ export class AddTransactionScreen extends Component {
               </Category>
             </View>
           );
-        } else if (index == categories.length) {
-          row.push(
-            <Category
-              key={index}
-              source={require("../../assets/categories/themdanhmuc.png")}
-              onPress={() => {}}
-            >
-              {"Thêm danh mục"}
-            </Category>
-          );
         }
+        // else if (index == categories.length) {
+        //   row.push(
+        //     <Category
+        //       key={index}
+        //       source={require("../../assets/categories/themdanhmuc.png")}
+        //       onPress={() => {}}
+        //     >
+        //       {"Thêm danh mục"}
+        //     </Category>
+        //   );
+        // }
       }
       rows.push(<RowLeft key={i}>{row}</RowLeft>);
     }
@@ -337,19 +358,20 @@ export class AddTransactionScreen extends Component {
             {name}
           </Category>
         );
-      } else if (index == categories.length) {
-        row.push(
-          <Category
-            key={index}
-            source={require("../../assets/categories/themdanhmuc.png")}
-            onPress={() => {
-              /*cho nay de them addSubCategoryScreen navigate*/
-            }}
-          >
-            {"Thêm danh mục"}
-          </Category>
-        );
       }
+      // else if (index == categories.length) {
+      //   row.push(
+      //     <Category
+      //       key={index}
+      //       source={require("../../assets/categories/themdanhmuc.png")}
+      //       onPress={() => {
+      //         /*cho nay de them addSubCategoryScreen navigate*/
+      //       }}
+      //     >
+      //       {"Thêm danh mục"}
+      //     </Category>
+      //   );
+      // }
     }
     rows.push(<RowLeft>{row}</RowLeft>);
 

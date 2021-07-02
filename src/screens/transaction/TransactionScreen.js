@@ -570,8 +570,9 @@ class TransactionsScreen extends Component {
     );
     if (this.getMonthList(false).length == 0) return [];
     if (Math.ceil(offsetIndex) % Math.ceil(windowWidth - 2 * sizeFactor) == 0) {
-      if (x > this.getMonthList(false).length) {
-        x = this.getMonthList(false).length - 1;
+      if(x >= this.getMonthList(false).length)
+      {
+        x = this.getMonthList(false).length - 1
       }
       console.log(this.getMonthList(false).length);
       var monthcode = this.getMonthList(false)[x].index;
