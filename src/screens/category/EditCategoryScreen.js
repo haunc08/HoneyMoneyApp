@@ -37,6 +37,7 @@ import {
   AddWalletKindSelect,
   Button,
   RoundedView,
+  RowLeft,
 } from "../../components/Basic";
 
 import IconImage, { findIcon, getIndex } from "../../assets";
@@ -58,7 +59,7 @@ class EditCategoryScreen extends Component {
   }
 
   getSelectedIndex = () => {
-    const type = this.props.chosencategory?.typeID;
+    const type = this.props.chosencategory.typeID;
     switch (type) {
       case "001":
         return 0;
@@ -135,7 +136,7 @@ class EditCategoryScreen extends Component {
     const category = this.props.chosenCategory;
     //console.log(this.props.chosenCategory);
     userCategoryRef.child(category.key).update({
-      CategoryName: category?.categoryName,
+      CategoryName: category.categoryName,
       Icon: category.icon,
       IsDeleted: true,
     });
@@ -153,7 +154,33 @@ class EditCategoryScreen extends Component {
           console.log("item", item);
           return (
             <TouchableOpacity onPress={() => this.openEditSubDialog(item)}>
-              <ListItem
+              <View
+                style={{
+                  backgroundColor: "white",
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
+                <Avatar
+                  size={sizeFactor * 3}
+                  avatarStyle={{
+                    width: sizeFactor * 2.5,
+                    height: sizeFactor * 2.5,
+                    marginTop: sizeFactor * 0.25,
+                    marginLeft: sizeFactor * 0.25,
+                  }}
+                  source={findIcon(item.icon)}
+                ></Avatar>
+                <String
+                  style={{
+                    marginLeft: sizeFactor / 2,
+                    marginTop: sizeFactor * 0.75,
+                  }}
+                >
+                  {item.categoryName}
+                </String>
+              </View>
+              {/* <ListItem
                 key={i}
                 title={item.categoryName}
                 leftAvatar={{
@@ -173,7 +200,7 @@ class EditCategoryScreen extends Component {
                 containerStyle={{ paddingHorizontal: 0 }}
                 titleStyle={{ fontSize: sizeFactor }}
                 pad={sizeFactor}
-              />
+              /> */}
             </TouchableOpacity>
           );
         })}

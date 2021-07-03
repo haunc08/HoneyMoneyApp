@@ -122,7 +122,7 @@ class CategoryScreen extends Component {
     this.props.closeIconDialog();
     this.props.closeDialog();
 
-    this.props.changeName(category?.categoryName);
+    this.props.changeName(category.categoryName);
     this.props.showType(this.props.selectedType);
 
     const subCategories = this.getSubCategories(category);

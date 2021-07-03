@@ -56,7 +56,7 @@ export default class MainNavigator extends Component {
           name="TransactionNavigator"
           component={TransactionNavigator}
         />
-        <Stack.Screen name="CategoryNavvigator" component={CategoryNavigator} />
+        <Stack.Screen name="CategoryNavigator" component={CategoryNavigator} />
         <Stack.Screen name="SettingNavigator" component={SettingNavigator} />
       </Stack.Navigator>
     );

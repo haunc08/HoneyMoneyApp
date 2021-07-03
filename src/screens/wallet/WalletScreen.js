@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Platform } from "react-native";
+import { View, Platform, StatusBar } from "react-native";
 import {
   String,
   ScreenView,
@@ -66,6 +66,8 @@ export class WalletScreen extends Component {
   render() {
     return (
       <ScreenView disablePress={this.props.disablePress}>
+        <StatusBar barStyle="dark-content" backgroundColor="white" />
+
         <View>
           <AdMobBanner
             bannerSize="smartBannerLandscape"

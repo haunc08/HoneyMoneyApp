@@ -53,7 +53,7 @@ class TransactionsScreen extends Component {
   }
 
   toDate(datestring) {
-    var parts = datestring?.split("/");
+    var parts = datestring.split("/");
     return new Date(
       parseInt(parts[2], 10),
       parseInt(parts[1], 10) - 1,
@@ -296,8 +296,8 @@ class TransactionsScreen extends Component {
           b = true;
         } else {
           if (
-            category?.categoryName == "Đi vay" ||
-            category?.categoryName == "Thu nợ"
+            category.categoryName == "Đi vay" ||
+            category.categoryName == "Thu nợ"
           ) {
             b = true;
           } else {
@@ -467,8 +467,8 @@ class TransactionsScreen extends Component {
             b = true;
           } else {
             if (
-              category?.categoryName == "Đi vay" ||
-              category?.categoryName == "Thu nợ"
+              category.categoryName == "Đi vay" ||
+              category.categoryName == "Thu nợ"
             ) {
               b = true;
             } else {
@@ -478,7 +478,7 @@ class TransactionsScreen extends Component {
         }
         //item to new data
         var itemdata = {
-          subcategory: category?.categoryName,
+          subcategory: category.categoryName,
           onPress: () => {
             this.props.SelectTransaction(item.key);
             this.props.navigation.navigate("TransactionNavigator", {
@@ -528,8 +528,8 @@ class TransactionsScreen extends Component {
             b = true;
           } else {
             if (
-              category?.categoryName == "Đi vay" ||
-              category?.categoryName == "Thu nợ"
+              category.categoryName == "Đi vay" ||
+              category.categoryName == "Thu nợ"
             ) {
               b = true;
             } else {
@@ -540,7 +540,7 @@ class TransactionsScreen extends Component {
 
         //item to new data
         var itemdata = {
-          subcategory: category?.categoryName,
+          subcategory: category.categoryName,
           onPress: () => {
             this.props.SelectTransaction(item.key);
             this.props.navigation.navigate("TransactionNavigator", {
@@ -570,7 +570,7 @@ class TransactionsScreen extends Component {
     );
     if (this.getMonthList(false).length == 0) return [];
     if (Math.ceil(offsetIndex) % Math.ceil(windowWidth - 2 * sizeFactor) == 0) {
-      if (x > this.getMonthList(false).length) {
+      if (x >= this.getMonthList(false).length) {
         x = this.getMonthList(false).length - 1;
       }
       console.log(this.getMonthList(false).length);
@@ -656,7 +656,7 @@ class TransactionsScreen extends Component {
             renderItem={({ item, index }) => {
               return (
                 <TransactionMonthSummary
-                  isLast={index === this.getMonthList(true).length - 1}
+                  isLast={index === this.getMonthList(false).length - 1}
                   month={item.month}
                   openBalance={toMoneyString(item.openBalance)}
                   endBalance={toMoneyString(item.endBalance)}
