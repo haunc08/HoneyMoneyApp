@@ -212,6 +212,7 @@ class EditCategoryScreen extends Component {
     // reset selectedIndex whenever open icon dialog
     // b/c if choose icon and close dialog, without reseting, selectedIndex != editIndex (expect ==)
     this.props.selectIcon(this.props.selectedIcon.editIndex);
+    this.props.workWithCategory();
     this.props.openIconDialog();
   };
 
