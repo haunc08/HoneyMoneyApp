@@ -14,6 +14,7 @@
    1. [Quản lý hạn mức](#quản-lý-hạn-mức)
    1. [Thông báo](#thông-báo)
    1. [Quản lý thông tin tài khoản](#quản-lý-thông-tin-tài-khoản)
+   1. [Công cụ tính toán](#công-cụ-tính-toán)
 
 1. [Yêu cầu thiết bị](#yêu-cầu-thiết-bị)
 
@@ -106,21 +107,38 @@
   <img src="screenshots/setting-pass.png" height = "480" width="270">
 </p>
 
+### Công cụ tính toán
+
+- Chuyển đổi ngoại tệ
+- Tính lãi suất
+
+<p align="center">
+  <img src="screenshots/doi-ngoai-te.png" height = "480" width="270"> 
+  <img src="screenshots/lai-suat1.png" height = "480" width="270">
+  <img src="screenshots/lai-suat2.png" height = "480" width="270">
+</p>
+
 ## Yêu cầu thiết bị
 
--Android:
+- Android:
 
-+Android studio : 3.0.1
+  +Android studio : 3.0.1
 
-+Gradle : 4.1
+  +Gradle : 4.1
 
-+Min sdk : 19
+  +Min sdk : 19
 
-+Target sdk : 26
+  +Target sdk : 26
 
--iOS:
+- iOS:
 
-+iOS: 8.0
+  +iOS: 8.0
+
+## Database
+
+<p align="center">
+  <img src="screenshots/db.png" height = "480" width="270"> 
+</p>
 
 ## Thư viện và công nghệ
 
