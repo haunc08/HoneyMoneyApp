@@ -137,7 +137,7 @@
 ## Database
 
 <p align="center">
-  <img src="screenshots/db.png" height = "480" width="270"> 
+  <img src="screenshots/db.png" height = "600" width="800"> 
 </p>
 
 ## Thư viện và công nghệ
