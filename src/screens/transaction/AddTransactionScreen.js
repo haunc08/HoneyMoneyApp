@@ -609,15 +609,19 @@ export class AddTransactionScreen extends Component {
       });
     }
 
+    const remainValue =
+      this.state.budgetInfo?.remain -
+      (parseFloat(this.safeInputMoney?.current) || 0);
     this.resetAll();
 
-    const remainingMoney = this.calcRemainingMoney();
-    console.log(remainingMoney);
+    // const remainingMoney = this.calcRemainingMoney();
+    console.log("fucking remainnnnnnnn", remainValue);
     Alert.alert(
       "Thông báo",
-      remainingMoney > 0
-        ? "Bạn đã tạo giao dịch mới thành công"
-        : "Bạn đã tạo giao dịch mới thành công nhưng hiện tại đã xài quá hạn mức",
+      remainValue !== NaN && remainValue <= 0
+        ? // remainingMoney > 0
+          "Bạn đã tạo giao dịch mới thành công và sử dụng vượt hạn mức."
+        : "Bạn đã tạo giao dịch mới thành công.",
       [
         {
           text: "OK",

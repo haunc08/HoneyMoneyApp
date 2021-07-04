@@ -59,17 +59,17 @@ export function toMoneyStringWithoutVND(string) {
 }
 
 export const FloatToMoney = (num) => {
-  const world = num.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,");
+  const world = num?.toFixed(2)?.replace(/\d(?=(\d{3})+\.)/g, "$&,");
   return (
-    world.replace(/,/g, "_").replace(/\./g, ",").replace(/_/g, ".") + " VNĐ"
+    world?.replace(/,/g, "_")?.replace(/\./g, ",")?.replace(/_/g, ".") + " VNĐ"
   );
 };
 
 export const FloatToIntMoney = (num) => {
   return num
-    .toFixed(2)
-    .replace(/\d(?=(\d{3})+\.)/g, "$&,")
-    .slice(0, -3);
+    ?.toFixed(2)
+    ?.replace(/\d(?=(\d{3})+\.)/g, "$&,")
+    ?.slice(0, -3);
 };
 
 const operators = ["+", "-", "*", "/"];
