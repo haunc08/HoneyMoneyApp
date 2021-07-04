@@ -13,23 +13,25 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-			"config": {
-				"googleMobileAdsAppId": "ca-app-pub-3940256099942544~1458002511"
-		 	}
+      "config": {
+        "googleMobileAdsAppId": "ca-app-pub-3940256099942544~1458002511"
+      },
+      "bundleIdentifier": "com.expensemanger.honeymoney",
+      "buildNumber": "1.0.0"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./src/assets/adaptive-icon.png",
+        "foregroundImage": "./src/assets/coloredlogo.png",
         "backgroundColor": "#FFFFFF"
       },
-			"config": {
+      "config": {
         "googleMobileAdsAppId": "ca-app-pub-3940256099942544~3347511713"
-      }
+      },
+      "package": "com.expensemanger.honeymoney",
+      "versionCode": 1
     },
     "web": {
       "favicon": "./src/assets/favicon.png"
